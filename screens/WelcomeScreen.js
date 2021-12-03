@@ -1,14 +1,16 @@
 import React from 'react';
 import { View, Text} from 'react-native';
-import Button from '../components/Button';
+
+// Import des composants Button customisés
+import { Button, ButtonText } from '../components/Buttons';
 
 const WelcomeScreen = (props) => {
     return (
         <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
             <Text>Welcome</Text>
             <Button size="md" color="primary" title="Se connecter" onPress={() => props.navigation.navigate('Connexion')} />
-            <Button size="md" color="primary" title="S'inscrire" onPress={() => props.navigation.navigate('Inscription')} />
-            <Button size="sm" color="secondary" title="Vers l'app" onPress={() => props.navigation.navigate('TabNavigation')} />
+            <Button size="sm" color="secondary" title="S'inscrire" onPress={() => props.navigation.navigate('Inscription')} />
+            <ButtonText color="default" title="Vers l'app" onPress={() => props.navigation.navigate('TabNavigation')} />
         </View>
     );
 };

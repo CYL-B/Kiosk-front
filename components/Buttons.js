@@ -54,4 +54,34 @@ const Button = (props) => {
     );
 };
 
-export default Button;
+const ButtonText = (props) => {
+
+    // Style commun du texte
+    let textStyle = {
+        fontSize: 14,
+        textDecorationLine: 'underline'
+    }
+
+    // Condition pour définir la couleur du text
+    if (props.color === "primary") {
+        textStyle = { ...textStyle, color: '#F4592B' };
+    } else if (props.color === "secondary") {
+        textStyle = { ...textStyle, color: '#69A08A' };
+    } else if (props.color === "light") {
+        textStyle = { ...textStyle, color: '#FFFFFF' };
+    } else {
+        textStyle = { ...textStyle, color: '#1A0842' };
+    }
+
+    // Récupération de la fonction onPress envoyée par le parent
+    const { onPress } = props;
+
+    return (
+        <TouchableOpacity onPress={() => onPress()}>
+            <Text style={textStyle}>{props.title}</Text>
+        </TouchableOpacity>
+    );
+};
+
+// Export des composants
+export { Button, ButtonText };
