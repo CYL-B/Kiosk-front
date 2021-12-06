@@ -4,6 +4,7 @@ import { FontAwesome5 } from '@expo/vector-icons';
 import { ListItem } from 'react-native-elements/dist/list/ListItem';
 import { Ionicons } from '@expo/vector-icons';
 
+import {AvatarRound} from './avatar'
 
 const HeaderBar = (props) => {
   const { onPress } = props;
@@ -21,14 +22,10 @@ const HeaderBar = (props) => {
         justifyContent: 'space-around'
 
       }}
-      rightComponent={<Avatar
-        rounded
-        onPress={() => onPress()}
-        size={50}
-        source={{
-          uri: 'https://numero.twic.pics/images/flexible_grid/100/push-cover-beyonce-ticket-concert-a-vie-jay-numero-magazine.jpg'
-        }}
-      />}
+      rightComponent={<AvatarRound  size = "md"
+      source={{uri : 'https://numero.twic.pics/images/flexible_grid/100/push-cover-beyonce-ticket-concert-a-vie-jay-numero-magazine.jpg'}}>
+       
+      </AvatarRound>}
     />)
 }
 
