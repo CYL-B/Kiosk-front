@@ -1,11 +1,12 @@
 import React from 'react';
 import { View, Text } from 'react-native';
+import {HeaderBar} from '../components/Header'
 
-const MessagesScreen = () => {
+const MessagesScreen = (props) => {
     return (
-        <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
-            <Text>Messages</Text>
-        </View>
+            <HeaderBar></HeaderBar>
+           
+      
     );
 };
 
