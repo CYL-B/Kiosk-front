@@ -1,6 +1,6 @@
-import React from 'react';
+import React, {useState} from 'react';
 import { View, Text, ImageBackground } from 'react-native';
-import { Card, Image } from 'react-native-elements'
+import { Card, Image, Input } from 'react-native-elements'
 import { ScrollView } from 'react-native-gesture-handler';
 
 import { ButtonText } from '../components/Buttons';
@@ -9,12 +9,23 @@ import {HeaderBar} from '../components/Header'
 
 const CompanyScreen = (props) => {
 
-    var data = "a";
+    var data = "";
 
-    var displayCieImg;
-    var displayDescCie;
-    var displayLabels;
-    var displayOffers;
+    var displayCieImg; // aller chercher une image dans le téléhone du presta
+    var displayDescCie; // input
+    var displayLabels; // ???
+    var displayOffers; // aller cherche une offre en DB ?
+
+    const  [ descCie, setDescCie ] = useState("");
+
+    var handleSubmitDescCie = async () => {
+        const dataRaw = await fetch('/companies', {
+            method: 'PUT',
+            headers: {'Content-Type': 'application/x-www-form-urlencoded'},
+            body: `descprition=${descCie}`
+        })
+        setDescCie(await dataRaw.json())
+    }
 
     if (data) {
         displayCieImg = 
@@ -55,6 +66,7 @@ const CompanyScreen = (props) => {
                     title="Modifier"
                 />
             </View>
+            
             <Text>TEXT FROM FRONT</Text>
             <View style={{height: 160, justifyContent:"center", alignItems:"center"}}>
                 <Text></Text>
@@ -66,23 +78,33 @@ const CompanyScreen = (props) => {
                 </View>
             </View>
         </Card>
+
     } else if (!data) {
         displayDescCie = 
         <Card key={1} >
             <Card.Title style={{textAlign:"left"}}
             >Qui sommes-nous ?</Card.Title>
                 <View style={{backgroundColor: "#FAF0E6", height: 160, justifyContent:"center", alignItems:"center"}}>
-                    <Text style={{textAlign:"center"}}>
+                    {/* <Text style={{textAlign:"center"}}>
                         Veuillez ajouter une description
-                    </Text>
+                    </Text> */}
                     <Text></Text>
+                    <Input
+                        style={{ fontSize: 15 }}
+                        inputContainerStyle={{width:'80%', marginLeft:'18%', right:20}} // !!! CENTRE A L'ARRACHE
+                        value={descCie}
+                        placeholder="Veuillez ajouter une description"
+                        onChangeText={(e) => setDescCie(e)}
+                    />
                     <ButtonText
                         color="secondary"
                         title="Ajouter"
+                        onClick={() => handleSubmitDescCie()}
                     />
                 </View>
         </Card>
     };
+console.log("descInput", descCie);
 
     if (data) {
         displayLabels = 
