@@ -5,9 +5,16 @@ import OfferCardMain from "../components/OfferCardMain";
 
 const SearchScreen = () => {
   return (
-    <View style={{ flex: 1, justifyContent: "center", alignItems: "center" }}>
+    <View
+      style={{
+        flex: 1,
+        justifyContent: "center",
+        alignItems: "center",
+        backgroundColor: "white",
+      }}
+    >
       <Text>Search</Text>
-      <OfferCardMain></OfferCardMain>
+      <Searchbar></Searchbar>
     </View>
   );
 };
