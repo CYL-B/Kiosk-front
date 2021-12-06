@@ -16,6 +16,7 @@ import RegisterScreen from './screens/RegisterScreen';
 import HomeScreen from './screens/HomeScreen';
 import SearchScreen from './screens/SearchScreen';
 import MessagesScreen from './screens/MessagesScreen';
+import CompanyScreen from './screens/CompanyScreen';
 
 // import des modules de navigation
 import { NavigationContainer } from '@react-navigation/native';
@@ -25,6 +26,15 @@ import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 // import des composants de navigation
 const Stack = createStackNavigator();
 const Tab = createBottomTabNavigator();
+
+const StackNavigation = () => {
+  return (
+    <Stack.Navigator screenOptions={{headerShown: false}}>
+      <Stack.Screen name="Home" component={HomeScreen} />
+      <Stack.Screen name="CompanyPage" component={CompanyScreen} />
+    </Stack.Navigator>
+  )
+}
 
 // création de la navigation Tab
 const TabNavigation = () => {
@@ -59,7 +69,7 @@ const TabNavigation = () => {
       }
     })}
     >
-      <Tab.Screen name="Accueil" component={HomeScreen} />
+      <Tab.Screen name="Accueil" component={StackNavigation} />
       <Tab.Screen name="Rechercher" component={SearchScreen} />
       <Tab.Screen name="Messages" component={MessagesScreen} options={{ tabBarBadge: 3 }} />
     </Tab.Navigator>
@@ -75,6 +85,7 @@ export default function App() {
           <Stack.Screen name="Bienvenue" component={WelcomeScreen} />
           <Stack.Screen name="Connexion" component={LoginScreen} />
           <Stack.Screen name="Inscription" component={RegisterScreen} />
+          <Stack.Screen name="CompanyPage" component={CompanyScreen} />
           <Stack.Screen name="TabNavigation" component={TabNavigation} />
         </Stack.Navigator>
       </NavigationContainer>
