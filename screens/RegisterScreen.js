@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useCallback } from 'react';
-import { View, Text, ImageBackground, StyleSheet, TouchableOpacity } from 'react-native';
+import { View, Text, ImageBackground, StyleSheet, TouchableOpacity, SafeAreaView, ScrollView } from 'react-native';
 import { Button, ButtonText } from '../components/Buttons';
 import * as ImagePicker from 'expo-image-picker';
 import { useForm } from "react-hook-form";
@@ -18,11 +18,72 @@ const RegisterScreen = (props) => {
         console.log(pickerResult);
     }
 
-    const [currentStep, setCurrentStep] = useState(1);
+    const [currentStep, setCurrentStep] = useState(1),
+        [isLogin, setIsLogin] = useState(false),
+        [signUpErrorMessage, setSignUpErrorMessage] = useState(false);
 
-    const { register, handleSubmit, setValue } = useForm();
-    const onSubmit = useCallback(formData => {
+    const { handleSubmit, setValue } = useForm();
+    const onSubmit = useCallback(async formData => {
         console.log(formData);
+        if (formData.email.length > 0 && formData.password.length > 0) {
+            let bodyCompany = `companyName=${formData.companyName}`
+            if (formData.firstName) {
+                bodyCompany += `&address=${formData.companyAddress}`
+            }
+            if (formData.lastName) {
+                bodyCompany += `&siret=${formData.companySIRET}`
+            }
+
+            let company = await fetch('http://172.17.1.123:3000/companies/', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+                body: bodyCompany
+            });
+            let resCompany = await company.json();
+            console.log(resCompany);
+            if (resCompany.result) {
+                let body = `email=${formData.email}&password=${formData.password}&companyId=${resCompany.company._id}`
+                if (formData.firstName) {
+                    body += `&firstName=${formData.firstName}`
+                }
+                if (formData.lastName) {
+                    body += `&lastName=${formData.lastName}`
+                }
+                if (formData.avatar) {
+                    body += `&avatar=${formData.avatar}`
+                }
+                if (formData.role) {
+                    body += `&role=${formData.role}`
+                }
+                if (formData.phone) {
+                    body += `&phone=${formData.phone}`
+                }
+
+                let user = await fetch('http://172.17.1.123:3000/users/', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+                    body: body
+                });
+                let res = await user.json();
+                console.log(res);
+                if (res.result) {
+                    setIsLogin(true);
+                } else {
+                    setSignUpErrorMessage(res.message);
+                }
+            } else {
+                setSignUpErrorMessage(res.message);
+            }
+        } else {
+            let error = [];
+            if (formData.email.length === 0) {
+                error.push('email');
+            }
+            if (formData.password.length === 0) {
+                error.push('password');
+            }
+            setSignUpErrorMessage(error.join(', ') + ' missing');
+        }
     }, []);
     const onChangeField = useCallback(
         name => text => {
@@ -30,18 +91,6 @@ const RegisterScreen = (props) => {
         },
         []
     );
-    useEffect(() => {
-        register('email');
-        register('password');
-        register('firstName');
-        register('lastName');
-        register('phoneNumber');
-        register('role');
-        register('imgProfil');
-        register('companyName');
-        register('companyAddress');
-        register('companySIRET');
-    }, [register]);
 
     const styles = StyleSheet.create({
         container: {
@@ -88,9 +137,10 @@ const RegisterScreen = (props) => {
             lineHeight: 32,
             fontWeight: "bold",
             textAlign: "center",
-            marginBottom: 60
+            marginBottom: 20
         }
     });
+
 
     const Step1 = () => {
         return (
@@ -255,25 +305,30 @@ const RegisterScreen = (props) => {
     return (
         <View style={styles.container}>
             <ImageBackground source={require("../assets/background-login.png")} resizeMode="cover" style={styles.image}>
-                <View style={styles.logoContainer}>
-                    <Image
-                        source={require("../assets/logo-light-2.png")}
-                        style={styles.logo}
-                    />
-                </View>
-                <Step />
-                <View style={styles.buttonContainer}>
-                    { currentStep === 4 ? (
-                        <Button size="md" color="primary" title="Valider" onPress={handleSubmit(onSubmit)} />
-                    ) : (
-                        <Button size="md" color="primary" title="Suivant" onPress={() => setCurrentStep(currentStep+1)} />
-                    )}
-                    { currentStep === 1 ? (
-                        <ButtonText color="light" title="Annuler" onPress={() => props.navigation.navigate('Bienvenue')} />
-                    ) : (
-                        <ButtonText color="light" title="Précédent" onPress={() => setCurrentStep(currentStep-1)} />
+            <ScrollView  contentContainerStyle={styles.image}>
+                    <View style={styles.logoContainer}>
+                        <Image
+                            source={require("../assets/logo-light-2.png")}
+                            style={styles.logo}
+                        />
+                    </View>
+                    <SafeAreaView>
+                        <Step />
+                    </SafeAreaView>
+
+                    <View style={styles.buttonContainer}>
+                        {currentStep === 4 ? (
+                            <Button size="md" color="primary" title="Valider" onPress={handleSubmit(onSubmit)} />
+                        ) : (
+                            <Button size="md" color="primary" title="Suivant" onPress={() => setCurrentStep(currentStep + 1)} />
                         )}
-                </View>
+                        {currentStep === 1 ? (
+                            <ButtonText color="light" title="Annuler" onPress={() => props.navigation.navigate('Bienvenue')} />
+                        ) : (
+                            <ButtonText color="light" title="Précédent" onPress={() => setCurrentStep(currentStep - 1)} />
+                        )}
+                    </View>
+                    </ScrollView>
             </ImageBackground>
         </View>
     );
