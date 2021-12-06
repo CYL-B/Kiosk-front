@@ -1,4 +1,5 @@
 import React, { useState, useEffect, useCallback } from 'react';
+import { connect } from 'react-redux';
 import { View, Text, ImageBackground, StyleSheet, TouchableOpacity, SafeAreaView, ScrollView } from 'react-native';
 import { Button, ButtonText } from '../components/Buttons';
 import * as ImagePicker from 'expo-image-picker';
@@ -68,6 +69,8 @@ const RegisterScreen = (props) => {
                 console.log(res);
                 if (res.result) {
                     setIsLogin(true);
+                    props.storeUser(res.user);
+                    props.navigation.navigate('TabNavigation');
                 } else {
                     setSignUpErrorMessage(res.message);
                 }
@@ -334,4 +337,13 @@ const RegisterScreen = (props) => {
     );
 };
 
-export default RegisterScreen;
+function mapDispatchToProps(dispatch) {
+    return {
+        storeUser: function (user) {
+            console.log(user);
+            dispatch({ type: 'storeUser', user })
+        }
+    }
+}
+
+export default connect(null, mapDispatchToProps)(RegisterScreen);

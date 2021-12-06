@@ -1,13 +1,42 @@
-import React, { useEffect, useCallback } from 'react';
+import React, { useEffect, useCallback, useState } from 'react';
+import { connect } from 'react-redux';
 import { View, Text, ImageBackground, StyleSheet } from 'react-native';
 import { Button, ButtonText } from '../components/Buttons';
 import { useForm } from "react-hook-form";
 import { Input, Image } from 'react-native-elements';
 
 const LoginScreen = (props) => {
-    const { register, handleSubmit, setValue } = useForm();
-    const onSubmit = useCallback(formData => {
+    const   [isLogin, setIsLogin] = useState(false),
+            [signInErrorMessage, setSignInErrorMessage] = useState(false);
+    const { handleSubmit, setValue } = useForm();
+    const onSubmit = useCallback(async formData => {
         console.log(formData);
+        if (formData.email.length > 0 && formData.password.length > 0) {
+            let user = await fetch('http://172.17.1.123:3000/users/connect', {
+              method: 'POST',
+              headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+              body: `email=${formData.email}&password=${formData.password}`
+            })
+            let res = await user.json();
+            if (res.result) {
+              console.log('found');
+              setIsLogin(true);
+              props.storeUser(res.user);
+                    props.navigation.navigate('TabNavigation');
+            } else {
+              console.log('not found');
+              setSignInErrorMessage(res.message);
+            }
+          } else {
+            let error = [];
+            if (signInEmail.length === 0) {
+              error.push('email');
+            }
+            if (signInPassword.length === 0) {
+              error.push('password');
+            }
+            setSignInErrorMessage(error.join(', ') + ' missing');
+          }
     }, []);
     const onChangeField = useCallback(
         name => text => {
@@ -15,10 +44,6 @@ const LoginScreen = (props) => {
         },
         []
     );
-    useEffect(() => {
-        register('email');
-        register('password');
-    }, [register]);
 
     const styles = StyleSheet.create({
         container: {
@@ -109,4 +134,13 @@ const LoginScreen = (props) => {
     );
 };
 
-export default LoginScreen;
+function mapDispatchToProps(dispatch) {
+    return {
+        storeUser: function (user) {
+            console.log(user);
+            dispatch({ type: 'storeUser', user })
+        }
+    }
+}
+
+export default connect(null, mapDispatchToProps)(LoginScreen);
