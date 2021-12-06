@@ -10,6 +10,9 @@ export default function Searchbar(props) {
       containerStyle={{
         width: "90%",
         backgroundColor: "white",
+        margin: 0,
+        padding: 0,
+        borderRadius: 30,
       }}
       inputContainerStyle={{
         backgroundColor: "#FAF0E6",
