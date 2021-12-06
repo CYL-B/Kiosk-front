@@ -14,12 +14,22 @@ const store = createStore(
 );
 
 // import des pages à inclure dans les navigations
+<<<<<<< HEAD
 import WelcomeScreen from "./screens/WelcomeScreen";
 import LoginScreen from "./screens/LoginScreen";
 import RegisterScreen from "./screens/RegisterScreen";
 import HomeScreen from "./screens/HomeScreen";
 import SearchScreen from "./screens/SearchScreen";
 import MessagesScreen from "./screens/MessagesScreen";
+=======
+import WelcomeScreen from './screens/WelcomeScreen';
+import LoginScreen from './screens/LoginScreen';
+import RegisterScreen from './screens/RegisterScreen';
+import HomeScreen from './screens/HomeScreen';
+import SearchScreen from './screens/SearchScreen';
+import MessagesScreen from './screens/MessagesScreen';
+import CompanyScreen from './screens/CompanyScreen';
+>>>>>>> fc69d5517102c13c536bc76995b201a703e763dc
 
 // import des modules de navigation
 import { NavigationContainer } from "@react-navigation/native";
@@ -29,6 +39,15 @@ import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 // import des composants de navigation
 const Stack = createStackNavigator();
 const Tab = createBottomTabNavigator();
+
+const StackNavigation = () => {
+  return (
+    <Stack.Navigator screenOptions={{headerShown: false}}>
+      <Stack.Screen name="Home" component={HomeScreen} />
+      <Stack.Screen name="CompanyPage" component={CompanyScreen} />
+    </Stack.Navigator>
+  )
+}
 
 // création de la navigation Tab
 const TabNavigation = () => {
@@ -63,7 +82,7 @@ const TabNavigation = () => {
         },
       })}
     >
-      <Tab.Screen name="Accueil" component={HomeScreen} />
+      <Tab.Screen name="Accueil" component={StackNavigation} />
       <Tab.Screen name="Rechercher" component={SearchScreen} />
       <Tab.Screen
         name="Messages"
@@ -83,6 +102,7 @@ export default function App() {
           <Stack.Screen name="Bienvenue" component={WelcomeScreen} />
           <Stack.Screen name="Connexion" component={LoginScreen} />
           <Stack.Screen name="Inscription" component={RegisterScreen} />
+          <Stack.Screen name="CompanyPage" component={CompanyScreen} />
           <Stack.Screen name="TabNavigation" component={TabNavigation} />
         </Stack.Navigator>
       </NavigationContainer>
