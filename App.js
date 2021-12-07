@@ -16,6 +16,7 @@ import RegisterScreen from './screens/RegisterScreen';
 import HomeScreen from './screens/HomeScreen';
 import SearchScreen from './screens/SearchScreen';
 import MessagesScreen from './screens/MessagesScreen';
+import ChatScreen from './screens/ChatScreen'
 
 // import des modules de navigation
 import { NavigationContainer } from '@react-navigation/native';
@@ -76,6 +77,8 @@ export default function App() {
           <Stack.Screen name="Connexion" component={LoginScreen} />
           <Stack.Screen name="Inscription" component={RegisterScreen} />
           <Stack.Screen name="TabNavigation" component={TabNavigation} />
+          <Stack.Screen name="ChatScreen" component={ChatScreen}/>
+          <Stack.Screen name="MessagesScreen" component={MessagesScreen} />
         </Stack.Navigator>
       </NavigationContainer>
     </Provider>
