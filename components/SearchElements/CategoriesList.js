@@ -88,6 +88,7 @@ const CateGoriesList = (props) => {
       </ListItem>
     );
   });
+
   return categories;
 };
 

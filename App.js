@@ -5,16 +5,15 @@ import { AntDesign } from "@expo/vector-icons";
 
 // initialisation du store redux
 import username from "./reducers/username.reducer";
-import CategoryChoice from "./reducers/CategoryChoice";
+import categoryChoice from "./reducers/categoryChoice";
 import subCategoryChoice from "./reducers/subCategoryChoice";
 import { Provider } from "react-redux";
 import { createStore, combineReducers } from "redux";
 const store = createStore(
-  combineReducers({ username, CategoryChoice, subCategoryChoice })
+  combineReducers({ username, categoryChoice, subCategoryChoice })
 );
 
 // import des pages à inclure dans les navigations
-
 import WelcomeScreen from "./screens/WelcomeScreen";
 import LoginScreen from "./screens/LoginScreen";
 import RegisterScreen from "./screens/RegisterScreen";

@@ -63,26 +63,26 @@ const SubCateGoriesList = (props) => {
     },
   ];
 
-  const [categoryChoice, setCategoryChoice] = useState(props.CategoryChoice);
+  const [categoryChoice, setCategoryChoice] = useState(props.categoryChoice);
   const [subCategoryChoice, setSubCategoryChoice] = useState();
 
   function handlePress(subCategoryChoice) {
-    //setSubCategoryChoice(subCategoryChoice);
-    //props.subCategoryChoice(subCategoryChoice);
+    setSubCategoryChoice(subCategoryChoice);
+    props.subCategoryChoice(subCategoryChoice);
   }
-  //console.log(props.CategoryChoice);
-  //console.log(subCategoryChoice);
+
+  function handlePressRetour() {
+    props.CategoryChoice(categoryChoice);
+  }
+
   var indexcategoriesData = -1;
   for (var i = 0; i < categoriesData.length; i++)
-    if (categoriesData[i].categoryName === props.CategoryChoice) {
+    if (categoriesData[i].categoryName === props.categoryChoice) {
       indexcategoriesData = i;
     }
 
-  //console.log(indexcategoriesData);
-
   var subCategories;
   if (indexcategoriesData === -1) {
-    console.log("pas d'index");
     subCategories = <View style={{ flex: 1 }}></View>;
   } else {
     var subCategories = categoriesData[indexcategoriesData].suCategories.map(
@@ -92,9 +92,8 @@ const SubCateGoriesList = (props) => {
             style={{ width: "100%" }}
             key={i}
             bottomDivider
-            onPress={
-              () => handlePress(e.subCategoryName) //setCategoryChoice(e.categoryName)
-            }
+            topDivider
+            onPress={() => handlePress(e.subCategoryName)}
           >
             <ListItem.Content>
               <ListItem.Title>{e.subCategoryName}</ListItem.Title>
@@ -105,17 +104,37 @@ const SubCateGoriesList = (props) => {
       }
     );
   }
-  return subCategories;
+  return (
+    <View style={{ width: "100%" }}>
+      <ListItem
+        style={{ width: "100%" }}
+        key={i}
+        bottomDivider
+        topDivider
+        onPress={() => handlePressRetour()}
+      >
+        <ListItem.Content>
+          <ListItem.Title style={{ fontWeight: "bold" }}>
+            {props.categoryChoice}
+          </ListItem.Title>
+        </ListItem.Content>
+      </ListItem>
+      {subCategories}
+    </View>
+  );
 };
 
 function mapStateToProps(state) {
-  return { CategoryChoice: state.CategoryChoice };
+  return { categoryChoice: state.categoryChoice };
 }
 
 function mapDispatchToProps(dispatch) {
   return {
     subCategoryChoice: function (subCategoryChoice) {
       dispatch({ type: "setSubCategoryChoice", subCategoryChoice });
+    },
+    CategoryChoice: function (categoryChoice) {
+      dispatch({ type: "Reset", categoryChoice });
     },
   };
 }
