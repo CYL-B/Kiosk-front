@@ -6,6 +6,8 @@ import * as ImagePicker from 'expo-image-picker';
 import { useForm } from "react-hook-form";
 import { Input, Image } from 'react-native-elements';
 
+import { REACT_APP_IPSERVER } from '@env';
+
 const RegisterScreen = (props) => {
     let openImagePickerAsync = async () => {
         let permissionResult = await ImagePicker.requestMediaLibraryPermissionsAsync();
@@ -35,7 +37,9 @@ const RegisterScreen = (props) => {
                 bodyCompany += `&siret=${formData.companySIRET}`
             }
 
-            let company = await fetch('http://172.17.1.123:3000/companies/', {
+            console.log(REACT_APP_IPSERVER);
+
+            let company = await fetch(`http://${REACT_APP_IPSERVER}/companies/`, {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
                 body: bodyCompany
@@ -60,7 +64,7 @@ const RegisterScreen = (props) => {
                     body += `&phone=${formData.phone}`
                 }
 
-                let user = await fetch('http://172.17.1.123:3000/users/', {
+                let user = await fetch(`http://${REACT_APP_IPSERVER}/users/`, {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
                     body: body
@@ -70,7 +74,7 @@ const RegisterScreen = (props) => {
                 if (res.result) {
                     setIsLogin(true);
                     props.storeUser(res.user);
-                    props.navigation.navigate('TabNavigation');
+                    props.navigation.navigate('CompaniesPage');
                 } else {
                     setSignUpErrorMessage(res.message);
                 }
