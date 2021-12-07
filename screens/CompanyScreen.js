@@ -1,10 +1,12 @@
-import React, {useState} from 'react';
+import React, {useState, useEffect} from 'react';
 import { View, Text, ImageBackground } from 'react-native';
 import { Card, Image, Input } from 'react-native-elements'
 import { ScrollView } from 'react-native-gesture-handler';
 
 import { ButtonText } from '../components/Buttons';
 import {HeaderBar} from '../components/Header'
+
+import { REACT_APP_IPSERVER } from '@env'; // mettre à la place de notre url d'ip avec http:// devant = varibale d'environnement
 
 
 const CompanyScreen = (props) => {
@@ -16,15 +18,35 @@ const CompanyScreen = (props) => {
     var displayLabels; // ???
     var displayOffers; // aller cherche une offre en DB ?
 
-    const  [ descCie, setDescCie ] = useState("");
+    const [ descCie, setDescCie ] = useState("");
+    const [ descOk, setDescOk ] = useState(false);
+    const [ companyId, setCompanyId ] = useState("");
+
+    const { cieId } = route.params;
+    setCompanyId(cieId);
+
+    useEffect(() => {
+        async function loadData() {
+            var rawDataCie = await fetch(`http://${REACT_APP_IPSERVER}/companies/${companyId}?token=${props.user.token}`); // (`adresseIPserveur/route appelée/req.params?req.query`)
+            var dataCie = await rawDataCie.json();
+            setDescCie(dataCie.description);
+            if (dataCie.description) {
+                setDescOk(true);
+            }
+        }
+        loadData();
+    }, []);
 
     var handleSubmitDescCie = async () => {
-        const dataRaw = await fetch('/companies', {
+        const dataRaw = await fetch(`http://${REACT_APP_IPSERVER}/companies/${companyId}`, { // renvoie jsute result, donc true ou flase
             method: 'PUT',
             headers: {'Content-Type': 'application/x-www-form-urlencoded'},
-            body: `descprition=${descCie}`
+            body: `descprition=${descCie}&token=${props.user.token}`
         })
-        setDescCie(await dataRaw.json())
+        var res = await dataRaw.json(); // true ou false
+        if (res.result) {
+            setDescOk(true);
+        }
     }
 
     if (data) {
@@ -55,7 +77,7 @@ const CompanyScreen = (props) => {
         </ImageBackground>
     };
 
-    if (data) {
+    if (descOk && descCie) {
         displayDescCie = 
         <Card key={1} >
             <View style={{display:"flex", flexDirection:"row", justifyContent:"space-between"}}>
@@ -67,7 +89,7 @@ const CompanyScreen = (props) => {
                 />
             </View>
             
-            <Text>TEXT FROM FRONT</Text>
+            <Text>{descCie}</Text>
             <View style={{height: 160, justifyContent:"center", alignItems:"center"}}>
                 <Text></Text>
                 <View style={{position:"absolute", bottom:"5%"}}>
@@ -79,7 +101,7 @@ const CompanyScreen = (props) => {
             </View>
         </Card>
 
-    } else if (!data) {
+    } else {
         displayDescCie = 
         <Card key={1} >
             <Card.Title style={{textAlign:"left"}}

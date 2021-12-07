@@ -6,7 +6,7 @@ import * as ImagePicker from 'expo-image-picker';
 import { useForm } from "react-hook-form";
 import { Input, Image } from 'react-native-elements';
 
-import { REACT_APP_IPSERVER } from '@env';
+import { REACT_APP_IPSERVER } from '@env'; // mettre à la place de notre url d'ip // varibale d'environnement
 
 const RegisterScreen = (props) => {
     let openImagePickerAsync = async () => {
