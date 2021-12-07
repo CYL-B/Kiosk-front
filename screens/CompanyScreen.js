@@ -1,10 +1,14 @@
-import React, {useState} from 'react';
+import React, {useState, useEffect} from 'react';
 import { View, Text, ImageBackground } from 'react-native';
-import { Card, Image, Input } from 'react-native-elements'
+import { Card, Image, Input, ListItem } from 'react-native-elements'
 import { ScrollView } from 'react-native-gesture-handler';
 
 import { ButtonText } from '../components/Buttons';
 import {HeaderBar} from '../components/Header'
+
+import { REACT_APP_IPSERVER } from '@env'; // mettre à la place de notre url d'ip avec http:// devant = varibale d'environnement
+
+import {connect} from 'react-redux';
 
 
 const CompanyScreen = (props) => {
@@ -13,18 +17,56 @@ const CompanyScreen = (props) => {
 
     var displayCieImg; // aller chercher une image dans le téléhone du presta
     var displayDescCie; // input
-    var displayLabels; // ???
+    var displayLabels; // affichage en list des labels à ajouter
     var displayOffers; // aller cherche une offre en DB ?
 
-    const  [ descCie, setDescCie ] = useState("");
+    const [ descCie, setDescCie ] = useState("");
+    const [ descOk, setDescOk ] = useState(false);
+    const [ companyId, setCompanyId ] = useState("");
+    const [ nameCie, setNameCie ] = useState("");
+    const [ addressCie, setAddressCie ] = useState([]); // ???
+    const [ labels, setLabels ] = useState([]);
+
+
+    useEffect(() => {
+        // const { cieId } = props.route.params; // récupération de l'id cie via la navigation
+        var cieId = "61af38ff4b2208eb275e9429";
+        setCompanyId(cieId);
+        async function loadDataCie() {
+            // appel route put pour modifier données company
+            var rawDataCie = await fetch(`http://${REACT_APP_IPSERVER}/companies/${cieId}/${props.user.token}`); // (`adresseIPserveur/route appelée/req.params?req.query`)
+            var dataCie = await rawDataCie.json();
+            setDescCie(dataCie.company.description);
+// console.log("dataCie", dataCie.companyName);
+            setNameCie(dataCie.company.companyName);
+            setAddressCie(...addressCie, dataCie.company.offices[0].city, dataCie.company.offices[0].zipCode) // ???
+            if (dataCie.description) {
+                setDescOk(true);
+            }
+        }
+        loadDataCie();
+
+        async function loadDataLabels() {
+            // appel route get pour récupérer données labels DB
+            var rawDataLabels = await fetch(`http://${REACT_APP_IPSERVER}/companies/labels`);
+            var dataLabels = await rawDataLabels.json();
+            setLabels(dataLabels.dataLabels);
+// console.log("dataLabels from Fetch", dataLabels.dataLabels);
+        }
+        loadDataLabels();
+    }, []);
+// console.log("état labels", labels[0].logo);
 
     var handleSubmitDescCie = async () => {
-        const dataRaw = await fetch('/companies', {
+        const dataRaw = await fetch(`http://${REACT_APP_IPSERVER}/companies/${companyId}`, { // renvoie jsute result, donc true ou flase
             method: 'PUT',
             headers: {'Content-Type': 'application/x-www-form-urlencoded'},
-            body: `descprition=${descCie}`
+            body: `description=${descCie}&token=${props.user.token}`
         })
-        setDescCie(await dataRaw.json())
+        var res = await dataRaw.json(); // true ou false
+        if (res.result) {
+            setDescOk(true);
+        }
     }
 
     if (data) {
@@ -55,7 +97,7 @@ const CompanyScreen = (props) => {
         </ImageBackground>
     };
 
-    if (data) {
+    if (descOk && descCie) {
         displayDescCie = 
         <Card key={1} >
             <View style={{display:"flex", flexDirection:"row", justifyContent:"space-between"}}>
@@ -67,7 +109,7 @@ const CompanyScreen = (props) => {
                 />
             </View>
             
-            <Text>TEXT FROM FRONT</Text>
+            <Text>{descCie}</Text>
             <View style={{height: 160, justifyContent:"center", alignItems:"center"}}>
                 <Text></Text>
                 <View style={{position:"absolute", bottom:"5%"}}>
@@ -79,15 +121,12 @@ const CompanyScreen = (props) => {
             </View>
         </Card>
 
-    } else if (!data) {
+    } else {
         displayDescCie = 
         <Card key={1} >
             <Card.Title style={{textAlign:"left"}}
             >Qui sommes-nous ?</Card.Title>
                 <View style={{backgroundColor: "#FAF0E6", height: 160, justifyContent:"center", alignItems:"center"}}>
-                    {/* <Text style={{textAlign:"center"}}>
-                        Veuillez ajouter une description
-                    </Text> */}
                     <Text></Text>
                     <Input
                         style={{ fontSize: 15 }}
@@ -99,12 +138,11 @@ const CompanyScreen = (props) => {
                     <ButtonText
                         color="secondary"
                         title="Ajouter"
-                        onClick={() => handleSubmitDescCie()}
+                        onPress={() => handleSubmitDescCie()}
                     />
                 </View>
         </Card>
     };
-console.log("descInput", descCie);
 
     if (data) {
         displayLabels = 
@@ -120,7 +158,7 @@ console.log("descInput", descCie);
             <View>
                 <View style={{marginBottom:30}}>
                     <Image 
-                        source={require('../assets/label_1%.png')}
+                        // source={require('../assets/label_1.png')}
                         style={{ width: 50, height: 50 }}
                     >
                     </Image>
@@ -136,15 +174,62 @@ console.log("descInput", descCie);
         <Card key={1} >
             <Card.Title style={{textAlign:"left"}}
             >Nos labels</Card.Title>
-            <View style={{backgroundColor: "#FAF0E6", height: 160, justifyContent:"center", alignItems:"center"}}>
-                <Text style={{textAlign:"center"}}>
+            <View style={{backgroundColor: "#FAF0E6", height: 260, justifyContent:"center", alignItems:"center"}}>
+                <Text style={{textAlign:"center", marginTop:10, marginBottom:10 }}>
                 Avez-vous des labels ?
                 </Text>
+                <ScrollView>
+                <View style={{flex: 1, width:300, height:400}}>
+                {
+                    labels.map((label, i) => {
+                        console.log("label.logo", label.logo);
+                        return ( 
+                    <ListItem 
+                        key={i} 
+                        bottomDivider
+                        >
+                        <Image 
+                            source={{ uri: `http://${REACT_APP_IPSERVER}/images/assets/${label.logo}`}}
+                            style={{ width: 50, height: 50 }} />
+                        <ListItem.Content style={{flexDirection:"row"}}>
+                            <View >
+                                <ListItem.Title
+                                    style={{right:10, flexShrink: 1, left:10}}>{label.labelName}
+                                </ListItem.Title>
+                            </View>
+                        </ListItem.Content>
+                        <ButtonText
+                            color="secondary"
+                            title="Ajouter"
+                        />
+                    </ListItem>
+                    )})
+                }
+
+                {/* <ListItem 
+                        key={2} 
+                        bottomDivider
+                        
+                        >
+                        <Image 
+                            source={require('../assets/label_1%.png')}
+                            style={{ width: 50, height: 50 }} />
+                            <ListItem.Content style={{flexDirection:"row"}}>
+                                <ListItem.Title
+                                    style={{right:10}}>nameLabel</ListItem.Title> 
+                                <View style={{left:30}}>
+                                <ButtonText
+                                    color="secondary"
+                                    title="Ajouter"
+                                />
+                                </View>
+                            </ListItem.Content>
+                    </ListItem> */}
+
+                </View>
+                </ScrollView>
                 <Text></Text>
-                <ButtonText
-                    color="secondary"
-                    title="Ajouter"
-                />
+                
             </View>
         </Card>
     };
@@ -173,7 +258,7 @@ console.log("descInput", descCie);
                 <Text style={{textAlign:"center"}}>
                     Veuillez ajouter une offre
                 </Text>
-                <Text></Text>
+                <Text>{"\n"}</Text>
                 <ButtonText
                     color="secondary"
                     title="Ajouter"
@@ -187,7 +272,7 @@ console.log("descInput", descCie);
         <View style={{ flex: 1, justifyContent: 'center'}}>
         
         <HeaderBar
-            title = "NOM ENTREPRISE"
+            title = {nameCie}
             onPress={() => onBackPress()}
             leftComponent
             locationIndication
@@ -223,4 +308,9 @@ console.log("descInput", descCie);
 
 };
 
-export default CompanyScreen;
+// on récupère le user stocké dans le store : 
+function mapStateToProps(state) {
+      return { user: state.user }
+    };
+
+    export default connect(mapStateToProps, null)(CompanyScreen);
