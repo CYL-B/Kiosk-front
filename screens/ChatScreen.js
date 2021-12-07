@@ -1,5 +1,7 @@
 import React, { useState, useCallback, useEffect } from 'react'
 
+import {connect} from 'react-redux';
+
 //import de la librairie gifted chat avec ses éléments
 import { GiftedChat, InputToolbar, Send, Bubble, MessageText } from 'react-native-gifted-chat'
 import { View, Text, StyleSheet } from 'react-native';
@@ -9,30 +11,38 @@ import { AvatarRound } from '../components/avatar'
 import { FontAwesome } from '@expo/vector-icons';
 
 
-const MessagesScreen = (props) => {
+const ChatScreen = (props) => {
   const [messages, setMessages] = useState([]);
   const[currentMessage, setCurrentMessage] = useState();
 
-  useEffect(() => {
-    setMessages([
-      {
-        _id: 1,
-        text: 'Hello developer',
-        createdAt: new Date(),
-        user: {
-          _id: 2,
-          name: 'React Native',
-          avatar: 'https://placeimg.com/140/140/any',
-        },
-      },
-    ])
-  }, [])
+
+var addMessage = async(messages) => {
+  const saveReq = await fetch (`/conversations/messages/${convID}`, {
+    method: 'POST',
+      headers: {'Content-Type': 'application/x-www-form-urlencoded'},
+      body: `message=${messages.text}&userId=${props.user._id}&date=${messages.createdAt}`
+  })
+}
+
+  // useEffect(() => {
+  //   const findMessages = async()=>{
+  //     const data = await fetch(`/conversations/messages/${convID}/${props.user.id}`)
+  //     const body= await data.json();
+  //     setMessages([{}])
+  //   }
+  //   setMessages(body)
+  // }, [])
 
   //tableau de messages
 
   const onSend = useCallback((messages = []) => {
     setMessages(previousMessages => GiftedChat.append(previousMessages, messages))
-  }, [])
+    console.log(messages);
+    //addMessage(messages)
+  },
+   [])
+
+  console.log(messages);
 
   //fonction qui prévoit d'ajouter (append) des messages au click sur le "send"
 
@@ -80,10 +90,10 @@ const MessagesScreen = (props) => {
     <Divider style={{ backgroundColor: '#FAF0E6', height: 60, flexDirection: "row", justifyContent: "center", alignItems: "center" }}><Badge status="error" badgeStyle={{ marginTop: 6 }} /><Text style={{ fontSize: 20, color: "#1A0842", marginLeft: 10 }}>Pas de contrat en cours</Text></Divider>
     <GiftedChat
       listViewProps={{ marginBottom: 5 }}
-      onInputTextChanged={(msg)=>setCurrentMessage(msg)}
-      text={currentMessage}
+      
+    
       renderInputToolbar={renderInputToolbar}
-      messageText={renderMessageText}
+      
       renderSend={renderSend}
       renderBubble={renderBubble}
       textInputStyle={{ color: "#1A0842" }}
@@ -116,5 +126,11 @@ const styles = StyleSheet.create({
 
   }
 })
+function mapStateToProps(state){
+  return {user: state.user}
+}
 
-export default MessagesScreen;
+export default connect(
+  mapStateToProps,
+  null
+)(ChatScreen)

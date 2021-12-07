@@ -1,7 +1,7 @@
-export default function (username = null, action) {
-    if (action.type == 'set') {
-        return action.username;
+export default function (user = null, action) {
+    if (action.type == 'storeUser') {
+        return action.user;
     } else {
-        return username;
+        return user;
     }
 }
