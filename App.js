@@ -15,13 +15,14 @@ const store = createStore(
 );
 
 // import des pages à inclure dans les navigations
-import WelcomeScreen from "./screens/WelcomeScreen";
-import LoginScreen from "./screens/LoginScreen";
-import RegisterScreen from "./screens/RegisterScreen";
-import HomeScreen from "./screens/HomeScreen";
-import SearchScreen from "./screens/SearchScreen";
-import MessagesScreen from "./screens/MessagesScreen";
-import CompanyScreen from "./screens/CompanyScreen";
+import WelcomeScreen from './screens/WelcomeScreen';
+import LoginScreen from './screens/LoginScreen';
+import RegisterScreen from './screens/RegisterScreen';
+import HomeScreen from './screens/HomeScreen';
+import SearchScreen from './screens/SearchScreen';
+import MessagesScreen from './screens/MessagesScreen';
+import ChatScreen from './screens/ChatScreen'
+import CompanyScreen from './screens/CompanyScreen';
 
 // import des modules de navigation
 import { NavigationContainer } from "@react-navigation/native";
@@ -96,6 +97,8 @@ export default function App() {
           <Stack.Screen name="Inscription" component={RegisterScreen} />
           <Stack.Screen name="CompanyPage" component={CompanyScreen} />
           <Stack.Screen name="TabNavigation" component={TabNavigation} />
+          <Stack.Screen name="ChatScreen" component={ChatScreen}/>
+          <Stack.Screen name="MessagesScreen" component={MessagesScreen} />
         </Stack.Navigator>
       </NavigationContainer>
     </Provider>

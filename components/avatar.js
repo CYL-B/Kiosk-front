@@ -4,6 +4,7 @@ import {Avatar} from 'react-native-elements';
 //création d'un composant avatar avec options de taille (petit et moyen)
 
 const AvatarRound = (props) => {
+    
     //options de taille dans les composants recevant l'avatar
     let size
     if (props.size === "md"){

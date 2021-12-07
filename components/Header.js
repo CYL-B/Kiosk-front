@@ -1,8 +1,8 @@
 import React, { useState } from 'react';
 //import du header, du texte et de listItem de react native elements
 
-import { Header, Text, Overlay, ListItem } from 'react-native-elements';
-import { View } from 'react-native';
+import { Header, Text, Overlay, ListItem} from 'react-native-elements';
+import { View, TouchableOpacity } from 'react-native';
 import { Link } from '@react-navigation/native';
 
 //import des icons depuis fontawesome et ionicons
@@ -19,7 +19,7 @@ const HeaderBar = (props) => {
   var leftComponentDisplay
   if(props.leftComponent)
   {leftComponentDisplay = 
-    <FontAwesome5 name="chevron-left" size={50} color="#1A0842" onPress={() => onBackPress()} />
+    <TouchableOpacity onPress={() => onBackPress()}><FontAwesome5 name="chevron-left" size={50} color="#1A0842" /></TouchableOpacity>
   }
 //condition pour afficher le composant de gauche (la flèche de retour) dans les composants qui recoivent le header, il est aussi possible d'ajuster le "onBackPress" dans ces mêmes composants 
 
