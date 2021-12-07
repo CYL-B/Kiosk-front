@@ -7,10 +7,16 @@ import { AntDesign } from "@expo/vector-icons";
 import username from "./reducers/username.reducer";
 import categoryChoice from "./reducers/categoryChoice";
 import subCategoryChoice from "./reducers/subCategoryChoice";
+import categorieslist from "./reducers/categorieslist";
 import { Provider } from "react-redux";
 import { createStore, combineReducers } from "redux";
 const store = createStore(
-  combineReducers({ username, categoryChoice, subCategoryChoice })
+  combineReducers({
+    username,
+    categoryChoice,
+    subCategoryChoice,
+    categorieslist,
+  })
 );
 
 // import des pages à inclure dans les navigations
