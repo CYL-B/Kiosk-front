@@ -62,6 +62,7 @@ const SubCateGoriesList = (props) => {
       ],
     },
   ];
+
   const [categoryChoice, setCategoryChoice] = useState(props.CategoryChoice);
   const [subCategoryChoice, setSubCategoryChoice] = useState();
 
@@ -69,7 +70,7 @@ const SubCateGoriesList = (props) => {
     //setSubCategoryChoice(subCategoryChoice);
     //props.subCategoryChoice(subCategoryChoice);
   }
-  console.log(props.CategoryChoice);
+  //console.log(props.CategoryChoice);
   //console.log(subCategoryChoice);
   var indexcategoriesData = -1;
   for (var i = 0; i < categoriesData.length; i++)
@@ -77,7 +78,7 @@ const SubCateGoriesList = (props) => {
       indexcategoriesData = i;
     }
 
-  console.log(indexcategoriesData);
+  //console.log(indexcategoriesData);
 
   var subCategories;
   if (indexcategoriesData === -1) {
