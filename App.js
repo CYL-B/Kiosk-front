@@ -4,13 +4,13 @@ import React from "react";
 import { AntDesign } from "@expo/vector-icons";
 
 // initialisation du store redux
-import username from "./reducers/username.reducer";
+import user from "./reducers/user.reducer";
 import CategoryChoice from "./reducers/CategoryChoice";
 import subCategoryChoice from "./reducers/subCategoryChoice";
 import { Provider } from "react-redux";
 import { createStore, combineReducers } from "redux";
 const store = createStore(
-  combineReducers({ username, CategoryChoice, subCategoryChoice })
+  combineReducers({ user, CategoryChoice, subCategoryChoice })
 );
 
 // import des pages à inclure dans les navigations

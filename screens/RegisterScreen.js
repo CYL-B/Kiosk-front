@@ -18,7 +18,7 @@ const RegisterScreen = (props) => {
         }
 
         let pickerResult = await ImagePicker.launchImageLibraryAsync();
-        console.log(pickerResult);
+        // console.log(pickerResult);
     }
 
     const [currentStep, setCurrentStep] = useState(1),
@@ -27,7 +27,7 @@ const RegisterScreen = (props) => {
 
     const { handleSubmit, setValue } = useForm();
     const onSubmit = useCallback(async formData => {
-        console.log(formData);
+        // console.log(formData);
         if (formData.email.length > 0 && formData.password.length > 0) {
             let bodyCompany = `companyName=${formData.companyName}`
             if (formData.firstName) {
@@ -37,7 +37,7 @@ const RegisterScreen = (props) => {
                 bodyCompany += `&siret=${formData.companySIRET}`
             }
 
-            console.log(REACT_APP_IPSERVER);
+            // console.log(REACT_APP_IPSERVER);
 
             let company = await fetch(`http://${REACT_APP_IPSERVER}/companies/`, {
                 method: 'POST',
@@ -45,7 +45,7 @@ const RegisterScreen = (props) => {
                 body: bodyCompany
             });
             let resCompany = await company.json();
-            console.log(resCompany);
+            // console.log(resCompany);
             if (resCompany.result) {
                 let body = `email=${formData.email}&password=${formData.password}&companyId=${resCompany.company._id}`
                 if (formData.firstName) {
@@ -70,11 +70,13 @@ const RegisterScreen = (props) => {
                     body: body
                 });
                 let res = await user.json();
-                console.log(res);
+                // console.log(res);
                 if (res.result) {
                     setIsLogin(true);
                     props.storeUser(res.user);
-                    props.navigation.navigate('CompanyPage', { cieId: res.companyId});
+                    console.log("res", res);
+                    props.navigation.navigate('CompanyPage', { cieId: res.user.companyId});
+                    
                 } else {
                     setSignUpErrorMessage(res.message);
                 }
@@ -344,7 +346,7 @@ const RegisterScreen = (props) => {
 function mapDispatchToProps(dispatch) {
     return {
         storeUser: function (user) {
-            console.log(user);
+            // console.log(user);
             dispatch({ type: 'storeUser', user })
         }
     }
