@@ -5,6 +5,8 @@ import { Button, ButtonText } from '../components/Buttons';
 import { useForm } from "react-hook-form";
 import { Input, Image } from 'react-native-elements';
 
+import { REACT_APP_IPSERVER } from '@env';
+
 const LoginScreen = (props) => {
     const   [isLogin, setIsLogin] = useState(false),
             [signInErrorMessage, setSignInErrorMessage] = useState(false);
@@ -12,7 +14,7 @@ const LoginScreen = (props) => {
     const onSubmit = useCallback(async formData => {
         console.log(formData);
         if (formData.email.length > 0 && formData.password.length > 0) {
-            let user = await fetch('http://172.17.1.123:3000/users/connect', {
+            let user = await fetch(`http://${REACT_APP_IPSERVER}/users/connect`, {
               method: 'POST',
               headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
               body: `email=${formData.email}&password=${formData.password}`
