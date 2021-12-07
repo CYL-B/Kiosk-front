@@ -9,7 +9,8 @@ const WelcomeScreen = (props) => {
         <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
             <Text>Welcome</Text>
             <Button size="md" color="primary" title="Se connecter" onPress={() => props.navigation.navigate('Connexion')} />
-            <Button size="sm" color="secondary" title="S'inscrire" onPress={() => props.navigation.navigate('Inscription')} />
+            <Button size="md" color="primary" title="S'inscrire" onPress={() => props.navigation.navigate('Inscription', { clientType: 'client'})} />
+            <Button size="md" color="secondary" title="S'inscrire en tant que presta" onPress={() => props.navigation.navigate('Inscription', { clientType: 'partner'})} />
             <ButtonText color="default" title="Vers l'app" onPress={() => props.navigation.navigate('TabNavigation')} />
         </View>
     );

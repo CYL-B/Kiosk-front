@@ -6,9 +6,23 @@ import * as ImagePicker from 'expo-image-picker';
 import { useForm } from "react-hook-form";
 import { Input, Image } from 'react-native-elements';
 
+// récupération de la variable d'environnement
 import { REACT_APP_IPSERVER } from '@env';
 
 const RegisterScreen = (props) => {
+    
+    // Initialisation des états
+    const [currentStep, setCurrentStep] = useState(1),
+        [isLogin, setIsLogin] = useState(false),
+        [signUpErrorMessage, setSignUpErrorMessage] = useState(false),
+        [imgProfil, setImgProfil] = useState(null);
+
+    console.log(props);
+
+    const clientType = props.route.params && props.route.params.clientType;
+    console.log(clientType);
+
+    // Demande de l'autorisation d'accéder à la galerie d'image de l'utilisateur
     let openImagePickerAsync = async () => {
         let permissionResult = await ImagePicker.requestMediaLibraryPermissionsAsync();
 
@@ -17,17 +31,16 @@ const RegisterScreen = (props) => {
             return;
         }
 
+        // on récupère l'uri de l'image et on la stocke dans un état
         let pickerResult = await ImagePicker.launchImageLibraryAsync();
-        console.log(pickerResult);
+        setImgProfil(pickerResult.uri)
     }
 
-    const [currentStep, setCurrentStep] = useState(1),
-        [isLogin, setIsLogin] = useState(false),
-        [signUpErrorMessage, setSignUpErrorMessage] = useState(false);
-
+    // initialisation de useForm()
     const { handleSubmit, setValue } = useForm();
-    const onSubmit = useCallback(async formData => {
-        console.log(formData);
+
+    // fonction qui se déclenche à la validation du formulaire 
+    const onSubmit = async formData => {
         if (formData.email.length > 0 && formData.password.length > 0) {
             let bodyCompany = `companyName=${formData.companyName}`
             if (formData.firstName) {
@@ -36,17 +49,19 @@ const RegisterScreen = (props) => {
             if (formData.lastName) {
                 bodyCompany += `&siret=${formData.companySIRET}`
             }
-
-            console.log(REACT_APP_IPSERVER);
-
+            if (clientType) {
+                bodyCompany += `&type=${clientType}`
+            }
+            
+            // requête pour créer une company via les infos récupérer du formulaire
             let company = await fetch(`http://${REACT_APP_IPSERVER}/companies/`, {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
                 body: bodyCompany
             });
             let resCompany = await company.json();
-            console.log(resCompany);
             if (resCompany.result) {
+                // on créé le body de la prochaine requête (pour créer un user)
                 let body = `email=${formData.email}&password=${formData.password}&companyId=${resCompany.company._id}`
                 if (formData.firstName) {
                     body += `&firstName=${formData.firstName}`
@@ -54,27 +69,56 @@ const RegisterScreen = (props) => {
                 if (formData.lastName) {
                     body += `&lastName=${formData.lastName}`
                 }
-                if (formData.avatar) {
-                    body += `&avatar=${formData.avatar}`
-                }
                 if (formData.role) {
                     body += `&role=${formData.role}`
                 }
                 if (formData.phone) {
                     body += `&phone=${formData.phone}`
                 }
+                if (clientType) {
+                    body += `&type=${clientType}`
+                }
 
+                // on check si l'utilisateur a ajouter une image de profil
+                console.log("imgProfil", imgProfil);
+                if(imgProfil) {
+                    var data = new FormData();
+                    data.append('avatar', {
+                        uri: imgProfil,
+                        type: 'image/jpeg',
+                        name: 'user_avatar.jpg'
+                    });
+                    // requête pour héberger l'image de profil
+                    let resUpload = await fetch(`http://${REACT_APP_IPSERVER}/users/avatar`, {
+                        method: 'post',
+                        body: data
+                    })
+                    resUpload = await resUpload.json();
+
+                    // on ajoute l'url de l'image héberger au body de la prochaine requête
+                    if (resUpload.result) {
+                        console.log(resUpload);
+                        body += `&avatar=${resUpload.url}`
+                    }
+                }
+
+                // requête pour créer un nouvel utilisateur
                 let user = await fetch(`http://${REACT_APP_IPSERVER}/users/`, {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
                     body: body
                 });
                 let res = await user.json();
-                console.log(res);
                 if (res.result) {
                     setIsLogin(true);
+                    // on store l'utilisateur dans le store
                     props.storeUser(res.user);
-                    props.navigation.navigate('CompanyPage', { cieId: res.companyId});
+                    // on navigue vers la page company
+                    if(clientType === 'partner') {
+                        props.navigation.navigate('CompanyPage', { cieId: res.companyId});
+                    } else {
+                        props.navigation.navigate('TabNavigation');
+                    }
                 } else {
                     setSignUpErrorMessage(res.message);
                 }
@@ -91,7 +135,7 @@ const RegisterScreen = (props) => {
             }
             setSignUpErrorMessage(error.join(', ') + ' missing');
         }
-    }, []);
+    };
     const onChangeField = useCallback(
         name => text => {
             setValue(name, text);
@@ -122,7 +166,8 @@ const RegisterScreen = (props) => {
         profil: {
             width: 179,
             height: 179,
-            marginBottom: 11
+            marginBottom: 11,
+            borderRadius: 100
         },
         form: {
             alignItems: "center",
@@ -238,10 +283,17 @@ const RegisterScreen = (props) => {
             <View style={styles.form}>
                 <Text style={styles.text}>Veuillez renseigner vos informations personnelles</Text>
                 <TouchableOpacity onPress={openImagePickerAsync}>
-                    <Image
-                        source={require("../assets/profil-pic.png")}
-                        style={styles.profil}
-                    />
+                    { imgProfil ? (
+                        <Image
+                            source={{ uri: imgProfil }}
+                            style={styles.profil}
+                        />
+                    ) : (
+                        <Image
+                            source={require("../assets/profil-pic.png")}
+                            style={styles.profil}
+                        />
+                    )}
                 </TouchableOpacity>
                 <ButtonText color="light" title="Ajouter votre photo de profil" onPress={openImagePickerAsync} />
             </View>
@@ -344,7 +396,6 @@ const RegisterScreen = (props) => {
 function mapDispatchToProps(dispatch) {
     return {
         storeUser: function (user) {
-            console.log(user);
             dispatch({ type: 'storeUser', user })
         }
     }
