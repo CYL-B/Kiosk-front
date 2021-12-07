@@ -20,6 +20,7 @@ export default function OfferCardMain(props) {
     ],
   };
 
+  // boucle pour renplir la list des commitments
   var listCommitments = dataOffre.commiments.map((e, i) => {
     return (
       <Text style={{ marginBottom: 0 }}>

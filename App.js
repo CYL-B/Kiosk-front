@@ -5,22 +5,23 @@ import { AntDesign } from "@expo/vector-icons";
 
 // initialisation du store redux
 import user from "./reducers/user.reducer";
-import CategoryChoice from "./reducers/CategoryChoice";
+import categoryChoice from "./reducers/CategoryChoice";
 import subCategoryChoice from "./reducers/subCategoryChoice";
+import categorieslist from "./reducers/categorieslist";
 import { Provider } from "react-redux";
 import { createStore, combineReducers } from "redux";
 const store = createStore(
-  combineReducers({ user, CategoryChoice, subCategoryChoice })
+  combineReducers({ user, categoryChoice, subCategoryChoice, categorieslist })
 );
 
 // import des pages à inclure dans les navigations
-import WelcomeScreen from './screens/WelcomeScreen';
-import LoginScreen from './screens/LoginScreen';
-import RegisterScreen from './screens/RegisterScreen';
-import HomeScreen from './screens/HomeScreen';
-import SearchScreen from './screens/SearchScreen';
-import MessagesScreen from './screens/MessagesScreen';
-import CompanyScreen from './screens/CompanyScreen';
+import WelcomeScreen from "./screens/WelcomeScreen";
+import LoginScreen from "./screens/LoginScreen";
+import RegisterScreen from "./screens/RegisterScreen";
+import HomeScreen from "./screens/HomeScreen";
+import SearchScreen from "./screens/SearchScreen";
+import MessagesScreen from "./screens/MessagesScreen";
+import CompanyScreen from "./screens/CompanyScreen";
 
 // import des modules de navigation
 import { NavigationContainer } from "@react-navigation/native";
@@ -33,12 +34,12 @@ const Tab = createBottomTabNavigator();
 
 const StackNavigation = () => {
   return (
-    <Stack.Navigator screenOptions={{headerShown: false}}>
+    <Stack.Navigator screenOptions={{ headerShown: false }}>
       <Stack.Screen name="Home" component={HomeScreen} />
       <Stack.Screen name="CompanyPage" component={CompanyScreen} />
     </Stack.Navigator>
-  )
-}
+  );
+};
 
 // création de la navigation Tab
 const TabNavigation = () => {

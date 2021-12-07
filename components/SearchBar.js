@@ -15,7 +15,8 @@ export default function Searchbar(props) {
         width: "90%",
         height: 50,
         borderWidth: 0,
-        margin: 0,
+        marginTop: 10,
+        marginBottom: 20,
         padding: 0,
         borderRadius: 20,
       }}
