@@ -74,7 +74,7 @@ const RegisterScreen = (props) => {
                 if (res.result) {
                     setIsLogin(true);
                     props.storeUser(res.user);
-                    props.navigation.navigate('CompaniesPage');
+                    props.navigation.navigate('CompanyPage', { cieId: res.companyId});
                 } else {
                     setSignUpErrorMessage(res.message);
                 }
