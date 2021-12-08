@@ -1,8 +1,8 @@
-export default function (subCategoryChoice = "", action) {
-  if (action.type === "setSubCategoryChoice") {
-    var newSubCategoryChoice = action.subCategoryChoice;
-    return newSubCategoryChoice;
+export default function (subCategoryChosenData = "", action) {
+  if (action.type === "setSubCategoryChosen") {
+    var newSubCategoryChosenData = action.subCategoryChosenData;
+    return newSubCategoryChosenData;
   } else {
-    return subCategoryChoice;
+    return subCategoryChosenData;
   }
 }

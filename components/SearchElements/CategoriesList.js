@@ -5,23 +5,20 @@ import { Text, ListItem, Avatar } from "react-native-elements";
 import { connect } from "react-redux";
 
 const CateGoriesList = (props) => {
-  const [categoryChoice, setCategoryChoice] = useState();
   var categoriesData = props.categorieslist;
 
-  function handlePress(categoryChoice) {
-    setCategoryChoice(categoryChoice);
-    props.CategoryChoice(categoryChoice);
+  function handlePress(categoryChosenData) {
+    props.CategoryChoice(categoryChosenData);
   }
 
-  //console.log(categoryChoice);
   var categories = categoriesData.map((e, i) => {
     return (
       <ListItem
         style={{ width: "100%" }}
         key={i}
         bottomDivider
-        onPress={
-          () => handlePress(e.categoryName) //setCategoryChoice(e.categoryName)
+        onPress={() =>
+          handlePress({ categoryName: e.categoryName, categoryId: e._id })
         }
       >
         <ListItem.Content>
@@ -41,8 +38,8 @@ function mapStateToProps(state) {
 
 function mapDispatchToProps(dispatch) {
   return {
-    CategoryChoice: function (categoryChoice) {
-      dispatch({ type: "setCategoryChoice", categoryChoice });
+    CategoryChoice: function (categoryChosenData) {
+      dispatch({ type: "setCategoryChosen", categoryChosenData });
     },
   };
 }

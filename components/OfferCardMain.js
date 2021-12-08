@@ -20,12 +20,14 @@ export default function OfferCardMain(props) {
     ],
   };
 
+  //console.log(props.dataOffre.commitments);
+
   // boucle pour renplir la list des commitments
-  var listCommitments = dataOffre.commiments.map((e, i) => {
+  var listCommitments = props.dataOffre.commitments.map((e, i) => {
     return (
-      <Text style={{ marginBottom: 0 }}>
+      <Text key={i} style={{ marginBottom: 0 }}>
         <Ionicons name="checkmark-outline"></Ionicons>
-        {e}
+        {e.commitment}
       </Text>
     );
   });
@@ -34,7 +36,7 @@ export default function OfferCardMain(props) {
     <Card
       containerStyle={{
         width: 350,
-        margin: 0,
+        marginBottom: 10,
         padding: 0,
         borderWidth: 0,
         borderRadius: 20,
@@ -48,7 +50,7 @@ export default function OfferCardMain(props) {
           borderTopLeftRadius: 20,
           alignItems: "flex-end",
         }}
-        source={require("../assets/imagebackground.png")} //image a remplacer par props.
+        source={{ uri: props.dataOffre.offerImage }}
       >
         {/* Partie rating */}
         <View
@@ -64,7 +66,7 @@ export default function OfferCardMain(props) {
             selectedColor="#F47805"
             unSelectedColor="#F4780533"
             reviewColor="#F47805"
-            defaultRating={dataOffre.rating}
+            defaultRating={3}
             isDisabled
             count={5}
             size={20}
@@ -97,7 +99,7 @@ export default function OfferCardMain(props) {
       >
         <Image
           style={{ height: 10, width: 60 }}
-          source={require("../assets/logo.png")}
+          source={require("../assets/logo.png")} // a changer avec la recherche BDD
         />
       </View>
       {/* Titre + location + description  */}
@@ -115,7 +117,7 @@ export default function OfferCardMain(props) {
             zIndex: 1,
           }}
         >
-          {dataOffre.companyName}
+          {props.dataOffre.offerName}
         </Card.Title>
         <Text
           style={{
@@ -123,9 +125,9 @@ export default function OfferCardMain(props) {
             marginBottom: 10,
           }}
         >
-          {dataOffre.officies}
+          {"Paris, Ile de France"} // a changer avec la recherche BDD
         </Text>
-        <Text>{dataOffre.shortDescription}</Text>
+        <Text>{props.dataOffre.shortDescription}</Text>
       </View>
       {/* Commitments + bouton */}
       <View
