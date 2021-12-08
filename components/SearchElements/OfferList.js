@@ -16,6 +16,7 @@ const OfferList = (props) => {
   const [offerList, setOfferList] = useState();
 
   useEffect(() => {
+    //requete pour récuperer au pres de la route recherche, toutes les offres en fonction de l'ID de la subcategory choisie
     var getOfferWithId = async function () {
       const data = await fetch(`http://${REACT_APP_IPSERVER}/recherche`, {
         method: "POST",

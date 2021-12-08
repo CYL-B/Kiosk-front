@@ -66,7 +66,7 @@ export default function OfferCardMain(props) {
             selectedColor="#F47805"
             unSelectedColor="#F4780533"
             reviewColor="#F47805"
-            defaultRating={3}
+            defaultRating={3} //changer avec rating
             isDisabled
             count={5}
             size={20}
@@ -99,7 +99,8 @@ export default function OfferCardMain(props) {
       >
         <Image
           style={{ height: 10, width: 60 }}
-          source={require("../assets/logo.png")} // a changer avec la recherche BDD
+          source={{ uri: props.dataOffre.companyData[0].logo }}
+          // source={require("../assets/logo.png")} // a changer avec la recherche BDD
         />
       </View>
       {/* Titre + location + description  */}
@@ -125,7 +126,7 @@ export default function OfferCardMain(props) {
             marginBottom: 10,
           }}
         >
-          {"Paris, Ile de France"} // a changer avec la recherche BDD
+          {props.dataOffre.companyData[0].offices[0].city}
         </Text>
         <Text>{props.dataOffre.shortDescription}</Text>
       </View>
