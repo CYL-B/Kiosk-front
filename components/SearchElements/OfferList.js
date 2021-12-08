@@ -7,7 +7,7 @@ import { connect } from "react-redux";
 import { REACT_APP_IPSERVER } from "@env";
 
 import OfferCardMain from "../OfferCardMain";
-import OfferCardLight from "../OfferCardLight";
+//import OfferCardLight from "../OfferCardLight";
 import { ScrollView } from "react-native-gesture-handler";
 
 const OfferList = (props) => {
@@ -36,7 +36,7 @@ const OfferList = (props) => {
 
   if (offerList) {
     var listOfferCard = offerList.map((e, i) => {
-      return <OfferCardLight key={i} dataOffre={e}></OfferCardLight>;
+      return <OfferCardMain key={i} dataOffre={e}></OfferCardMain>;
     });
   } else {
     var listOfferCard = <Text>Pas d'offre</Text>;

@@ -10,22 +10,10 @@ import { connect } from "react-redux";
 import Searchbar from "../components/SearchBar";
 import { HeaderBar } from "../components/Header";
 
-import { REACT_APP_IPSERVER } from "@env";
-
 const SearchScreen = (props) => {
   const [menuToShow, setMenuToShow] = useState(
     <CateGoriesList></CateGoriesList>
   );
-
-  useEffect(() => {
-    var setcategorieslist = async function () {
-      const data = await fetch(`http://${REACT_APP_IPSERVER}/getcategories`);
-      const body = await data.json();
-      var categorieslist = body.categorieList;
-      props.setcategoriesList(categorieslist);
-    };
-    setcategorieslist();
-  }, []);
 
   useEffect(() => {
     //condition pour afficher soir la liste de categorie, soit la liste de sous categorie, sois la liste de résultat

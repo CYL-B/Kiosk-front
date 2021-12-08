@@ -5,6 +5,10 @@ import { SearchBar } from "react-native-elements";
 export default function Searchbar(props) {
   const [search, setSearch] = useState("");
 
+  function hanlesearch(val) {
+    setSearch(val);
+  }
+
   return (
     <SearchBar
       lightTheme={true}
@@ -34,7 +38,7 @@ export default function Searchbar(props) {
         height: 50,
       }}
       placeholder="Quel est votre besoin ?"
-      onChangeText={(val) => setSearch(val)}
+      onChangeText={(val) => hanlesearch(val)}
       value={search}
     />
   );
