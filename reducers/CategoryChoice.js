@@ -1,11 +1,11 @@
-export default function (categoryChoice = "", action) {
-  if (action.type === "setCategoryChoice") {
-    var newCategoryChoice = action.categoryChoice;
-    return newCategoryChoice;
+export default function (categoryChosenData = "", action) {
+  if (action.type === "setCategoryChosen") {
+    var newCategoryChosenData = action.categoryChosenData;
+    return newCategoryChosenData;
   } else if (action.type === "Reset") {
-    var newCategoryChoice = "";
-    return newCategoryChoice;
+    var newCategoryChosenData = "";
+    return newCategoryChosenData;
   } else {
-    return categoryChoice;
+    return categoryChosenData;
   }
 }

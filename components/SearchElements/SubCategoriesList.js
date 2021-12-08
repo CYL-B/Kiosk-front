@@ -7,21 +7,24 @@ import { connect } from "react-redux";
 const SubCateGoriesList = (props) => {
   var categoriesData = props.categorieslist;
 
-  const [categoryChoice, setCategoryChoice] = useState(props.categoryChoice);
-  const [subCategoryChoice, setSubCategoryChoice] = useState();
-
-  function handlePress(subCategoryNameChoice) {
-    setSubCategoryChoice(subCategoryNameChoice);
-    props.subCategoryChoice(subCategoryNameChoice);
+  function handlePress(subCategoryChosenData) {
+    props.subCategoryChoice(subCategoryChosenData);
   }
 
   function handlePressRetour() {
-    props.CategoryChoice(categoryChoice);
+    props.CategoryChoice(props.categoryChosenData.categoryName);
+  }
+
+  //si on clique sur Voir tout, subCategoryChosenData dans le store prend la valeur de categoryChosenData.
+  function handlePressTout() {
+    props.categoryAll(props.categoryChosenData);
   }
 
   var indexcategoriesData = -1;
   for (var i = 0; i < categoriesData.length; i++)
-    if (categoriesData[i].categoryName === props.categoryChoice) {
+    if (
+      categoriesData[i].categoryName === props.categoryChosenData.categoryName
+    ) {
       indexcategoriesData = i;
     }
 
@@ -37,7 +40,12 @@ const SubCateGoriesList = (props) => {
             key={i}
             bottomDivider
             topDivider
-            onPress={() => handlePress(e.subCategoryName)}
+            onPress={() =>
+              handlePress({
+                subCategoryName: e.subCategoryName,
+                subCategoryId: e._id,
+              })
+            }
           >
             <ListItem.Content>
               <ListItem.Title>{e.subCategoryName}</ListItem.Title>
@@ -59,9 +67,22 @@ const SubCateGoriesList = (props) => {
       >
         <ListItem.Content>
           <ListItem.Title style={{ fontWeight: "bold" }}>
-            {props.categoryChoice}
+            {props.categoryChosenData.categoryName}
           </ListItem.Title>
         </ListItem.Content>
+      </ListItem>
+      <ListItem
+        style={{ width: "100%" }}
+        bottomDivider
+        topDivider
+        onPress={() => handlePressTout()}
+      >
+        <ListItem.Content>
+          <ListItem.Title style={{ fontWeight: "700" }}>
+            Voir tout
+          </ListItem.Title>
+        </ListItem.Content>
+        <ListItem.Chevron />
       </ListItem>
       {subCategories}
     </View>
@@ -70,18 +91,21 @@ const SubCateGoriesList = (props) => {
 
 function mapStateToProps(state) {
   return {
-    categoryChoice: state.categoryChoice,
+    categoryChosenData: state.categoryChosenData,
     categorieslist: state.categorieslist,
   };
 }
 
 function mapDispatchToProps(dispatch) {
   return {
-    subCategoryChoice: function (subCategoryChoice) {
-      dispatch({ type: "setSubCategoryChoice", subCategoryChoice });
+    subCategoryChoice: function (subCategoryChosenData) {
+      dispatch({ type: "setSubCategoryChosen", subCategoryChosenData });
     },
     CategoryChoice: function (categoryChoice) {
       dispatch({ type: "Reset", categoryChoice });
+    },
+    categoryAll: function (categoryChosenData) {
+      dispatch({ type: "setcategoryall", categoryChosenData });
     },
   };
 }

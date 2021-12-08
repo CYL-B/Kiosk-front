@@ -3,13 +3,12 @@ import { View } from "react-native";
 import { Text, ListItem, Avatar } from "react-native-elements";
 import CateGoriesList from "../components/SearchElements/CategoriesList";
 import SubCategoriesList from "../components/SearchElements/SubCategoriesList";
+import OfferList from "../components/SearchElements/OfferList";
 
 import { connect } from "react-redux";
 
 import Searchbar from "../components/SearchBar";
 import { HeaderBar } from "../components/Header";
-
-import { REACT_APP_IPSERVER } from "@env";
 
 const SearchScreen = (props) => {
   const [menuToShow, setMenuToShow] = useState(
@@ -17,33 +16,25 @@ const SearchScreen = (props) => {
   );
 
   useEffect(() => {
-    var setcategorieslist = async function () {
-      const data = await fetch(`http://${REACT_APP_IPSERVER}/getcategories`);
-      const body = await data.json();
-      var categorieslist = body.categorieList;
-      //console.log(categorieslist);
-      props.setcategoriesList(categorieslist);
-    };
-    setcategorieslist();
-  }, []);
-
-  useEffect(() => {
     //condition pour afficher soir la liste de categorie, soit la liste de sous categorie, sois la liste de résultat
-    if (props.categoryChoice == "") {
+
+    if (props.categoryChosenData == "") {
       setMenuToShow(<CateGoriesList></CateGoriesList>);
-    } else if (props.categoryChoice !== "" && props.subCategoryChoice === "") {
+    } else if (
+      props.categoryChosenData.categoryName !== "" &&
+      props.subCategoryChosenData === ""
+    ) {
       setMenuToShow(<SubCategoriesList></SubCategoriesList>);
-    } else if (props.subCategoryChoice !== "") {
-      setMenuToShow(<Text>ecran offre</Text>);
+    } else if (props.subCategoryChosenData !== "") {
+      setMenuToShow(<OfferList></OfferList>);
     }
     return menuToShow;
-  }, [props.categoryChoice, props.subCategoryChoice]);
+  }, [props.categoryChosenData, props.subCategoryChosenData]);
 
   return (
     <View
       style={{
         flex: 1,
-        // justifyContent: "center",
         alignItems: "center",
         backgroundColor: "white",
         width: "100%",
@@ -58,8 +49,8 @@ const SearchScreen = (props) => {
 
 function mapStateToProps(state) {
   return {
-    categoryChoice: state.categoryChoice,
-    subCategoryChoice: state.subCategoryChoice,
+    categoryChosenData: state.categoryChosenData,
+    subCategoryChosenData: state.subCategoryChosenData,
   };
 }
 
