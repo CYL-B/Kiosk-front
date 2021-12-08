@@ -5,23 +5,6 @@ import { Button } from "../components/Buttons";
 import { Ionicons } from "@expo/vector-icons";
 
 export default function OfferCardMain(props) {
-  var dataOffre = {
-    rating: 3,
-    companyName: "Akagreen",
-    companyLogo: "../assets/logo.png",
-    offerImage: "../assets/imagebackground.png",
-    officies: "Paris, Ile de France",
-    shortDescription:
-      "BlablablBlablablBlablablBlablablBlablablBlablablBlablablBlablablBlablablBlablablBlablablBlablablBlablablBlablabl",
-    commiments: [
-      "Livré à vélo",
-      "Tous les livreurs sont en CDI",
-      "Tous les livreurs sont en CDI",
-    ],
-  };
-
-  //console.log(props.dataOffre.commitments);
-
   // boucle pour renplir la list des commitments
   var listCommitments = props.dataOffre.commitments.map((e, i) => {
     return (

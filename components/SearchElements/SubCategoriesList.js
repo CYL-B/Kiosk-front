@@ -15,6 +15,7 @@ const SubCateGoriesList = (props) => {
     props.CategoryChoice(props.categoryChosenData.categoryName);
   }
 
+  //si on clique sur Voir tout, subCategoryChosenData dans le store prend la valeur de categoryChosenData.
   function handlePressTout() {
     props.categoryAll(props.categoryChosenData);
   }
