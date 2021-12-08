@@ -15,6 +15,10 @@ const SubCateGoriesList = (props) => {
     props.CategoryChoice(props.categoryChosenData.categoryName);
   }
 
+  function handlePressTout() {
+    props.categoryAll(props.categoryChosenData);
+  }
+
   var indexcategoriesData = -1;
   for (var i = 0; i < categoriesData.length; i++)
     if (
@@ -70,7 +74,7 @@ const SubCateGoriesList = (props) => {
         style={{ width: "100%" }}
         bottomDivider
         topDivider
-        onPress={() => handlePressRetour()}
+        onPress={() => handlePressTout()}
       >
         <ListItem.Content>
           <ListItem.Title style={{ fontWeight: "700" }}>
@@ -98,6 +102,9 @@ function mapDispatchToProps(dispatch) {
     },
     CategoryChoice: function (categoryChoice) {
       dispatch({ type: "Reset", categoryChoice });
+    },
+    categoryAll: function (categoryChosenData) {
+      dispatch({ type: "setcategoryall", categoryChosenData });
     },
   };
 }
