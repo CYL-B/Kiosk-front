@@ -18,6 +18,7 @@ const store = createStore(
 import WelcomeScreen from './screens/WelcomeScreen';
 import LoginScreen from './screens/LoginScreen';
 import RegisterScreen from './screens/RegisterScreen';
+import OfferScreen from './screens/OfferScreen';
 import HomeScreen from './screens/HomeScreen';
 import SearchScreen from './screens/SearchScreen';
 import MessagesScreen from './screens/MessagesScreen';
@@ -38,6 +39,7 @@ const StackNavigation = () => {
     <Stack.Navigator screenOptions={{ headerShown: false }}>
       <Stack.Screen name="Home" component={HomeScreen} />
       <Stack.Screen name="CompanyPage" component={CompanyScreen} />
+      <Stack.Screen name="OfferPage" component={OfferScreen} />
     </Stack.Navigator>
   );
 };
@@ -97,7 +99,7 @@ export default function App() {
           <Stack.Screen name="Inscription" component={RegisterScreen} />
           <Stack.Screen name="CompanyPage" component={CompanyScreen} />
           <Stack.Screen name="TabNavigation" component={TabNavigation} />
-          <Stack.Screen name="ChatScreen" component={ChatScreen}/>
+          <Stack.Screen name="ChatScreen" component={ChatScreen} />
           <Stack.Screen name="MessagesScreen" component={MessagesScreen} />
         </Stack.Navigator>
       </NavigationContainer>

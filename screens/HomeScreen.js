@@ -8,6 +8,7 @@ const HomeScreen = (props) => {
         <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
             <Text>Home</Text>
             <Button size="md" color="primary" title="Company Page" onPress={() => props.navigation.navigate('CompanyPage')} />
+            <Button size="md" color="primary" title="Offer Page" onPress={() => props.navigation.navigate('OfferPage')} />
         </View>
     );
 };
