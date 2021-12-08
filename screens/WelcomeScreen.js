@@ -1,5 +1,5 @@
 import React from 'react';
-import MyCarousel from '../components/carousel' ;
+
 import { Image, StyleSheet, View, Text, ImageBackground} from 'react-native';
 import { LinearGradient } from "expo-linear-gradient";
 
@@ -13,7 +13,7 @@ const WelcomeScreen = (props) => {
             
           
           <Image source={require('../assets/logo-light-2.png')} style={styles.image}/>
-          <MyCarousel/>
+          
     
             <Text>Welcome</Text>
             <Button size="md" color="primary" title="Se connecter" onPress={() => props.navigation.navigate('Connexion')} />
