@@ -1,6 +1,8 @@
 import React, { useState, useCallback, useEffect } from 'react'
-
-import {connect} from 'react-redux';
+//Store
+import { connect } from 'react-redux';
+//Var de connexion
+import { REACT_APP_IPSERVER } from '@env'
 
 //import de la librairie gifted chat avec ses éléments
 import { GiftedChat, InputToolbar, Send, Bubble, MessageText } from 'react-native-gifted-chat'
@@ -13,38 +15,54 @@ import { FontAwesome } from '@expo/vector-icons';
 
 const ChatScreen = (props) => {
   const [messages, setMessages] = useState([]);
-  const[currentMessage, setCurrentMessage] = useState();
+  const [currentMessage, setCurrentMessage] = useState();
+  const [convId, setConvId] = useState(null);
+  
+
+  // &user=${props.user}
+  
+
+  //on récupère le convID depuis "messages screen" au press sur la conversation correspondante
 
 
-var addMessage = async(messages) => {
-  const saveReq = await fetch (`/conversations/messages/${convID}`, {
-    method: 'POST',
-      headers: {'Content-Type': 'application/x-www-form-urlencoded'},
-      body: `message=${messages.text}&userId=${props.user._id}&date=${messages.createdAt}`
-  })
-}
+  useEffect(() => {
+  const { convId } = props.route.params;
+  setConvId(convId)
+    const findMessages = async()=>{
+      const data = await fetch(`http://${REACT_APP_IPSERVER}/conversations/messages/${convId}`)
+      const body = await data.json();
+      console.log("body",body.sortedMessages)
+      
+      setMessages(body.sortedMessages)
+    }
+    findMessages();
+  }, [])
 
-  // useEffect(() => {
-  //   const findMessages = async()=>{
-  //     const data = await fetch(`/conversations/messages/${convID}/${props.user.id}`)
-  //     const body= await data.json();
-  //     setMessages([{}])
-  //   }
-  //   setMessages(body)
-  // }, [])
 
-  //tableau de messages
+  //fonction qui prévoit d'ajouter (append) les nouveaux messages aux anciens au click sur le "send"
+  //var addMessage s'exécute pour enregistrer le dernier message en base de données
+  //message est un tableau
 
   const onSend = useCallback((messages = []) => {
-    setMessages(previousMessages => GiftedChat.append(previousMessages, messages))
-    console.log(messages);
-    //addMessage(messages)
+    var newMessage
+    var addMessage = async (message) => {
+      console.log('addMessage', message[0].text)
+      const saveReq = await fetch(`http://${REACT_APP_IPSERVER}/conversations/messages`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+        body: `message=${message[0].text}&date=${message[0].createdAt}`
+        
+      }) 
+      const fromBack = await saveReq.json()
+      newMessage = fromBack.messageToSendToFront
+      console.log("newMessage", newMessage)
+      setMessages(previousMessages => GiftedChat.append(previousMessages, newMessage))
+    console.log("messagesChat", messages)
+    }
+    addMessage(messages)
   },
-   [])
+    [])
 
-  console.log(messages);
-
-  //fonction qui prévoit d'ajouter (append) des messages au click sur le "send"
 
   function renderInputToolbar(props) {
     return (
@@ -76,7 +94,7 @@ var addMessage = async(messages) => {
     }}></Bubble>)
   }
   //permet de modifier les bulles de conversation qui s'affichent à droite et à gauche de l'écran
- 
+
 
 
   return (<View style={{ flex: 1, backgroundColor: "white" }}><HeaderBar
@@ -90,10 +108,10 @@ var addMessage = async(messages) => {
     <Divider style={{ backgroundColor: '#FAF0E6', height: 60, flexDirection: "row", justifyContent: "center", alignItems: "center" }}><Badge status="error" badgeStyle={{ marginTop: 6 }} /><Text style={{ fontSize: 20, color: "#1A0842", marginLeft: 10 }}>Pas de contrat en cours</Text></Divider>
     <GiftedChat
       listViewProps={{ marginBottom: 5 }}
-      
-    
+
+
       renderInputToolbar={renderInputToolbar}
-      
+
       renderSend={renderSend}
       renderBubble={renderBubble}
       textInputStyle={{ color: "#1A0842" }}
@@ -126,8 +144,8 @@ const styles = StyleSheet.create({
 
   }
 })
-function mapStateToProps(state){
-  return {user: state.user}
+function mapStateToProps(state) {
+  return { user: state.user }
 }
 
 export default connect(
