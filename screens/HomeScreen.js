@@ -10,15 +10,6 @@ import { connect } from "react-redux";
 import { REACT_APP_IPSERVER } from "@env";
 
 const HomeScreen = (props) => {
-<<<<<<< HEAD
-    return (
-        <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
-            <Text>Home</Text>
-            <Button size="md" color="primary" title="Company Page" onPress={() => props.navigation.navigate('CompanyPage')} />
-            <Button size="md" color="primary" title="Offer Page" onPress={() => props.navigation.navigate('OfferPage')} />
-        </View>
-    );
-=======
   useEffect(() => {
     var setcategorieslist = async function () {
       const data = await fetch(`http://${REACT_APP_IPSERVER}/getcategories`);
@@ -41,7 +32,6 @@ const HomeScreen = (props) => {
       />
     </View>
   );
->>>>>>> recherche
 };
 
 function mapDispatchToProps(dispatch) {

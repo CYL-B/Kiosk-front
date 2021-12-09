@@ -24,7 +24,7 @@ const CateGoriesList = (props) => {
         }}
       >
         <Image
-          style={{ width: 50, height: 50, borderRadius: "50%" }}
+          style={{ width: 50, height: 50, borderRadius: 50 }}
           source={{ uri: e.categoryImage }}
         ></Image>
         <Text>{e.categoryName}</Text>
