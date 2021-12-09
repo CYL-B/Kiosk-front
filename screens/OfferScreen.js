@@ -25,7 +25,7 @@ const OfferScreen = (props) => {
 
     const [offer, setOffer] = useState(null),
         [company, setCompany] = useState(null),
-        [offerId, setOfferId] = useState("61b0e6837ee15e4f2a1a936f"),
+        [offerId, setOfferId] = useState(props.route.params.offerId ? props.route.params.offerId : "61b0e6837ee15e4f2a1a936f" ),
         [token, setToken] = useState("YvbAvDg256hw2t5HfW_stG2yOt9BySaK"),
         [visible, setVisible] = useState(false),
         [inputOverlay, setInputOverlay] = useState(''),
@@ -50,7 +50,7 @@ const OfferScreen = (props) => {
 
     useEffect(() => {
         // setToken(props.user.token);
-        // setOfferId(props.route.params.offerId);
+        //setOfferId(props.route.params.offerId);
         async function loadDataOffer() {
             // appel route put pour modifier données offer
             var rawDataOffer = await fetch(`http://${REACT_APP_IPSERVER}/offers/${offerId}/${token}`); // (`adresseIPserveur/route appelée/req.params?req.query`)
