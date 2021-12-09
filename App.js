@@ -5,13 +5,18 @@ import { AntDesign } from "@expo/vector-icons";
 
 // initialisation du store redux
 import user from "./reducers/user.reducer";
-import categoryChoice from "./reducers/CategoryChoice";
-import subCategoryChoice from "./reducers/subCategoryChoice";
+import categoryChosenData from "./reducers/CategoryChoice";
+import subCategoryChosenData from "./reducers/subCategoryChoice";
 import categorieslist from "./reducers/categorieslist";
 import { Provider } from "react-redux";
 import { createStore, combineReducers } from "redux";
 const store = createStore(
-  combineReducers({ user, categoryChoice, subCategoryChoice, categorieslist })
+  combineReducers({
+    user,
+    categoryChosenData,
+    subCategoryChosenData,
+    categorieslist,
+  })
 );
 
 // import des pages à inclure dans les navigations

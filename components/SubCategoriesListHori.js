@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { View } from "react-native";
+import { View, ScrollView, Image } from "react-native";
 import { Text, ListItem, Avatar } from "react-native-elements";
 
 import { connect } from "react-redux";
@@ -11,25 +11,35 @@ const CateGoriesList = (props) => {
     props.CategoryChoice(categoryChosenData);
   }
 
+  // console.log(categoriesData);
+
   var categories = categoriesData.map((e, i) => {
     return (
-      <ListItem
-        style={{ width: "100%" }}
-        key={i}
-        bottomDivider
-        onPress={() =>
-          handlePress({ categoryName: e.categoryName, categoryId: e._id })
-        }
+      <View
+        style={{
+          alignItems: "center",
+          margin: 10,
+          borderWidth: 1,
+          height: 100,
+        }}
       >
-        <ListItem.Content>
-          <ListItem.Title>{e.categoryName}</ListItem.Title>
-        </ListItem.Content>
-        <ListItem.Chevron />
-      </ListItem>
+        <Image
+          style={{ width: 50, height: 50, borderRadius: "50%" }}
+          source={{ uri: e.categoryImage }}
+        ></Image>
+        <Text>{e.categoryName}</Text>
+      </View>
+
+      // <ListItem>
+      //   <Avatar source={{ uri: e.categoryImage }} />
+      //   <ListItem.Content>
+      //     <ListItem.Title>{e.categoryName}</ListItem.Title>
+      //   </ListItem.Content>
+      // </ListItem>
     );
   });
 
-  return categories;
+  return <ScrollView>{categories}</ScrollView>; //{categories}
 };
 
 function mapStateToProps(state) {
