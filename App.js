@@ -23,6 +23,7 @@ const store = createStore(
 import WelcomeScreen from "./screens/WelcomeScreen";
 import LoginScreen from "./screens/LoginScreen";
 import RegisterScreen from "./screens/RegisterScreen";
+import OfferScreen from "./screens/OfferScreen";
 import HomeScreen from "./screens/HomeScreen";
 import SearchScreen from "./screens/SearchScreen";
 import MessagesScreen from "./screens/MessagesScreen";
