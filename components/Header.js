@@ -14,8 +14,10 @@ import { AvatarRound } from './avatar'
 
 
 const HeaderBar = (props) => {
-  const [isVisible, setIsVisible] = useState(false);
+  
   const { onBackPress } = props;
+
+
   var leftComponentDisplay
   if(props.leftComponent)
   {leftComponentDisplay = 
@@ -42,30 +44,10 @@ const HeaderBar = (props) => {
         justifyContent: 'space-around'
 
       }}
-      rightComponent={<AvatarRound size="md"
+      rightComponent={<AvatarRound navigation={props.navigation} size="md"
         source={{ uri: 'https://numero.twic.pics/images/flexible_grid/100/push-cover-beyonce-ticket-concert-a-vie-jay-numero-magazine.jpg' }}
-        onPress={() => setIsVisible(true)}>
-        <Overlay style={{ flex: 1 }}
-          isVisible={isVisible}><View>
-            <ListItem>
-              <Link to={{ screen: 'Devis' }}>
-                Devis
-              </Link>
-              <Link to={{ screen: 'Favoris' }}>
-                Favoris
-              </Link>
-              <Link to={{ screen: 'Favoris' }}>
-                Profil
-              </Link>
-              
-              <Link to={{ screen: 'Favoris' }}>
-                Entreprise
-              </Link>
-              <Link to={{ screen: 'Favoris' }}>
-                Déconnexion
-              </Link>
-            </ListItem>
-          </View></Overlay>
+         >
+        
       </AvatarRound>
       }
 

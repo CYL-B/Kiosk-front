@@ -31,12 +31,12 @@ const MessagesScreen = (props) => {
             <ListItem containerStyle={{
                 justifyContent: 'space-around'
 
-            }}
-                onPress={() => props.navigation.navigate('ChatScreen', { convId: conversation.id })}
-            >
-                <AvatarRound size="md"
-                    source={{ uri: conversation.logo }}></AvatarRound>
-                <ListItem.Content>
+        }}
+            onPress={() => props.navigation.navigate('Chat', {convId: conversation.id})}
+        >
+            <AvatarRound size="md"
+                source={{ uri: conversation.logo }}></AvatarRound>
+            <ListItem.Content>
 
                     <ListItem.Title
                         style={{ color: "#1A0842", fontSize: 20, fontWeight: "bold", marginBottom: 5 }}
@@ -49,6 +49,7 @@ const MessagesScreen = (props) => {
     return (
         <View><HeaderBar
             title="Messages"
+            navigation={props.navigation}
         >
 
         </HeaderBar>

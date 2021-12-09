@@ -299,6 +299,7 @@ const OfferScreen = (props) => {
                 title={offer && offer.offerName ? offer.offerName : 'No name'}
                 onBackPress={() => props.navigation.goBack()}
                 leftComponent
+                navigation={props.navigation}
                 locationIndication
                 location={company && company.offices[0].city+', '+company.offices[0].country}>
             </HeaderBar>
