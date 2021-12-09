@@ -54,14 +54,14 @@ const HeaderBar = (props) => {
               <Link to={{ screen: 'Favoris' }}>
                 Favoris
               </Link>
-              <Link to={{ screen: 'Favoris' }}>
+              <Link to={{ screen: 'Profil' }}>
                 Profil
               </Link>
               
-              <Link to={{ screen: 'Favoris' }}>
+              <Link to={{ screen: 'Entreprise' }}>
                 Entreprise
               </Link>
-              <Link to={{ screen: 'Favoris' }}>
+              <Link to={{ screen: 'Déconnexion' }}>
                 Déconnexion
               </Link>
             </ListItem>

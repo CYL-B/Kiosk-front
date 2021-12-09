@@ -25,6 +25,12 @@ import MessagesScreen from './screens/MessagesScreen';
 import ChatScreen from './screens/ChatScreen'
 import CompanyScreen from './screens/CompanyScreen';
 
+//import des pages du usermenu dans les navigations
+import CompanyPage from './screens/Usermenu/CompanyPage';
+import FavoritesScreen from './screens/Usermenu/FavoritesScreen';
+import ProfileScreen from './screens/Usermenu/ProfileScreen';
+import QuotationScreen from './screens/Usermenu/QuotationScreen';
+
 // import des modules de navigation
 import { NavigationContainer } from "@react-navigation/native";
 import { createStackNavigator } from "@react-navigation/stack";
