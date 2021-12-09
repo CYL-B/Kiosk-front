@@ -38,7 +38,7 @@ const HeaderBar = (props) => {
       barStyle="light-content"
       leftComponent = {leftComponentDisplay}
       centerComponent={<ListItem containerStyle={{ flexDirection: "column", paddingTop: 0 }}><Text style={{ color: "#1A0842", fontSize: 32, fontWeight: "bold" }}>{props.title}</Text>{locationIndication}
-        </ListItem>}
+        </ListItem>} 
       containerStyle={{
         backgroundColor: 'white',
         justifyContent: 'space-around'

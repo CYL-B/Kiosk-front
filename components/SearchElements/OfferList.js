@@ -20,11 +20,14 @@ const OfferList = (props) => {
     //requete pour récuperer au pres de la route recherche, toutes les offres en fonction de l'ID de la subcategory choisie ou categoryId
 
     var getOfferWithId = async function () {
-      const data = await fetch(`http://${REACT_APP_IPSERVER}/recherche`, {
-        method: "POST",
-        headers: { "Content-Type": "application/x-www-form-urlencoded" },
-        body: `subcategorieId=${subCategoryId}&categorieId=${categoryId}`,
-      });
+      const data = await fetch(
+        `http://${REACT_APP_IPSERVER}/recherche/recherche`,
+        {
+          method: "POST",
+          headers: { "Content-Type": "application/x-www-form-urlencoded" },
+          body: `subcategorieId=${subCategoryId}&categorieId=${categoryId}`,
+        }
+      );
       var offerList = await data.json();
       offerList = offerList.offerList;
       setOfferList(offerList);
@@ -36,7 +39,7 @@ const OfferList = (props) => {
 
   if (offerList) {
     var listOfferCard = offerList.map((e, i) => {
-      return <OfferCardMain key={i} dataOffre={e}></OfferCardMain>;
+      return <OfferCardMain key={i} dataOffre={e} navigation={props.navigation}></OfferCardMain>;
     });
   } else {
     var listOfferCard = <Text>Pas d'offre</Text>;
