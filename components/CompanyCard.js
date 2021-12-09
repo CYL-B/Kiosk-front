@@ -5,7 +5,6 @@ import { Button } from "../components/Buttons";
 import { Ionicons } from "@expo/vector-icons";
 
 export default function CompanyCard(props) {
-    console.log(props);
   return (
     <Card
       containerStyle={{

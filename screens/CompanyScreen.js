@@ -385,10 +385,10 @@ console.log("dataCie", dataCie);
             
             <HeaderBar
                 title = {company ? company.companyName : "Entreprise"}
-                onPress={() => onBackPress()}
+                onBackPress={() => props.navigation.goBack()}
                 leftComponent
                 locationIndication
-                // location={label.offices[i].zipCode}
+                location={company && company.offices.length > 0 ? company.offices[0].city+', '+company.offices[0].country : "Entreprise"}
                 >
             </HeaderBar>
 
