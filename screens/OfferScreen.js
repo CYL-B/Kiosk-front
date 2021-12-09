@@ -3,6 +3,8 @@ import { View, Text, ImageBackground, TextInput, StyleSheet, KeyboardAvoidingVie
 import { Card, ListItem, Overlay } from 'react-native-elements';
 import * as ImagePicker from 'expo-image-picker';
 
+import { LinearGradient } from 'expo-linear-gradient';
+
 import { AntDesign } from '@expo/vector-icons';
 
 import { Button, ButtonText } from '../components/Buttons';
@@ -25,7 +27,7 @@ const OfferScreen = (props) => {
 
     const [offer, setOffer] = useState(null),
         [company, setCompany] = useState(null),
-        [offerId, setOfferId] = useState(props.route.params.offerId ? props.route.params.offerId : "61b0e6837ee15e4f2a1a936f" ),
+        [offerId, setOfferId] = useState(props.route.params && props.route.params.offerId ? props.route.params.offerId : "61b0e6837ee15e4f2a1a936f" ),
         [token, setToken] = useState("YvbAvDg256hw2t5HfW_stG2yOt9BySaK"),
         [visible, setVisible] = useState(false),
         [inputOverlay, setInputOverlay] = useState(''),
@@ -102,7 +104,6 @@ const OfferScreen = (props) => {
 
             // on ajoute l'url de l'image héberger au body de la prochaine requête
             if (resUpload.result) {
-                console.log(resUpload);
                 let body = `token=${token}&image=${resUpload.url}`;
                 const dataRaw = await fetch(`http://${REACT_APP_IPSERVER}/offers/${offerId}`, { // renvoie jsute result, donc true ou flase
                     method: 'PUT',
@@ -114,6 +115,19 @@ const OfferScreen = (props) => {
                     setOffer(res.offer);
                 }
             }
+        }
+    }
+
+    const handleContactClick = async () => {
+        let body = `token=${token}&receiverId=${company._id}&senderId=${props.user.companyId}`;
+        const dataRaw = await fetch(`http://${REACT_APP_IPSERVER}/conversations/new`, { // renvoie jsute result, donc true ou flase
+            method: 'POST',
+            headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+            body: body
+        })
+        var res = await dataRaw.json(); // true ou false
+        if (res.result) {
+            props.navigation.navigate('ChatScreen', {convId: res.conversation._id});
         }
     }
 
@@ -199,11 +213,11 @@ const OfferScreen = (props) => {
         displayDescOffer =
             <Card key={1} containerStyle={styles.container}>
                 <Card.Title style={{ textAlign: "left" }}
-                >Qui sommes-nous ?</Card.Title>
+                >Ce que nous proposons</Card.Title>
                 <View style={{ backgroundColor: "#FAF0E6", height: 160, justifyContent: "center", alignItems: "center" }}>
                     <ButtonText
                         color="secondary"
-                        title="Ajouter"
+                        title="Ajouter une description"
                         onPress={() => toggleOverlay('description')}
                     />
                 </View>
@@ -242,7 +256,7 @@ const OfferScreen = (props) => {
                 <View style={{ backgroundColor: "#FAF0E6", height: 160, justifyContent: "center", alignItems: "center" }}>
                     <ButtonText
                         color="secondary"
-                        title="Ajouter"
+                        title="Ajouter des engagements"
                         onPress={() => toggleOverlay('engagement')}
                     />
                 </View>
@@ -255,7 +269,7 @@ const OfferScreen = (props) => {
                     <Card.Title
                     >Qui sommes-nous ?</Card.Title>
                 </View>
-                <CompanyCard dataCompany={company} />
+                <CompanyCard dataCompany={company} navigation={props.navigation} />
             </Card>
         )
     }
@@ -307,11 +321,19 @@ const OfferScreen = (props) => {
                 </View>
 
                 {/* CARD OFFRES COMPANY */}
-                <View style={{ flex: 1, paddingBottom: 15 }}>
+                <View style={{ flex: 1, paddingBottom: 60 }}>
                     {displayOffers}
                 </View>
 
             </ScrollView>
+            <LinearGradient
+            style={{height: 60, zIndex: 2, position: 'absolute', bottom: 0, left: 0, width: "100%", flexDirection: "row", alignItems: "center", justifyContent: "flex-end", paddingHorizontal: 40}}
+            start={{ x: 0.5, y: 0 }}
+            end={{ x: 0.5, y: 1 }}
+            colors={['rgba(255,255,255,0)', 'rgba(255,255,255,0.8)', 'rgba(255,255,255,1)']}
+            >
+                <Button color="secondary" size="md" title="Contacter" onPress={() => handleContactClick()} />
+            </LinearGradient>
 
         </View>
     );

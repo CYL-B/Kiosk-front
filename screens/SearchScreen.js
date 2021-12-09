@@ -29,7 +29,7 @@ const SearchScreen = (props) => {
     ) {
       setMenuToShow(<SubCategoriesList></SubCategoriesList>);
     } else if (props.subCategoryChosenData !== "") {
-      setMenuToShow(<OfferList></OfferList>);
+      setMenuToShow(<OfferList navigation={props.navigation}></OfferList>);
     }
     return menuToShow;
   }, [props.categoryChosenData, props.subCategoryChosenData]);

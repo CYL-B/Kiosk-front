@@ -60,6 +60,7 @@ export default function OfferCardLight(props) {
             containerStyle={{ width: 100 }}
             color="primary"
             title="Voir l'offre"
+            onPress={() => props.navigation.navigate("OfferPage", { offerId: props.dataOffre._id })}
           />
         </View>
       </View>

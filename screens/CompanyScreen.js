@@ -24,7 +24,7 @@ const CompanyScreen = (props) => {
 
 // états infos Cie :
     const [ company, setCompany ] = useState(null);
-    const [ companyId, setCompanyId ] = useState("61ae3d26c4c0d34ec5313d34");
+    const [ companyId, setCompanyId ] = useState(props.route.params && props.route.params.companyId ? props.route.params.companyId : "61b097c526db20ecf9e66953");
 
 // état labels :
     const [ labels, setLabels ] = useState([]);
@@ -349,7 +349,7 @@ console.log("company.labels", company.labels);
                 company.offers.map((offer, i) => 
                 <OfferCardLight
                     key={i}
-                    dataOffre={offer}/>
+                    dataOffre={offer} navigation={props.navigation}/>
                 )
                 }
             </View>
@@ -442,15 +442,15 @@ console.log("company.labels", company.labels);
             </KeyboardAvoidingView>
         </Overlay>
             
-        <HeaderBar
-            // style={{right:10, flexShrink: 1, left:10}}
-            title = {company ? company.companyName : "Entreprise"}
-            onPress={() => onBackPress()}
-            leftComponent
-            locationIndication
-            // location={company.offices[0].zipCode}
-            >
-        </HeaderBar>
+            <HeaderBar
+                title = {company ? company.companyName : "Entreprise"}
+                onBackPress={() => props.navigation.goBack()}
+                leftComponent
+                locationIndication
+                location={company && company.offices.length > 0 ? company.offices[0].city+', '+company.offices[0].country : "Entreprise"}
+                >
+            </HeaderBar>
+
 
         <ScrollView>
 
