@@ -119,6 +119,7 @@ export default function CompanyCard(props) {
             containerStyle={{ width: 100 }}
             color="primary"
             title="Plus de détails"
+            onPress={() => props.navigation.navigate("CompanyPage", { companyId: props.dataCompany._id })}
           />
         </View>
       </View>

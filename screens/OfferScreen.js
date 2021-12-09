@@ -25,7 +25,7 @@ const OfferScreen = (props) => {
 
     const [offer, setOffer] = useState(null),
         [company, setCompany] = useState(null),
-        [offerId, setOfferId] = useState(props.route.params.offerId ? props.route.params.offerId : "61b0e6837ee15e4f2a1a936f" ),
+        [offerId, setOfferId] = useState(props.route.params && props.route.params.offerId ? props.route.params.offerId : "61b0e6837ee15e4f2a1a936f" ),
         [token, setToken] = useState("YvbAvDg256hw2t5HfW_stG2yOt9BySaK"),
         [visible, setVisible] = useState(false),
         [inputOverlay, setInputOverlay] = useState(''),
@@ -255,7 +255,7 @@ const OfferScreen = (props) => {
                     <Card.Title
                     >Qui sommes-nous ?</Card.Title>
                 </View>
-                <CompanyCard dataCompany={company} />
+                <CompanyCard dataCompany={company} navigation={props.navigation} />
             </Card>
         )
     }

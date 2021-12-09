@@ -25,7 +25,7 @@ const CompanyScreen = (props) => {
     const [ company, setCompany ] = useState(null);
 
 // états infos Cie :
-    const [ companyId, setCompanyId ] = useState("61b097c526db20ecf9e66953");
+    const [ companyId, setCompanyId ] = useState(props.route.params && props.route.params.companyId ? props.route.params.companyId : "61b097c526db20ecf9e66953");
 
 // états labels :
     const [ labels, setLabels ] = useState([]);
@@ -296,7 +296,7 @@ console.log("dataCie", dataCie);
                 company.offers.map((offer, i) => 
                 <OfferCardLight
                     key={i}
-                    dataOffre={offer}/>
+                    dataOffre={offer} navigation={props.navigation}/>
                 )
                 }
                 </View>
