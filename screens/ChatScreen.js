@@ -16,7 +16,7 @@ import { FontAwesome } from '@expo/vector-icons';
 const ChatScreen = (props) => {
   const [messages, setMessages] = useState([]);
   const [currentMessage, setCurrentMessage] = useState();
-  const [convId, setConvId] = useState(null);
+  const [convId, setConvId] = useState(props.route.params && props.route.params.convId ? props.route.params.convId : "61b0e6837ee15e4f2a1a936f");
   
 
   // &user=${props.user}
@@ -26,8 +26,6 @@ const ChatScreen = (props) => {
 
 
   useEffect(() => {
-  const { convId } = props.route.params;
-  setConvId(convId)
     const findMessages = async()=>{
       const data = await fetch(`http://${REACT_APP_IPSERVER}/conversations/messages/${convId}`)
       const body = await data.json();
@@ -50,7 +48,7 @@ const ChatScreen = (props) => {
       const saveReq = await fetch(`http://${REACT_APP_IPSERVER}/conversations/messages`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
-        body: `message=${message[0].text}&date=${message[0].createdAt}`
+        body: `convId=${convId}&userId=${props.user._id}&message=${message[0].text}&date=${message[0].createdAt}`
         
       }) 
       const fromBack = await saveReq.json()
@@ -103,7 +101,7 @@ const ChatScreen = (props) => {
     leftComponent
     locationIndication
     location="Paris"
-    onPress={() => onBackPress(props.navigation.navigate('MessagesScreen'))}
+    onBackPress={() => props.navigation.goBack()}
   ></HeaderBar>
     <Divider style={{ backgroundColor: '#FAF0E6', height: 60, flexDirection: "row", justifyContent: "center", alignItems: "center" }}><Badge status="error" badgeStyle={{ marginTop: 6 }} /><Text style={{ fontSize: 20, color: "#1A0842", marginLeft: 10 }}>Pas de contrat en cours</Text></Divider>
     <GiftedChat

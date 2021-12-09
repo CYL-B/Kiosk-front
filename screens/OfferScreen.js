@@ -118,8 +118,17 @@ const OfferScreen = (props) => {
         }
     }
 
-    const handleContactClick = async (companyId) => {
-        let body = `token=${token}&Id=${companyId}&`;
+    const handleContactClick = async () => {
+        let body = `token=${token}&receiverId=${company._id}&senderId=${props.user.companyId}`;
+        const dataRaw = await fetch(`http://${REACT_APP_IPSERVER}/conversations/new`, { // renvoie jsute result, donc true ou flase
+            method: 'POST',
+            headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+            body: body
+        })
+        var res = await dataRaw.json(); // true ou false
+        if (res.result) {
+            props.navigation.navigate('ChatScreen', {convId: res.conversation._id});
+        }
     }
 
     const handleCommitmentDelete = async (commitmentId) => {
@@ -323,7 +332,7 @@ const OfferScreen = (props) => {
             end={{ x: 0.5, y: 1 }}
             colors={['rgba(255,255,255,0)', 'rgba(255,255,255,0.8)', 'rgba(255,255,255,1)']}
             >
-                <Button color="secondary" size="md" title="Contacter" />
+                <Button color="secondary" size="md" title="Contacter" onPress={() => handleContactClick()} />
             </LinearGradient>
 
         </View>

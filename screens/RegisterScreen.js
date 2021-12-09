@@ -16,10 +16,7 @@ const RegisterScreen = (props) => {
         [signUpErrorMessage, setSignUpErrorMessage] = useState(false),
         [imgProfil, setImgProfil] = useState(null);
 
-    console.log(props);
-
     const clientType = props.route.params && props.route.params.clientType;
-    console.log(clientType);
 
     // Demande de l'autorisation d'accéder à la galerie d'image de l'utilisateur
     let openImagePickerAsync = async () => {
@@ -79,7 +76,6 @@ const RegisterScreen = (props) => {
                 }
 
                 // on check si l'utilisateur a ajouter une image de profil
-                console.log("imgProfil", imgProfil);
                 if(imgProfil) {
                     var data = new FormData();
                     data.append('avatar', {
@@ -96,7 +92,6 @@ const RegisterScreen = (props) => {
 
                     // on ajoute l'url de l'image héberger au body de la prochaine requête
                     if (resUpload.result) {
-                        console.log(resUpload);
                         body += `&avatar=${resUpload.url}`
                     }
                 }
