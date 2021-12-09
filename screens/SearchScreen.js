@@ -17,8 +17,11 @@ const SearchScreen = (props) => {
 
   useEffect(() => {
     //condition pour afficher soir la liste de categorie, soit la liste de sous categorie, sois la liste de résultat
+    console.log(props.subCategoryChosenData);
+    console.log(props.categoryChosenData);
 
-    if (props.categoryChosenData == "") {
+    if (props.categoryChosenData == "" && props.subCategoryChosenData == "") {
+      console.log("test1");
       setMenuToShow(<CateGoriesList></CateGoriesList>);
     } else if (
       props.categoryChosenData.categoryName !== "" &&
