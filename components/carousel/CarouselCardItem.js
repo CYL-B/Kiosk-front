@@ -34,7 +34,7 @@ const styles = StyleSheet.create({
   },
   header: {
     color: "#FFFFFF",
-    fontSize: 28,
+    fontSize: 27,
     fontWeight: "bold",
     paddingTop: 20
   },

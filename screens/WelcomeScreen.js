@@ -21,10 +21,15 @@ const WelcomeScreen = (props) => {
 
       <View style={{ alignItems: "center" }}>
 
-        <Button size="md" color="primary" title="Se connecter" onPress={() => props.navigation.navigate('Connexion')} />
+      
         <Button size="md" color="primary" title="S'inscrire" onPress={() => props.navigation.navigate('Inscription', { clientType: 'client' })} />
+        <ButtonText color="light" title="Vous avez déjà un compte ?" onPress={() => props.navigation.navigate('Connexion')} />
         <Button buttonStyle={styles.button} size="md" color="secondary" title="S'inscrire en tant que presta" onPress={() => props.navigation.navigate('Inscription', { clientType: 'partner' })} />
+        
+
         <ButtonText color="default" title="Vers l'app" onPress={() => props.navigation.navigate('TabNavigation')} />
+
+        <ButtonText color="default" title="Vers Demande de devis" onPress={() => props.navigation.navigate('QuoteRequest')} />
       </View>
 
     </ImageBackground>
@@ -35,6 +40,7 @@ const styles = StyleSheet.create({
   container: {
     width: "100%",
     height: "100%",
+    justifyContent: "space-between"
 
 
   },

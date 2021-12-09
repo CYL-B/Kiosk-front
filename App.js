@@ -36,6 +36,9 @@ import FavoritesScreen from './screens/Usermenu/FavoritesScreen';
 import UserProfileScreen from './screens/Usermenu/UserProfileScreen';
 import QuotationScreen from './screens/Usermenu/QuotationScreen';
 
+//import de la page demande de devis
+import QuoteRequestScreen from "./screens/QuoteRequestScreen";
+
 // import des modules de navigation
 import { NavigationContainer } from "@react-navigation/native";
 import { createStackNavigator } from "@react-navigation/stack";
@@ -55,6 +58,7 @@ const StackNavigation = () => {
       <Stack.Screen name="Favorites" component={FavoritesScreen} />
       <Stack.Screen name="UserProfile" component={UserProfileScreen} />
       <Stack.Screen name="Quotation" component={QuotationScreen} />
+      
 
       
     </Stack.Navigator>
@@ -116,6 +120,7 @@ export default function App() {
           <Stack.Screen name="Inscription" component={RegisterScreen} />
           <Stack.Screen name="TabNavigation" component={TabNavigation} />
           <Stack.Screen name="Chat" component={ChatScreen} />
+          <Stack.Screen name="QuoteRequest" component={QuoteRequestScreen}/>
         </Stack.Navigator>
       </NavigationContainer>
     </Provider>
