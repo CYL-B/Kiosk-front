@@ -361,6 +361,7 @@ console.log("suivi état addressCie", addressCie);
                 onPress={() => onBackPress()}
                 leftComponent
                 locationIndication
+                navigation={props.navigation}
                 // location={label.offices[i].zipCode}
                 >
             </HeaderBar>

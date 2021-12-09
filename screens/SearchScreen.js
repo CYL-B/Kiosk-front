@@ -40,7 +40,8 @@ const SearchScreen = (props) => {
         width: "100%",
       }}
     >
-      <HeaderBar leftComponent title="Recherche"></HeaderBar>
+      <HeaderBar leftComponent title="Recherche"
+      navigation={props.navigation}></HeaderBar>
       <Searchbar></Searchbar>
       {menuToShow}
     </View>

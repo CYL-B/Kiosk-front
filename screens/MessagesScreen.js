@@ -32,7 +32,7 @@ const MessagesScreen = (props) => {
             justifyContent: 'space-around'
 
         }}
-            onPress={() => props.navigation.navigate('ChatScreen', {convId: conversation.id})}
+            onPress={() => props.navigation.navigate('Chat', {convId: conversation.id})}
         >
             <AvatarRound size="md"
                 source={{ uri: conversation.logo }}></AvatarRound>
@@ -49,6 +49,7 @@ const MessagesScreen = (props) => {
     return (
         <View><HeaderBar
             title="Messages"
+            navigation={props.navigation}
         >
 
         </HeaderBar>
