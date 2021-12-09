@@ -20,7 +20,6 @@ const store = createStore(
 );
 
 // import des pages à inclure dans les navigations
-<<<<<<< HEAD
 import WelcomeScreen from './screens/WelcomeScreen';
 import LoginScreen from './screens/LoginScreen';
 import RegisterScreen from './screens/RegisterScreen';
@@ -30,16 +29,6 @@ import SearchScreen from './screens/SearchScreen';
 import MessagesScreen from './screens/MessagesScreen';
 import ChatScreen from './screens/ChatScreen'
 import CompanyScreen from './screens/CompanyScreen';
-=======
-import WelcomeScreen from "./screens/WelcomeScreen";
-import LoginScreen from "./screens/LoginScreen";
-import RegisterScreen from "./screens/RegisterScreen";
-import HomeScreen from "./screens/HomeScreen";
-import SearchScreen from "./screens/SearchScreen";
-import MessagesScreen from "./screens/MessagesScreen";
-import ChatScreen from "./screens/ChatScreen";
-import CompanyScreen from "./screens/CompanyScreen";
->>>>>>> recherche
 
 // import des modules de navigation
 import { NavigationContainer } from "@react-navigation/native";
