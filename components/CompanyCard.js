@@ -8,7 +8,8 @@ export default function CompanyCard(props) {
   return (
     <Card
       containerStyle={{
-          margin: 0,
+        width: 350,
+        margin: 0,
         padding: 0,
         borderWidth: 0,
         borderRadius: 20,
@@ -98,7 +99,10 @@ export default function CompanyCard(props) {
             marginBottom: 10,
           }}
         >
-          {props.dataCompany.offices.length > 0 && props.dataCompany.offices[0].city+', '+props.dataCompany.offices[0].country}
+          {props.dataCompany.offices.length > 0 &&
+            props.dataCompany.offices[0].city +
+              ", " +
+              props.dataCompany.offices[0].country}
         </Text>
         <Text>{props.dataCompany.shortDescription}</Text>
       </View>
@@ -118,7 +122,11 @@ export default function CompanyCard(props) {
             containerStyle={{ width: 100 }}
             color="primary"
             title="Plus de détails"
-            onPress={() => props.navigation.navigate("CompanyPage", { companyId: props.dataCompany._id })}
+            onPress={() =>
+              props.navigation.navigate("CompanyPage", {
+                companyId: props.dataCompany._id,
+              })
+            }
           />
         </View>
       </View>
