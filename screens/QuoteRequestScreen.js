@@ -15,7 +15,7 @@ const QuoteRequestScreen = (props) => {
     //récupère les infos des inputs
     const[sunshine, setSunshine] = useState("");
     const[area, setArea]=useState("");
-    const[package, setPackage] = useState("");
+    const[pack, setPackage] = useState("");
     const [details, setDetails] = useState("");
 
     //faire passer le token et offerId récupérés depuis "demander un devis"
@@ -33,7 +33,7 @@ const QuoteRequestScreen = (props) => {
         const saveReq = await fetch(`http://${REACT_APP_IPSERVER}/quotations/add-quotation`, {
           method: 'POST',
           headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
-          body: `clientId=${clientId}&offerId=${offerId}&providerId=${providerId}&date=${new Date()}&sunshine=${sunshine}&area=${area}&package=${package}&details=${details}`
+          body: `clientId=${clientId}&offerId=${offerId}&providerId=${providerId}&date=${new Date()}&sunshine=${sunshine}&area=${area}&pack=${pack}&details=${details}`
           
         }) 
         
@@ -80,7 +80,7 @@ keyboardType="numeric"
 label="Forfait entretien"
   placeholder='Êtes-vous intéressé par un forfait ?'
   onChange={(e) => setPackage(e.target.value)}
-  value={package}
+  value={pack}
 />
 <Input
 label="Plus de détails"
