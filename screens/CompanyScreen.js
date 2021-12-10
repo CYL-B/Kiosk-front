@@ -1,7 +1,8 @@
 import React, {useState, useEffect} from 'react';
-import { View, Text, ImageBackground, TextInput, KeyboardAvoidingView } from 'react-native';
+import { View, Text, ImageBackground, TextInput, KeyboardAvoidingView, StyleSheet } from 'react-native';
 import { Card, Image, ListItem, Overlay } from 'react-native-elements'
 import { ScrollView } from 'react-native-gesture-handler';
+import * as ImagePicker from 'expo-image-picker';
 
 import { ButtonText, Button } from '../components/Buttons';
 import {HeaderBar} from '../components/Header'
@@ -14,7 +15,6 @@ import {connect} from 'react-redux';
 
 const CompanyScreen = (props) => {
 
-    var data = "";
 // variables de display :
     var displayCieImg; // aller chercher une image dans le téléhone du presta
     var displayDescCie; // input
@@ -22,12 +22,11 @@ const CompanyScreen = (props) => {
     var displayOffers; // aller cherche une offre en DB ?
 
 
-    const [ company, setCompany ] = useState(null);
-
 // états infos Cie :
-    const [ companyId, setCompanyId ] = useState("61b097c526db20ecf9e66953");
+    const [ company, setCompany ] = useState(null);
+    const [ companyId, setCompanyId ] = useState(props.route.params && props.route.params.companyId ? props.route.params.companyId : "61b097c526db20ecf9e66953");
 
-// états labels :
+// état labels :
     const [ labels, setLabels ] = useState([]);
 
 // états overlay :
@@ -35,23 +34,26 @@ const CompanyScreen = (props) => {
     const [visibleLabel, setVisibleLabel] = useState(false);
     const [inputOverlay, setInputOverlay] = useState('');
     const [valueToChange, setValueToChange] = useState(null);
+    const [image, setImage] = useState(null);
 
+// useEffect de suivi d'états :
     useEffect(() => {
-console.log("suivi état company", company);
+// console.log("suivi état company", company);
+// console.log("zipcode", company.offices[0].zipCode);
     }, [company])
 
 // useEffect d'initialisation de la page Company :
     useEffect(() => {
-        // const { cieId } = props.route.params; // récupération de l'id cie via la navigation
 
 // DANS USE : fonction chargement des infos de la compagnie loggée :
         async function loadDataCie() {
             // appel route put pour modifier données company
             var rawDataCie = await fetch(`http://${REACT_APP_IPSERVER}/companies/${companyId}/YvbAvDg256hw2t5HfW_stG2yOt9BySaK`); // (`adresseIPserveur/route appelée/req.params?req.query`)
             var dataCie = await rawDataCie.json();
-console.log("dataCie", dataCie);
+// console.log("dataCie", dataCie);
             if (dataCie.result) {
-                setCompany(dataCie.company);
+                setCompany(dataCie.company); // set état company avec toutes data
+                setImage(dataCie.company.companyImage)
             }
         }
         loadDataCie();
@@ -70,20 +72,50 @@ console.log("dataCie", dataCie);
         loadDataLabels();
 
     }, []);
-// console.log("état labels", labels);
 
-// fonction gestion desccription cie :
-    var handleSubmitDescCie = async () => {
-        const dataRawDesc = await fetch(`http://${REACT_APP_IPSERVER}/companies/${companyId}`, { // renvoie jsute result, donc true ou flase
-            method: 'PUT',
-            headers: {'Content-Type': 'application/x-www-form-urlencoded'},
-            body: `description=${descCie}&token=YvbAvDg256hw2t5HfW_stG2yOt9BySaK`
+
+// Demande de l'autorisation d'accéder à la galerie d'image de l'utilisateur
+let openImagePickerAsync = async () => {
+    let permissionResult = await ImagePicker.requestMediaLibraryPermissionsAsync();
+
+    if (permissionResult.granted === false) {
+        alert("Permission to access camera roll is required!");
+        return; // arrête la fonction
+    }
+
+    // on récupère l'uri de l'image et on la stocke dans un état
+    let pickerResult = await ImagePicker.launchImageLibraryAsync();
+    if(pickerResult.uri) { // url stockage tel
+        setImage(pickerResult.uri);
+        var data = new FormData();
+        data.append('image', {
+            uri: pickerResult.uri,
+            type: 'image/jpeg',
+            name: 'image_header.jpg'
+        });
+        // requête pour héberger l'image de profil
+        let resUpload = await fetch(`http://${REACT_APP_IPSERVER}/image`, {
+            method: 'post',
+            body: data
         })
-        var resDesc = await dataRawDesc.json(); // true ou false
-        if (resDesc.result) {
-            setDescOk(true);
+        resUpload = await resUpload.json();
+
+        // on ajoute l'url de l'image héberger au body de la prochaine requête
+        if (resUpload.result) {
+            console.log(resUpload);
+            let body = `token=YvbAvDg256hw2t5HfW_stG2yOt9BySaK&image=${resUpload.url}`; // url cloudinary
+            const dataRaw = await fetch(`http://${REACT_APP_IPSERVER}/companies/${companyId}`, { // renvoie jsute result, donc true ou flase
+                method: 'PUT',
+                headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+                body: body
+            })
+            var res = await dataRaw.json(); // true ou false
+            if (res.result) {
+                setCompany(res.dataCieFull);
+            }
         }
-    };
+    }
+}
 
 // fonction gestion labels :
     var handleSubmitLabels = async (labelId) => {
@@ -95,11 +127,23 @@ console.log("dataCie", dataCie);
         var resLab = await dataRawLab.json()
 // console.log("resLab", resLab);
 // console.log("resLab.dataCieFull.labels", resLab.dataCieFull.labels);
-        setCompany(resLab.dataCieFull);
+        setCompany(resLab.dataCieFull); // les labels sont dans company
         setVisibleLabel(false);
     };
 
-// fonction pour overlay description = offers :
+// fonction suprression labels :
+    var handleDeleteLabels = async (labelId) => {
+        const newCieLabels = await fetch(`http://172.17.1.152:3000/companies/labels/${companyId}/${labelId}`, {
+            method: 'PUT',
+            headers: {'Content-Type': 'application/x-www-form-urlencoded'},
+            // body: `labelId=${labelId}&token=YvbAvDg256hw2t5HfW_stG2yOt9BySaK`
+        }); 
+        var resLab = await newCieLabels.json()
+        console.log("resLab", resLab);
+        setCompany(resLab.dataLabelsCieUpdated);
+    };
+
+// fonction pour overlay description + offers :
     const toggleOverlay = (value) => {
         setVisible(!visible);
         setValueToChange(value);
@@ -116,7 +160,7 @@ console.log("dataCie", dataCie);
         setVisibleLabel(!visibleLabel);
     };
 
-    //overlay : 
+//overlay : 
     const handleOverlaySubmit = async () => {
         setVisible(!visible);
         let body = `token=YvbAvDg256hw2t5HfW_stG2yOt9BySaK`;
@@ -144,13 +188,14 @@ console.log("dataCie", dataCie);
     if (company && company.companyImage) {
         displayCieImg = 
         <ImageBackground
-            source={{uri: company.companyImage}}
+            source={{uri: image}}
             style={{ width: 400, height: 200 }} /* ATTENTION SIZING IMAGE A REVOIR */
         >
-            <View style={{position:"absolute", bottom:"5%", right:"5%"}}>
+            <View style={{position:"absolute", bottom:"5%", right:"5%", marginRight:15}}>
                 <ButtonText
                     color="light"
                     title="Modifier"
+                    onPress={() => openImagePickerAsync()}
                 />
             </View>
         </ImageBackground>
@@ -164,6 +209,7 @@ console.log("dataCie", dataCie);
                 <ButtonText
                     color="light"
                     title="Ajouter"
+                    onPress={() => openImagePickerAsync()}
                 />
             </View>
         </ImageBackground>
@@ -171,8 +217,8 @@ console.log("dataCie", dataCie);
 
     if (company && company.description) {
         displayDescCie = 
-        <Card key={1} >
-            <View style={{display:"flex", flexDirection:"row", justifyContent:"space-between"}}>
+        <Card key={1} containerStyle={styles.container}>
+            <View style={{display:"flex", flexDirection:"row", justifyContent:"space-between", left:5, marginRight:15}}>
                 <Card.Title
                 >Qui sommes-nous ?</Card.Title>
                 <ButtonText
@@ -181,11 +227,13 @@ console.log("dataCie", dataCie);
                     onPress={(() => toggleOverlay("description"))}
                 />
             </View>
-            <Text>{company.description}</Text>
+            <Text
+            style={{left:5}}
+            >{company.description}</Text>
         </Card>
     } else {
         displayDescCie = 
-        <Card key={1} >
+        <Card key={1} containerStyle={styles.container}>
             <Card.Title style={{textAlign:"left"}}
             >Qui sommes-nous ?</Card.Title>
                 <View style={{backgroundColor: "#FAF0E6", height: 160, justifyContent:"center", alignItems:"center"}}>
@@ -199,9 +247,10 @@ console.log("dataCie", dataCie);
     };
 
     if (company && company.labels.length > 0 ) {
+console.log("company.labels", company.labels);
         displayLabels = 
-        <Card key={1} >
-            <View style={{display:"flex", flexDirection:"row", justifyContent:"space-between"}}>
+        <Card key={1} containerStyle={styles.container} >
+            <View style={{display:"flex", flexDirection:"row", justifyContent:"space-between", left:5, marginRight:15}}>
                 <Card.Title
                 >Nos labels</Card.Title>
                 <ButtonText
@@ -210,6 +259,7 @@ console.log("dataCie", dataCie);
                     onPress={() => toggleOverlayLabel()}
                 />
             </View>
+            <ScrollView horizontal >
             <View style={{display:"flex", flexDirection:"row"}}>
             {
                 company.labels.map((label, i) => (
@@ -218,23 +268,25 @@ console.log("dataCie", dataCie);
                         <View style={{marginBottom:10, paddingHorizontal:30}}>
                             <Image 
                                 source={{ uri: `http://${REACT_APP_IPSERVER}/images/assets/${label.logo}`}} /// RECUP PAS IMAGE !!!!
-                                style={{ width: 50, height: 50 }} /* PROBLEME AFFICHAGE TAILLE LOGO */
+                                style={{ width: 50, height: 50, resizeMode:"contain" }} /* PROBLEME AFFICHAGE TAILLE LOGO */
+                                
                             >
                             </Image>
                         </View>
                         <ButtonText
                             color="secondary"
                             title="Supprimer"
-                            
+                            onPress={() => handleDeleteLabels(label._id)}
                         />
                     </View>
                 ))
             }
             </View>
+            </ScrollView>
         </Card>
     } else {
         displayLabels =
-        <Card key={1} >
+        <Card key={1} containerStyle={styles.container}>
             <Card.Title style={{textAlign:"left"}}
             >Nos labels</Card.Title>
             <View style={{backgroundColor: "#FAF0E6", height: 260, justifyContent:"center", alignItems:"center"}}>
@@ -253,7 +305,7 @@ console.log("dataCie", dataCie);
                                 >
                                 <Image 
                                     source={{ uri: `http://${REACT_APP_IPSERVER}/images/assets/${label.logo}`}}
-                                    style={{ width: 50, height: 50 }} /> 
+                                    style={{ width: 50, height: 50, resizeMode:"contain" }} /> 
                                     {/* PROBLEME AFFICHAGE TAILLE LOGO */}
                                 <ListItem.Content style={{flexDirection:"row"}}>
                                     <View >
@@ -281,8 +333,8 @@ console.log("dataCie", dataCie);
 
     if (company && company.offers) {
         displayOffers =
-        <Card key={1} >
-            <View style={{display:"flex", flexDirection:"row", justifyContent:"space-between"}}>
+        <Card key={1} containerStyle={styles.container} >
+            <View style={{display:"flex", flexDirection:"row", justifyContent:"space-between", left:5, marginRight:15}}>
                 <Card.Title
                 >Nos offres</Card.Title>
                 <ButtonText
@@ -290,20 +342,21 @@ console.log("dataCie", dataCie);
                     title="Ajouter"
                     onPress={() => toggleOverlay("offre")}
                 />
+                
             </View>
-                <View>
+            <View style={{display:"flex", justifyContent:"center", alignItems:"center"}}>
                 {
                 company.offers.map((offer, i) => 
                 <OfferCardLight
                     key={i}
-                    dataOffre={offer}/>
+                    dataOffre={offer} navigation={props.navigation}/>
                 )
                 }
-                </View>
+            </View>
         </Card>
     } else {
         displayOffers =
-        <Card key={1} >
+        <Card key={1} containerStyle={styles.container} >
             <Card.Title style={{textAlign:"left"}}
             >Nos offres</Card.Title>
             <View style={{backgroundColor: "#FAF0E6", height: 160, justifyContent:"center", alignItems:"center"}}>
@@ -322,72 +375,80 @@ console.log("dataCie", dataCie);
 
     return (
 
-        <View style={{ flex: 1, justifyContent: 'center'}}>
+        <View style={{ flex: 1, justifyContent: 'center', backgroundColor: '#fff' }}>
 
+        {/* OVERLAY description : */}
         <Overlay overlayStyle={{ width: "80%", padding: 30, borderRadius: 20 }} isVisible={visible} onBackdropPress={() => toggleOverlay()}>
-                <KeyboardAvoidingView
-                    behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
-                >
-                    <TextInput
-                        placeholder={'Entrez votre ' + valueToChange}
-                        value={inputOverlay}
-                        multiline={true}
-                        onChangeText={(value) => setInputOverlay(value)}
-                        style={{ marginVertical: 30 }}
-                    />
-                    <Button
-                        color="primary"
-                        size="md"
-                        title="Valider"
-                        onPress={() => handleOverlaySubmit()}
-                    />
-                </KeyboardAvoidingView>
-            </Overlay>
+            <KeyboardAvoidingView
+                behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
+            >
+                <TextInput
+                    placeholder={'Entrez votre ' + valueToChange}
+                    value={inputOverlay}
+                    multiline={true}
+                    onChangeText={(value) => setInputOverlay(value)}
+                    style={{ marginVertical: 30 }}
+                />
+                <View
+                    style={{alignItems:"center"}}>
+                        <Button
+                            color="primary"
+                            size="md"
+                            title="Valider"
+                            onPress={() => handleOverlaySubmit()}
+                        />
+                </View>
+            </KeyboardAvoidingView>
+        </Overlay>
 
-            <Overlay overlayStyle={{ width: "80%", padding: 30, borderRadius: 20 }} isVisible={visibleLabel} onBackdropPress={() => toggleOverlayLabel()}>
-                <KeyboardAvoidingView
-                    behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
-                >
-                                    <ScrollView>
-                    <View style={{flex: 1, width:300, height:400}}>
+        {/* OVERLAY labels : */}  
+        <Overlay overlayStyle={{ width: "80%", paddingVertical:30, paddingHorizontal:10, borderRadius: 20 }} isVisible={visibleLabel} onBackdropPress={() => toggleOverlayLabel()}>
+            <KeyboardAvoidingView
+                behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
+            >
+                <ScrollView style={{height:500}}>
+                    <View style={{flex: 1}}>
                         {
                             labels.map((label, i) => {
 // console.log("label.logo", label.logo);
                                 return ( 
+                                    
                             <ListItem 
                                 key={i} 
-                                bottomDivider
-                                >
+                                bottomDivider                                
+                            >
                                 <Image 
                                     source={{ uri: `http://${REACT_APP_IPSERVER}/images/assets/${label.logo}`}}
-                                    style={{ width: 50, height: 50 }} /> 
-                                    {/* PROBLEME AFFICHAGE TAILLE LOGO */}
+                                    style={{ width: 50, height: 50, resizeMode:"contain" }} 
+                                />
                                 <ListItem.Content style={{flexDirection:"row"}}>
                                     <View >
                                         <ListItem.Title
-                                            style={{right:10, flexShrink: 1, left:10}}>{label.labelName}
+                                            style={{right:10, flexShrink: 1, left:10}}>
+                                            {label.labelName}
                                         </ListItem.Title>
                                     </View>
                                 </ListItem.Content>
                                 <ButtonText
                                     color="secondary"
                                     title="Ajouter"
-                                    onPress={() => handleSubmitLabels(label._id)}
+                                    onPress={() => handleSubmitLabels(label._id)}                                    
                                 />
                             </ListItem>
                             )})
                         }
-
                     </View>
                 </ScrollView>
-                </KeyboardAvoidingView>
-            </Overlay>
+            </KeyboardAvoidingView>
+        </Overlay>
             
             <HeaderBar
                 title = {company ? company.companyName : "Entreprise"}
-                onPress={() => onBackPress()}
+                onBackPress={() => props.navigation.goBack()}
                 leftComponent
                 locationIndication
+                location={company && company.offices.length > 0 ? company.offices[0].city+', '+company.offices[0].country : "Entreprise"}
+                navigation={props.navigation}
                 // location={label.offices[i].zipCode}
                 >
             </HeaderBar>
@@ -396,22 +457,22 @@ console.log("dataCie", dataCie);
         <ScrollView>
 
             {/* IMAGE ENTREPRISE */}
-            <View>
+            <View style={{paddingBottom:10}}>
                 {displayCieImg}
             </View>
 
             {/* CARD INFOS COMPANY */}
-            <View style={{flex:1}}>
+            <View style={{flex:1, paddingBottom:30}}>
                 {displayDescCie}
             </View>
 
             {/* CARD LABELS COMPANY */}
-            <View style={{flex:1}}>
+            <View style={{flex:1, paddingBottom:30}}>
                 {displayLabels}
             </View>
 
             {/* CARD OFFRES COMPANY */}
-            <View style={{flex:1, paddingBottom:15}}>
+            <View style={{flex:1, paddingBottom:5}}>
                 {displayOffers}
             </View>
 
@@ -421,6 +482,21 @@ console.log("dataCie", dataCie);
     );
 
 };
+
+const styles = StyleSheet.create({
+    container: {
+        padding: 0,
+        backgroundColor: 'transparent',
+        borderWidth: 0,
+        shadowColor: 'rgba(0,0,0, 0.0)', // Remove Shadow for iOS
+        shadowOffset: { height: 0, width: 0 },
+        shadowOpacity: 0,
+        shadowRadius: 0,
+        elevation: 0, // Remove Shadow for Android
+        marginBottom: 0,
+        padding: 0
+    },
+})
 
 // on récupère le user stocké dans le store : 
 function mapStateToProps(state) {

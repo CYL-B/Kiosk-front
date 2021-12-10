@@ -134,7 +134,7 @@ const CateGoriesList = (props) => {
             style={{
               width: 75,
               height: 75,
-              borderRadius: "50",
+              borderRadius: 50,
               marginBottom: 15,
             }}
             source={{ uri: e.subCategoryImage }}

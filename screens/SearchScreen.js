@@ -29,7 +29,7 @@ const SearchScreen = (props) => {
     ) {
       setMenuToShow(<SubCategoriesList></SubCategoriesList>);
     } else if (props.subCategoryChosenData !== "") {
-      setMenuToShow(<OfferList></OfferList>);
+      setMenuToShow(<OfferList navigation={props.navigation}></OfferList>);
     }
     return menuToShow;
   }, [props.categoryChosenData, props.subCategoryChosenData]);
@@ -43,7 +43,8 @@ const SearchScreen = (props) => {
         width: "100%",
       }}
     >
-      <HeaderBar leftComponent title="Recherche"></HeaderBar>
+      <HeaderBar leftComponent title="Recherche"
+      navigation={props.navigation}></HeaderBar>
       <Searchbar></Searchbar>
       {menuToShow}
     </View>

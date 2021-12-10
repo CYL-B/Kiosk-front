@@ -5,7 +5,6 @@ import { Button } from "../components/Buttons";
 import { Ionicons } from "@expo/vector-icons";
 
 export default function CompanyCard(props) {
-    console.log(props);
   return (
     <Card
       containerStyle={{
@@ -119,6 +118,7 @@ export default function CompanyCard(props) {
             containerStyle={{ width: 100 }}
             color="primary"
             title="Plus de détails"
+            onPress={() => props.navigation.navigate("CompanyPage", { companyId: props.dataCompany._id })}
           />
         </View>
       </View>
