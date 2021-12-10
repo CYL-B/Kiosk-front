@@ -17,8 +17,6 @@ const SearchScreen = (props) => {
 
   useEffect(() => {
     //condition pour afficher soir la liste de categorie, soit la liste de sous categorie, sois la liste de résultat
-    console.log(props.subCategoryChosenData);
-    console.log(props.categoryChosenData);
 
     if (props.categoryChosenData == "" && props.subCategoryChosenData == "") {
       console.log("test1");
@@ -29,6 +27,7 @@ const SearchScreen = (props) => {
     ) {
       setMenuToShow(<SubCategoriesList></SubCategoriesList>);
     } else if (props.subCategoryChosenData !== "") {
+      console.log("");
       setMenuToShow(<OfferList navigation={props.navigation}></OfferList>);
     }
     return menuToShow;
@@ -43,9 +42,18 @@ const SearchScreen = (props) => {
         width: "100%",
       }}
     >
+<<<<<<< HEAD
       <HeaderBar title="Recherche"
       navigation={props.navigation}></HeaderBar>
       <Searchbar></Searchbar>
+=======
+      <HeaderBar
+        leftComponent
+        title="Recherche"
+        navigation={props.navigation}
+      />
+      <Searchbar />
+>>>>>>> pageaccueil
       {menuToShow}
     </View>
   );
