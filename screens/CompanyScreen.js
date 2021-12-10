@@ -183,6 +183,8 @@ let openImagePickerAsync = async () => {
         }
     }
 
+    console.log(props.user.type);
+
 // gestion displays selon data / !data : 
     if (company && company.companyImage) {
         displayCieImg = 
@@ -190,6 +192,7 @@ let openImagePickerAsync = async () => {
             source={{uri: image}}
             style={{ height: 200 }} /* ATTENTION SIZING IMAGE A REVOIR */
         >
+            { props.user.type === "partner" && (
             <View style={{position:"absolute", bottom:"5%", right:"5%", marginRight:15}}>
                 <ButtonText
                     color="light"
@@ -197,6 +200,7 @@ let openImagePickerAsync = async () => {
                     onPress={() => openImagePickerAsync()}
                 />
             </View>
+            )}
         </ImageBackground>
     } else {
         displayCieImg = 
@@ -204,6 +208,7 @@ let openImagePickerAsync = async () => {
             source={require('../assets/image_company_blank.png')}
             style={{ height: 200 }} /* ATTENTION SIZING IMAGE A REVOIR */
         >
+            { props.user.type === "partner" && (
             <View style={{position:"absolute", bottom:"5%", right:"5%"}}>
                 <ButtonText
                     color="light"
@@ -211,6 +216,7 @@ let openImagePickerAsync = async () => {
                     onPress={() => openImagePickerAsync()}
                 />
             </View>
+            )}
         </ImageBackground>
     };
 
@@ -220,11 +226,13 @@ let openImagePickerAsync = async () => {
             <View style={{display:"flex", flexDirection:"row", justifyContent:"space-between", left:5, marginRight:15}}>
                 <Card.Title
                 >Qui sommes-nous ?</Card.Title>
+                { props.user.type === "partner" && (
                 <ButtonText
                     color="secondary"
                     title="Modifier"
                     onPress={(() => toggleOverlay("description"))}
                 />
+                )}
             </View>
             <Text
             style={{left:5}}
@@ -235,6 +243,7 @@ let openImagePickerAsync = async () => {
         <Card key={1} containerStyle={styles.container}>
             <Card.Title style={{textAlign:"left"}}
             >Qui sommes-nous ?</Card.Title>
+                { props.user.type === "partner" && (
                 <View style={{backgroundColor: "#FAF0E6", height: 160, justifyContent:"center", alignItems:"center"}}>
                     <ButtonText
                         color="secondary"
@@ -242,6 +251,7 @@ let openImagePickerAsync = async () => {
                         onPress={(() => toggleOverlay("description"))}
                     />
                 </View>
+                )}
         </Card>
     };
 
@@ -251,11 +261,13 @@ let openImagePickerAsync = async () => {
             <View style={{display:"flex", flexDirection:"row", justifyContent:"space-between", left:5, marginRight:15}}>
                 <Card.Title
                 >Nos labels</Card.Title>
+                { props.user.type === "partner" && (
                 <ButtonText
                     color="secondary"
                     title="Ajouter"
                     onPress={() => toggleOverlayLabel()}
                 />
+                )}
             </View>
             <ScrollView horizontal >
             <View style={{display:"flex", flexDirection:"row"}}>
@@ -271,11 +283,13 @@ let openImagePickerAsync = async () => {
                             >
                             </Image>
                         </View>
+                        { props.user.type === "partner" && (
                         <ButtonText
                             color="secondary"
                             title="Supprimer"
                             onPress={() => handleDeleteLabels(label._id)}
                         />
+                        )}
                     </View>
                 ))
             }
@@ -287,6 +301,7 @@ let openImagePickerAsync = async () => {
         <Card key={1} containerStyle={styles.container}>
             <Card.Title style={{textAlign:"left"}}
             >Nos labels</Card.Title>
+            { props.user.type === "partner" && (
             <View style={{backgroundColor: "#FAF0E6", height: 260, justifyContent:"center", alignItems:"center"}}>
                 <Text style={{textAlign:"center", marginTop:10, marginBottom:10 }}>
                 Avez-vous des labels ?
@@ -326,6 +341,7 @@ let openImagePickerAsync = async () => {
                 <Text></Text>
                 
             </View>
+            )}
         </Card>
     };
 
@@ -335,12 +351,13 @@ let openImagePickerAsync = async () => {
             <View style={{display:"flex", flexDirection:"row", justifyContent:"space-between", left:5, marginRight:15}}>
                 <Card.Title
                 >Nos offres</Card.Title>
+                { props.user.type === "partner" && (
                 <ButtonText
                     color="secondary"
                     title="Ajouter"
                     onPress={() => toggleOverlay("offre")}
                 />
-                
+                )}
             </View>
             <View style={{display:"flex", justifyContent:"center", alignItems:"center"}}>
                 {
@@ -357,6 +374,7 @@ let openImagePickerAsync = async () => {
         <Card key={1} containerStyle={styles.container} >
             <Card.Title style={{textAlign:"left"}}
             >Nos offres</Card.Title>
+            { props.user.type === "partner" && (
             <View style={{backgroundColor: "#FAF0E6", height: 160, justifyContent:"center", alignItems:"center"}}>
                 <Text style={{textAlign:"center"}}>
                     Veuillez ajouter une offre
@@ -368,6 +386,7 @@ let openImagePickerAsync = async () => {
                     onPress={() => toggleOverlay("offre")}
                 />
             </View>
+            )}
         </Card>
     };
 
