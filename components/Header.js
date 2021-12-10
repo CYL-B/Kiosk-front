@@ -1,12 +1,11 @@
-import React, { useState } from 'react';
+import React from 'react';
 //import du header, du texte et de listItem de react native elements
 
-import { Header, Text, Overlay, ListItem} from 'react-native-elements';
-import { View, TouchableOpacity } from 'react-native';
-import { Link } from '@react-navigation/native';
+import { Header, Text} from 'react-native-elements';
+import { TouchableOpacity, View } from 'react-native';
 
 //import des icons depuis fontawesome et ionicons
-import { FontAwesome5 } from '@expo/vector-icons';
+import { AntDesign } from '@expo/vector-icons';
 import { Ionicons } from '@expo/vector-icons';
 
 //import du composant "avatarRound" créé dans le répertoire "components" pour l'utiliser en tant que right component du header
@@ -21,7 +20,7 @@ const HeaderBar = (props) => {
   var leftComponentDisplay
   if(props.leftComponent)
   {leftComponentDisplay = 
-    <TouchableOpacity onPress={() => onBackPress()}><FontAwesome5 name="chevron-left" size={50} color="#1A0842" /></TouchableOpacity>
+    <TouchableOpacity onPress={() => onBackPress()}><AntDesign name="left" size={24} color="#1A0842" /></TouchableOpacity>
   }
 //condition pour afficher le composant de gauche (la flèche de retour) dans les composants qui recoivent le header, il est aussi possible d'ajuster le "onBackPress" dans ces mêmes composants 
 
@@ -35,14 +34,22 @@ const HeaderBar = (props) => {
   return (
     <Header
       statusBarProps={{ barStyle: 'light-content' }}
+      elevated={true}
       barStyle="light-content"
       leftComponent = {leftComponentDisplay}
-      centerComponent={<ListItem containerStyle={{ flexDirection: "column", paddingTop: 0 }}><Text style={{ color: "#1A0842", fontSize: 32, fontWeight: "bold" }}>{props.title}</Text>{locationIndication}
-        </ListItem>} 
+      leftContainerStyle= {{
+        justifyContent: "center"
+      }}
+      rightContainerStyle= {{
+        justifyContent: "center"
+      }}
+      centerContainerStyle= {{
+        justifyContent: "center"
+      }}
+      centerComponent={<View style={{ alignItems: 'center' }}><Text style={{ color: "#1A0842", fontSize: 22, fontWeight: "bold" }}>{props.title}</Text>{locationIndication}</View>} 
       containerStyle={{
         backgroundColor: 'white',
-        justifyContent: 'space-around'
-
+        height: 120,
       }}
       rightComponent={<AvatarRound navigation={props.navigation} size="md"
         source={{ uri: 'https://numero.twic.pics/images/flexible_grid/100/push-cover-beyonce-ticket-concert-a-vie-jay-numero-magazine.jpg' }}

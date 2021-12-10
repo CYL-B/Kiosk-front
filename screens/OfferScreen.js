@@ -60,6 +60,7 @@ const OfferScreen = (props) => {
             if (res.result) {
                 setOffer(res.offer);
                 setCompany(res.company);
+                setImage(res.offer.offerImage);
             }
         }
         loadDataOffer();
@@ -127,7 +128,7 @@ const OfferScreen = (props) => {
         })
         var res = await dataRaw.json(); // true ou false
         if (res.result) {
-            props.navigation.navigate('ChatScreen', {convId: res.conversation._id});
+            props.navigation.navigate('Chat', {convId: res.conversation._id});
         }
     }
 
@@ -164,10 +165,10 @@ const OfferScreen = (props) => {
         }
     }
 
-    if (offer && offer.offerImage) {
+    if (image) {
         displayOfferImg =
             <ImageBackground
-                source={{ uri: offer.offerImage }}
+                source={{ uri: image }}
                 style={{ height: 200 }} /* ATTENTION SIZING IMAGE A REVOIR */
             >
                 <View style={{ position: "absolute", bottom: "5%", right: "5%" }}>

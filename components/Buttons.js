@@ -10,6 +10,13 @@ const Button = (props) => {
     borderRadius: 5,
   };
 
+  if(props.style) {
+    containerStyle = {
+      ...containerStyle,
+      ...props.style
+    }
+  }
+
   // Condition pour définir la taille du bouton
   let btnStyle;
   let fontStyle;

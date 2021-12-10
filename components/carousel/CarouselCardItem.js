@@ -1,8 +1,9 @@
 import React from 'react'
-import { View, Text, StyleSheet, Dimensions, Image } from "react-native"
+import { View, Text, StyleSheet, Dimensions, Image } from "react-native";
+import { LinearGradient } from "expo-linear-gradient";
 
-export const SLIDER_WIDTH = Dimensions.get('window').width + 30
-export const ITEM_WIDTH = Math.round(SLIDER_WIDTH * 0.8)
+export const SLIDER_WIDTH = Dimensions.get('window').width;
+export const ITEM_WIDTH = Math.round(SLIDER_WIDTH);
 
 const CarouselCardItem = ({ item, index }) => {
   return (
@@ -10,40 +11,55 @@ const CarouselCardItem = ({ item, index }) => {
      
       <Text style={styles.header}>{item.title}</Text>
       <Text style={styles.body}>{item.body}</Text>
+      <View style={styles.wrapper}>
+      {item.categories.map((categorie, i) => (
+      <LinearGradient
+        style={styles.containerStyle}
+        start={{ x: 0, y: 0 }}
+        end={{ x: 1, y: 1 }}
+        colors={["#A1C181", "#619B8A"]}
+        key={i}
+      >
+        <Text style={styles.body}>{categorie}</Text>
+      </LinearGradient>
+      ))}
+      </View>
     </View>
   )
 }
 const styles = StyleSheet.create({
   container: {
     backgroundColor: 'transparent',
-    borderRadius: 8,
     width: ITEM_WIDTH,
-    paddingBottom: 20,
-    shadowColor: "#000",
-    shadowOffset: {
-      width: 0,
-      height: 3,
-    },
-    shadowOpacity: 0.29,
-    shadowRadius: 4.65,
-    elevation: 7,
-    alignItems : "center"
-
-   
-    
+    shadowOpacity: 0,
+    elevation: 0,
+    alignItems : "center",
+    justifyContent: "center",
+    paddingHorizontal: 40
+  },
+  wrapper: {
+    flexWrap: 'wrap', 
+    alignItems: 'flex-start',
+    flexDirection:'row'
+  },
+  containerStyle: {
+    padding: 10,
+    paddingHorizontal: 20,
+    borderRadius: 50,
+    margin: 10
   },
   header: {
     color: "#FFFFFF",
-    fontSize: 27,
+    fontSize: 22,
     fontWeight: "bold",
-    paddingTop: 20
+    paddingBottom: 25,
+    textAlign: "center",
   },
   body: {
     color: "#FFFFFF",
-    fontSize: 18,
-    paddingRight : 25
-    
-  
+    fontSize: 17,
+    lineHeight: 34,
+    textAlign: "center",
   }
 })
 
