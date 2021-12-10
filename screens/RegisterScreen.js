@@ -109,7 +109,8 @@ const RegisterScreen = (props) => {
                     props.storeUser(res.user);
                     // on navigue vers la page company
                     if(clientType === 'partner') {
-                        props.navigation.navigate('CompanyPage', { cieId: res.companyId});
+                        //props.navigation.navigate('CompanyPage', { companyId: res.user.companyId});
+                        props.navigation.navigate('TabNavigation', { screen: 'Accueil', params: { screen: 'CompanyPage', params: { companyId: res.user.companyId }}});
                     } else {
                         props.navigation.navigate('TabNavigation');
                     }

@@ -33,7 +33,7 @@ export default function OfferCardMain(props) {
           borderTopLeftRadius: 20,
           alignItems: "flex-end",
         }}
-        source={{ uri: props.dataOffre.offerImage }}
+        source={{ uri: props.dataOffre.offerImage ? props.dataOffre.offerImage : "https://images.unsplash.com/photo-1551836022-8b2858c9c69b?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1740&q=80" }}
       >
         {/* Partie rating */}
         <View
@@ -82,7 +82,7 @@ export default function OfferCardMain(props) {
       >
         <Image
           style={{ height: 10, width: 60 }}
-          source={{ uri: props.dataOffre.companyData[0].logo }}
+          source={{ uri: props.dataOffre.companyData[0].logo ? props.dataOffre.companyData[0].logo : 'https://www.laguilde.quebec/wp-content/uploads/2020/05/logo-placeholder.jpg' }}
           // source={require("../assets/logo.png")} // a changer avec la recherche BDD
         />
       </View>
