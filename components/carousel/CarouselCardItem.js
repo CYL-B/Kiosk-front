@@ -43,10 +43,10 @@ const styles = StyleSheet.create({
     flexDirection:'row'
   },
   containerStyle: {
-    padding: 10,
+    padding: 5,
     paddingHorizontal: 20,
     borderRadius: 50,
-    margin: 10
+    margin: 2
   },
   header: {
     color: "#FFFFFF",
