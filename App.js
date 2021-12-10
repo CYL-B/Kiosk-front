@@ -30,6 +30,7 @@ import SearchScreen from "./screens/SearchScreen";
 import MessagesScreen from "./screens/MessagesScreen";
 import ChatScreen from "./screens/ChatScreen";
 import CompanyScreen from "./screens/CompanyScreen";
+import RatingScreen from "./screens/RatingScreen";
 
 // import des modules de navigation
 import { NavigationContainer } from "@react-navigation/native";
@@ -84,6 +85,14 @@ const StackNavigation = () => {
       <Stack.Screen name="Home" component={HomeScreen} />
       <Stack.Screen name="CompanyPage" component={CompanyScreen} />
       <Stack.Screen name="OfferPage" component={OfferScreen} />
+<<<<<<< HEAD
+=======
+      <Stack.Screen name="CompanyProfile" component={CompanyProfileScreen} />
+      <Stack.Screen name="Favorites" component={FavoritesScreen} />
+      <Stack.Screen name="UserProfile" component={UserProfileScreen} />
+      <Stack.Screen name="Quotation" component={QuotationScreen} />
+      <Stack.Screen name="Rating" component={RatingScreen} />
+>>>>>>> front-alienor
     </Stack.Navigator>
   );
 };
