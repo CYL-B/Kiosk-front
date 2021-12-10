@@ -120,14 +120,6 @@ const CateGoriesList = (props) => {
           })
         }
       >
-<<<<<<< HEAD
-        <Image
-          style={{ width: 50, height: 50, borderRadius: 50 }}
-          source={{ uri: e.categoryImage }}
-        ></Image>
-        <Text>{e.categoryName}</Text>
-      </View>
-=======
         <View
           style={{
             alignItems: "center",
@@ -151,7 +143,6 @@ const CateGoriesList = (props) => {
           <Text style={{ textAlign: "center" }}>{e.subCategoryName}</Text>
         </View>
       </Pressable>
->>>>>>> recherchebar
 
       // <ListItem>
       //   <Avatar source={{ uri: e.categoryImage }} />
