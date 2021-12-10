@@ -1,4 +1,5 @@
 import React from "react";
+import { Animated } from "react-native";
 
 // import du pack d'icônes pour la navigation Tab
 import { AntDesign } from "@expo/vector-icons";
@@ -32,6 +33,7 @@ import CompanyScreen from "./screens/CompanyScreen";
 <<<<<<< HEAD
 =======
 
+<<<<<<< HEAD
 //import des pages du usermenu dans les navigations
 import CompanyProfileScreen from './screens/Usermenu/CompanyProfileScreen';
 import FavoritesScreen from './screens/Usermenu/FavoritesScreen';
@@ -42,28 +44,61 @@ import QuotationScreen from './screens/Usermenu/QuotationScreen';
 import QuoteRequestScreen from "./screens/QuoteRequestScreen";
 >>>>>>> 43b717d9b7176fad1c61c985a3a457072ed5ce65
 
+=======
+>>>>>>> 2bea5898065b7828e82ced9339eb52bc7c252757
 // import des modules de navigation
 import { NavigationContainer } from "@react-navigation/native";
-import { createStackNavigator } from "@react-navigation/stack";
+import { createStackNavigator, CardStyleInterpolators } from "@react-navigation/stack";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 
 // import des composants de navigation
 const Stack = createStackNavigator();
 const Tab = createBottomTabNavigator();
 
+const forSlide = ({ current, next, inverted, layouts: { screen } }) => {
+  const progress = Animated.add(
+    current.progress.interpolate({
+      inputRange: [0, 1],
+      outputRange: [0, 1],
+      extrapolate: 'clamp',
+    }),
+    next
+      ? next.progress.interpolate({
+          inputRange: [0, 1],
+          outputRange: [0, 1],
+          extrapolate: 'clamp',
+        })
+      : 0
+  );
+
+  return {
+    cardStyle: {
+      transform: [
+        {
+          translateX: Animated.multiply(
+            progress.interpolate({
+              inputRange: [0, 1, 2],
+              outputRange: [
+                screen.width, // Focused, but offscreen in the beginning
+                0, // Fully focused
+                screen.width * -0.3, // Fully unfocused
+              ],
+              extrapolate: 'clamp',
+            }),
+            inverted
+          ),
+        },
+      ],
+    },
+  };
+};
+
 const StackNavigation = () => {
   return (
-    <Stack.Navigator screenOptions={{ headerShown: false }}>
+    <Stack.Navigator screenOptions={{ headerShown: false, cardStyleInterpolator: forSlide }}>
       <Stack.Screen name="Home" component={HomeScreen} />
       <Stack.Screen name="CompanyPage" component={CompanyScreen} />
       <Stack.Screen name="OfferPage" component={OfferScreen} />
-      <Stack.Screen name="CompanyProfile" component={CompanyProfileScreen} />
-      <Stack.Screen name="Favorites" component={FavoritesScreen} />
-      <Stack.Screen name="UserProfile" component={UserProfileScreen} />
-      <Stack.Screen name="Quotation" component={QuotationScreen} />
-      
-
-      
     </Stack.Navigator>
   );
 };
@@ -117,13 +152,14 @@ export default function App() {
   return (
     <Provider store={store}>
       <NavigationContainer>
-        <Stack.Navigator screenOptions={{ headerShown: false }}>
+        <Stack.Navigator screenOptions={{ headerShown: false, cardStyleInterpolator: forSlide}}>
           <Stack.Screen name="Bienvenue" component={WelcomeScreen} />
           <Stack.Screen name="Connexion" component={LoginScreen} />
           <Stack.Screen name="Inscription" component={RegisterScreen} />
+          <Stack.Screen name="CompanyPage" component={CompanyScreen} />
           <Stack.Screen name="TabNavigation" component={TabNavigation} />
           <Stack.Screen name="Chat" component={ChatScreen} />
-          <Stack.Screen name="QuoteRequest" component={QuoteRequestScreen}/>
+          <Stack.Screen name="MessagesScreen" component={MessagesScreen} />
         </Stack.Navigator>
       </NavigationContainer>
     </Provider>

@@ -106,10 +106,7 @@ const ChatScreen = (props) => {
     <Divider style={{ backgroundColor: '#FAF0E6', height: 60, flexDirection: "row", justifyContent: "center", alignItems: "center" }}><Badge status="error" badgeStyle={{ marginTop: 6 }} /><Text style={{ fontSize: 20, color: "#1A0842", marginLeft: 10 }}>Pas de contrat en cours</Text></Divider>
     <GiftedChat
       listViewProps={{ marginBottom: 5 }}
-
-
       renderInputToolbar={renderInputToolbar}
-
       renderSend={renderSend}
       renderBubble={renderBubble}
       textInputStyle={{ color: "#1A0842" }}
@@ -129,9 +126,8 @@ const styles = StyleSheet.create({
     backgroundColor: "#FAF0E6",
     marginLeft: 15,
     marginRight: 15,
-    marginTop: 10
-
-
+    marginTop: 10,
+    marginBottom: 10
   },
   send: {
     flexDirection: "row",

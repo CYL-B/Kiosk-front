@@ -33,6 +33,7 @@ const MessagesScreen = (props) => {
 
         }}
             onPress={() => props.navigation.navigate('Chat', {convId: conversation.id})}
+            key={i}
         >
             <AvatarRound size="md"
                 source={{ uri: conversation.logo }}></AvatarRound>

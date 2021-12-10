@@ -21,8 +21,11 @@ const CarouselCards = () => {
         itemWidth={ITEM_WIDTH}
         inactiveSlideShift={0}
         useScrollView={true}
-        
-        
+        onSnapToItem={(index) => setIndex(index) }
+        enableMomentum={true}
+        enableSnap={true}
+        lockScrollWhileSnapping={true}
+        activeAnimationType={'decay'}
       />
       <Pagination
   dotsLength={data.length}

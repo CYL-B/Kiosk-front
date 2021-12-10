@@ -102,7 +102,6 @@ let openImagePickerAsync = async () => {
 
         // on ajoute l'url de l'image héberger au body de la prochaine requête
         if (resUpload.result) {
-            console.log(resUpload);
             let body = `token=YvbAvDg256hw2t5HfW_stG2yOt9BySaK&image=${resUpload.url}`; // url cloudinary
             const dataRaw = await fetch(`http://${REACT_APP_IPSERVER}/companies/${companyId}`, { // renvoie jsute result, donc true ou flase
                 method: 'PUT',
@@ -119,7 +118,7 @@ let openImagePickerAsync = async () => {
 
 // fonction gestion labels :
     var handleSubmitLabels = async (labelId) => {
-        const dataRawLab = await fetch(`http://172.17.1.152:3000/companies/${companyId}`, {
+        const dataRawLab = await fetch(`http://${REACT_APP_IPSERVER}/companies/${companyId}`, {
             method: 'PUT',
             headers: {'Content-Type': 'application/x-www-form-urlencoded'},
             body: `labelId=${labelId}&token=YvbAvDg256hw2t5HfW_stG2yOt9BySaK`
@@ -133,13 +132,12 @@ let openImagePickerAsync = async () => {
 
 // fonction suprression labels :
     var handleDeleteLabels = async (labelId) => {
-        const newCieLabels = await fetch(`http://172.17.1.152:3000/companies/labels/${companyId}/${labelId}`, {
+        const newCieLabels = await fetch(`http://${REACT_APP_IPSERVER}/companies/labels/${companyId}/${labelId}`, {
             method: 'PUT',
             headers: {'Content-Type': 'application/x-www-form-urlencoded'},
             // body: `labelId=${labelId}&token=YvbAvDg256hw2t5HfW_stG2yOt9BySaK`
         }); 
-        var resLab = await newCieLabels.json()
-        console.log("resLab", resLab);
+        var resLab = await newCieLabels.json();
         setCompany(resLab.dataLabelsCieUpdated);
     };
 
@@ -168,17 +166,18 @@ let openImagePickerAsync = async () => {
             body += `&description=${inputOverlay}`
         }
         if (valueToChange === 'offre') {
-            body += `&offer=${inputOverlay}`
+            body += `&offerName=${inputOverlay}`
         }
-        const dataRaw = await fetch(`http://172.17.1.152:3000/companies/${companyId}`, { // renvoie jsute result, donc true ou flase
+        const dataRaw = await fetch(`http://${REACT_APP_IPSERVER}/companies/${companyId}`, { // renvoie jsute result, donc true ou flase
             method: 'PUT',
             headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
             body: body
         })
         var res = await dataRaw.json(); // true ou false
         if (res.result) {
-            if (valueToChange == "offre") {
-                props.navigation.navigate("OfferPage", {offerId:res.dataCieFull.offers[res.dataCieFull.offers.length-1]._id})
+            console.log('offerSaved', res.offerSaved);
+            if (valueToChange == "offre" && res.offerSaved) {
+                props.navigation.navigate("OfferPage", { offerId: res.offerSaved._id })
             }
             setCompany(res.dataCieFull);
         }
@@ -189,7 +188,7 @@ let openImagePickerAsync = async () => {
         displayCieImg = 
         <ImageBackground
             source={{uri: image}}
-            style={{ width: 400, height: 200 }} /* ATTENTION SIZING IMAGE A REVOIR */
+            style={{ height: 200 }} /* ATTENTION SIZING IMAGE A REVOIR */
         >
             <View style={{position:"absolute", bottom:"5%", right:"5%", marginRight:15}}>
                 <ButtonText
@@ -203,7 +202,7 @@ let openImagePickerAsync = async () => {
         displayCieImg = 
         <ImageBackground
             source={require('../assets/image_company_blank.png')}
-            style={{ width: 400, height: 200 }} /* ATTENTION SIZING IMAGE A REVOIR */
+            style={{ height: 200 }} /* ATTENTION SIZING IMAGE A REVOIR */
         >
             <View style={{position:"absolute", bottom:"5%", right:"5%"}}>
                 <ButtonText
@@ -247,7 +246,6 @@ let openImagePickerAsync = async () => {
     };
 
     if (company && company.labels.length > 0 ) {
-console.log("company.labels", company.labels);
         displayLabels = 
         <Card key={1} containerStyle={styles.container} >
             <View style={{display:"flex", flexDirection:"row", justifyContent:"space-between", left:5, marginRight:15}}>
