@@ -30,6 +30,8 @@ const WelcomeScreen = (props) => {
         <ButtonText color="default" title="Vers l'app" onPress={() => props.navigation.navigate('TabNavigation')} />
 
         <ButtonText color="default" title="Vers Demande de devis" onPress={() => props.navigation.navigate('QuoteRequest')} />
+
+
       </View>
 
     </ImageBackground>

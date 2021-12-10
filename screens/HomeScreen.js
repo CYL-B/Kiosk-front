@@ -37,6 +37,12 @@ const HomeScreen = (props) => {
           title="Company Page"
           onPress={() => props.navigation.navigate("CompanyPage")}
         />
+        <Button
+          size="md"
+          color="primary"
+          title="Rating Page"
+          onPress={() => props.navigation.navigate("Rating")}
+        />
       </View>
     </View>
   );
