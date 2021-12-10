@@ -1,19 +1,23 @@
-import React from 'react';
+import React from "react";
 
 import { Image, StyleSheet, View, Text, ImageBackground } from 'react-native';
 
 // Import des composants Button customisés
-import { Button, ButtonText } from '../components/Buttons';
+import { Button, ButtonText } from "../components/Buttons";
 
 // Import du Carousel
-import CarouselCards from '../components/carousel/CarouselCards';
+import CarouselCards from "../components/carousel/CarouselCards";
 
 const WelcomeScreen = (props) => {
   return (
-    <ImageBackground source={require('../assets/welcomebackground2.png')} style={styles.container}>
-
-
-      <Image source={require('../assets/logo-light-2.png')} style={styles.image} />
+    <ImageBackground
+      source={require("../assets/welcomebackground2.png")}
+      style={styles.container}
+    >
+      <Image
+        source={require("../assets/logo-light-2.png")}
+        style={styles.image}
+      />
 
       <CarouselCards />
 
@@ -29,7 +33,6 @@ const WelcomeScreen = (props) => {
 
         <ButtonText color="default" title="Vers Demande de devis" onPress={() => props.navigation.navigate('QuoteRequest')} /> */}
       </View>
-
     </ImageBackground>
   );
 };

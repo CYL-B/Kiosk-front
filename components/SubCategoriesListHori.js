@@ -113,6 +113,7 @@ const CateGoriesList = (props) => {
   var categories = subcategorieList.map((e, i) => {
     return (
       <Pressable
+        key={i}
         onPress={() =>
           handlePress({
             subCategoryName: e.subCategoryName,
@@ -126,8 +127,8 @@ const CateGoriesList = (props) => {
 
             margin: 10,
             //borderWidth: 1,
-            height: 100,
-            width: 80,
+            // height: 120,
+            width: 90,
           }}
         >
           <Image
@@ -135,12 +136,13 @@ const CateGoriesList = (props) => {
               width: 75,
               height: 75,
               borderRadius: 50,
-              marginBottom: 15,
+              marginBottom: 5,
             }}
             source={{ uri: e.subCategoryImage }}
           ></Image>
-
-          <Text style={{ textAlign: "center" }}>{e.subCategoryName}</Text>
+          <Text style={{ textAlign: "center", fontSize: 12 }}>
+            {e.subCategoryName}
+          </Text>
         </View>
       </Pressable>
 

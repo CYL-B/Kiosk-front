@@ -39,7 +39,13 @@ const OfferList = (props) => {
 
   if (offerList) {
     var listOfferCard = offerList.map((e, i) => {
-      return <OfferCardMain key={i} dataOffre={e} navigation={props.navigation}></OfferCardMain>;
+      return (
+        <OfferCardMain
+          key={i}
+          dataOffre={e}
+          navigation={props.navigation}
+        ></OfferCardMain>
+      );
     });
   } else {
     var listOfferCard = <Text>Pas d'offre</Text>;

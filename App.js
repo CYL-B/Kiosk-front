@@ -32,6 +32,18 @@ import ChatScreen from "./screens/ChatScreen";
 import CompanyScreen from "./screens/CompanyScreen";
 import RatingScreen from "./screens/RatingScreen";
 
+<<<<<<< HEAD
+//import des pages du usermenu dans les navigations
+import CompanyProfileScreen from "./screens/Usermenu/CompanyProfileScreen";
+import FavoritesScreen from "./screens/Usermenu/FavoritesScreen";
+import UserProfileScreen from "./screens/Usermenu/UserProfileScreen";
+import QuotationScreen from "./screens/Usermenu/QuotationScreen";
+
+//import de la page demande de devis
+import QuoteRequestScreen from "./screens/QuoteRequestScreen";
+
+=======
+>>>>>>> 2bea5898065b7828e82ced9339eb52bc7c252757
 // import des modules de navigation
 import { NavigationContainer } from "@react-navigation/native";
 import { createStackNavigator, CardStyleInterpolators } from "@react-navigation/stack";
@@ -91,8 +103,12 @@ const StackNavigation = () => {
       <Stack.Screen name="Favorites" component={FavoritesScreen} />
       <Stack.Screen name="UserProfile" component={UserProfileScreen} />
       <Stack.Screen name="Quotation" component={QuotationScreen} />
+<<<<<<< HEAD
       <Stack.Screen name="Rating" component={RatingScreen} />
 >>>>>>> front-alienor
+=======
+>>>>>>> pageaccueil
+>>>>>>> 4c1e50ff8156447eb520073638e3eb398d2f446d
     </Stack.Navigator>
   );
 };
@@ -123,7 +139,7 @@ const TabNavigation = () => {
         tabBarStyle: {
           backgroundColor: "#FFFBF7",
           color: "#1A0842",
-          height: 70,
+          height: 90,
         },
         tabBarItemStyle: {
           padding: 10,
@@ -153,7 +169,11 @@ export default function App() {
           <Stack.Screen name="CompanyPage" component={CompanyScreen} />
           <Stack.Screen name="TabNavigation" component={TabNavigation} />
           <Stack.Screen name="Chat" component={ChatScreen} />
+<<<<<<< HEAD
           <Stack.Screen name="MessagesScreen" component={MessagesScreen} />
+=======
+          <Stack.Screen name="QuoteRequest" component={QuoteRequestScreen} />
+>>>>>>> pageaccueil
         </Stack.Navigator>
       </NavigationContainer>
     </Provider>
