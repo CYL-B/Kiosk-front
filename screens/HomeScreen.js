@@ -84,12 +84,16 @@ const HomeScreen = (props) => {
     <View
       style={{
         flex: 1,
-        backgroundColor: "white"
+        backgroundColor: "white",
       }}
     >
       {/* View pour NAVBAR */}
       <View style={{}}>
-        <HeaderBar title="Kiosk" navigation={props.navigation} user={props.user} />
+        <HeaderBar
+          title="Kiosk"
+          navigation={props.navigation}
+          user={props.user}
+        />
       </View>
 
       {/* View pour la bar de recherche */}
@@ -248,13 +252,9 @@ const HomeScreen = (props) => {
 };
 
 function mapStateToProps(state) {
-<<<<<<< HEAD
-  return { user: state.user }
-=======
   return {
     user: state.user,
   };
->>>>>>> recherchebar
 }
 
 function mapDispatchToProps(dispatch) {
