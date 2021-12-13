@@ -51,7 +51,7 @@ const CompanyScreen = (props) => {
             // appel route put pour modifier données company
             var rawDataCie = await fetch(`http://${REACT_APP_IPSERVER}/companies/${companyId}/${token}`); // (`adresseIPserveur/route appelée/req.params?req.query`)
             var dataCie = await rawDataCie.json();
-// console.log("dataCie", dataCie);
+console.log("dataCie", dataCie);
             if (dataCie.result) {
                 setCompany(dataCie.company); // set état company avec toutes data
                 setImage(dataCie.company.companyImage);

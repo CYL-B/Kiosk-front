@@ -13,6 +13,7 @@ import { AvatarRound } from '../components/avatar'
 import { FontAwesome } from '@expo/vector-icons';
 import { Card } from 'react-native-elements/dist/card/Card';
 import { ScrollView } from 'react-native-gesture-handler';
+import data from '../components/carousel/data';
 
 const RatingScreen = (props) => {
 
@@ -31,7 +32,7 @@ const RatingScreen = (props) => {
             // appel route put pour modifier données company
             var rawRatings = await fetch(`http://${REACT_APP_IPSERVER}/ratings/${companyId}/${token}`); // (`adresseIPserveur/route appelée/req.params?req.query`)
             var dataRatings = await rawRatings.json(); 
-console.log("dataRatings.ratings", dataRatings.ratings); // = ARRAY d'OBJETS
+// console.log("dataRatings.ratings", dataRatings.ratings); // = ARRAY d'OBJETS
             if (dataRatings.result) {
                 setRatings(dataRatings.ratings);
             }
@@ -50,17 +51,17 @@ console.log("dataRatings.ratings", dataRatings.ratings); // = ARRAY d'OBJETS
             newDate.getFullYear();
         return format;
     };
-
+// console.log("état ratings", ratings);
     return (
     
     <View style={{ flex: 1, backgroundColor: "white" }}>
 
         <HeaderBar
-            title = {company ? company.companyName : "Entreprise"}
+            title = {ratings && ratings.length > 0 ? ratings[0].clientId.companyName : "Entreprise"}
             onBackPress={() => props.navigation.goBack()}
             leftComponent
             locationIndication
-            location={company && company.offices.length > 0 ? company.offices[0].city+', '+company.offices[0].country : "Adresse"}
+            location={ratings && ratings.length > 0 ? ratings[0].clientId.offices[0].city+', '+ratings[0].clientId.offices[0].country : "Adresse"}
             navigation={props.navigation}
             >
         </HeaderBar>
@@ -90,7 +91,7 @@ console.log("dataRatings.ratings", dataRatings.ratings); // = ARRAY d'OBJETS
                         showRating={false}
                     />
                     <Text style={{ fontSize: 20, color: "#1A0842", marginLeft: 10 }}
-                        > NOTE MOYENNE AVIS
+                        > NOTE MOYENNE
                     </Text>
                 </View>
             </View>
@@ -100,7 +101,7 @@ console.log("dataRatings.ratings", dataRatings.ratings); // = ARRAY d'OBJETS
 
             { 
             ratings.map(function(e, i) {
-                console.log("e", e);
+// console.log("e", e);
                 return (
             <View style={{paddingBottom:30}} key={i}>
                 <View style={{display:"flex", flexDirection:"row", left:15, marginTop:20, marginRight:30}}>
