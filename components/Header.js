@@ -1,4 +1,9 @@
 import React from 'react';
+
+//Store
+import { connect } from 'react-redux';
+
+
 //import du header, du texte et de listItem de react native elements
 
 import { Header, Text} from 'react-native-elements';
@@ -46,13 +51,13 @@ const HeaderBar = (props) => {
       centerContainerStyle= {{
         justifyContent: "center"
       }}
-      centerComponent={<View style={{ alignItems: 'center' }}><Text style={{ color: "#1A0842", fontSize: 22, fontWeight: "bold" }}>{props.title}</Text>{locationIndication}</View>} 
+      centerComponent={<View style={{ alignItems: 'center' }}><Text numberOfLines={1} style={{ color: "#1A0842", fontSize: 22, fontWeight: "bold" }}>{props.title}</Text>{locationIndication}</View>} 
       containerStyle={{
         backgroundColor: 'white',
         height: 120,
       }}
       rightComponent={<AvatarRound navigation={props.navigation} size="md"
-        source={{ uri: 'https://numero.twic.pics/images/flexible_grid/100/push-cover-beyonce-ticket-concert-a-vie-jay-numero-magazine.jpg' }}
+        source={{ uri: props.user.avatar }}
          >
         
       </AvatarRound>
