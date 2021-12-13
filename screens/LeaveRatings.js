@@ -77,7 +77,7 @@ if (company) {
             >
             </KeyboardAvoidingView> */}
 
-            <View style={{flex:1}}>
+            <View style={{flex:1, paddingBottom:80}}>
                 <View style={{ top:10, paddingLeft:15, paddingRight: 15}}>
                 <CompanyCard
                     navigation={props.navigation}
@@ -93,7 +93,6 @@ if (company) {
                   placeholder='En quelques mots'
                   onChange={(e) => setFeedback(e.target.value)}
                 />
-
                 <Input 
                     value={rate}
                     label={`Notez votre expérience avec ${company.companyName}`}
@@ -104,7 +103,7 @@ if (company) {
                 />
                 </View>
 
-                <View style={{backgroundColor:"green", top:50, paddingLeft:15, paddingRight: 15}}>
+                <View style={{backgroundColor:"green", height:50, justifyContent:"center", top:50, paddingLeft:15, paddingRight: 15}}>
                 <AirbnbRating
                     type="custom"
                     selectedColor="#F47805"
@@ -132,8 +131,6 @@ if (company) {
                   >
                   </ButtonText>
                 </View>
-                
-                 
 
             </View>
 
