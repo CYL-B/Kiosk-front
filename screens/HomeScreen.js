@@ -248,7 +248,13 @@ const HomeScreen = (props) => {
 };
 
 function mapStateToProps(state) {
+<<<<<<< HEAD
   return { user: state.user }
+=======
+  return {
+    user: state.user,
+  };
+>>>>>>> recherchebar
 }
 
 function mapDispatchToProps(dispatch) {

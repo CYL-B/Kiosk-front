@@ -19,7 +19,6 @@ const SearchScreen = (props) => {
     //condition pour afficher soir la liste de categorie, soit la liste de sous categorie, sois la liste de résultat
 
     if (props.categoryChosenData == "" && props.subCategoryChosenData == "") {
-      console.log("test1");
       setMenuToShow(<CateGoriesList></CateGoriesList>);
     } else if (
       props.categoryChosenData.categoryName !== "" &&
@@ -63,8 +62,9 @@ function mapStateToProps(state) {
 
 function mapDispatchToProps(dispatch) {
   return {
-    setcategoriesList: function (categorieslist) {
-      dispatch({ type: "setcategoriesList", categorieslist });
+    storeUser: function (user) {
+      console.log(user);
+      dispatch({ type: "storeUser", user });
     },
   };
 }
