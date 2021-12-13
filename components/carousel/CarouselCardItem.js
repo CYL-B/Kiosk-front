@@ -1,6 +1,7 @@
 import React from 'react'
-import { View, Text, StyleSheet, Dimensions, Image } from "react-native";
+import { View, StyleSheet, Dimensions, Image } from "react-native";
 import { LinearGradient } from "expo-linear-gradient";
+import Text from "../Text";
 
 export const SLIDER_WIDTH = Dimensions.get('window').width;
 export const ITEM_WIDTH = Math.round(SLIDER_WIDTH);

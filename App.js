@@ -107,7 +107,7 @@ const StackNavigation = () => {
 const TabNavigation = () => {
   return (
     <Tab.Navigator
-      initialRouteName="Accueil"
+      initialRouteName="Home"
       screenOptions={({ route }) => ({
         tabBarIcon: ({ color }) => {
           let iconName;

@@ -1,9 +1,10 @@
 import React, { useEffect, useCallback, useState } from 'react';
 import { connect } from 'react-redux';
-import { View, Text, ImageBackground, StyleSheet } from 'react-native';
+import { View, ImageBackground, StyleSheet } from 'react-native';
 import { Button, ButtonText } from '../components/Buttons';
 import { useForm } from "react-hook-form";
 import { Input, Image } from 'react-native-elements';
+import Text from "../components/Text";
 
 import { REACT_APP_IPSERVER } from '@env';
 

@@ -6,10 +6,11 @@ import { REACT_APP_IPSERVER } from '@env'
 
 //import de la librairie gifted chat avec ses éléments
 import { GiftedChat, InputToolbar, Send, Bubble, MessageText } from 'react-native-gifted-chat'
-import { View, Text, StyleSheet } from 'react-native';
+import { View, StyleSheet } from 'react-native';
 import { HeaderBar } from '../components/Header'
 import { Divider, Badge } from 'react-native-elements';
 import { AvatarRound } from '../components/avatar'
+import Text from "../components/Text";
 import { FontAwesome } from '@expo/vector-icons';
 
 

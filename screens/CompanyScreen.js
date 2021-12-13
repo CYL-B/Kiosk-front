@@ -1,9 +1,9 @@
 import React, {useState, useEffect} from 'react';
-import { View, Text, ImageBackground, TextInput, KeyboardAvoidingView, StyleSheet } from 'react-native';
-import { Card, Image, ListItem, Overlay } from 'react-native-elements'
+import { View, ImageBackground, TextInput, KeyboardAvoidingView, StyleSheet } from 'react-native';
+import { Card, Image, ListItem, Overlay } from 'react-native-elements';
 import { ScrollView } from 'react-native-gesture-handler';
 import * as ImagePicker from 'expo-image-picker';
-
+import Text from "../components/Text";
 import { ButtonText, Button } from '../components/Buttons';
 import {HeaderBar} from '../components/Header'
 import OfferCardLight from '../components/OfferCardLight';
@@ -225,7 +225,7 @@ let openImagePickerAsync = async () => {
         <Card key={1} containerStyle={styles.container}>
             <View style={{display:"flex", flexDirection:"row", justifyContent:"space-between", left:5, marginRight:15}}>
                 <Card.Title
-                >Qui sommes-nous ?</Card.Title>
+                ><Text style={{ fontWeight: "bold" }}>Qui sommes-nous ?</Text></Card.Title>
                 { props.user.type === "partner" && (
                 <ButtonText
                     color="secondary"
@@ -242,7 +242,7 @@ let openImagePickerAsync = async () => {
         displayDescCie = 
         <Card key={1} containerStyle={styles.container}>
             <Card.Title style={{textAlign:"left"}}
-            >Qui sommes-nous ?</Card.Title>
+            ><Text style={{ fontWeight: "bold" }}>Qui sommes-nous ?</Text></Card.Title>
                 { props.user.type === "partner" && (
                 <View style={{backgroundColor: "#FAF0E6", height: 160, justifyContent:"center", alignItems:"center"}}>
                     <ButtonText
@@ -260,7 +260,7 @@ let openImagePickerAsync = async () => {
         <Card key={1} containerStyle={styles.container} >
             <View style={{display:"flex", flexDirection:"row", justifyContent:"space-between", left:5, marginRight:15}}>
                 <Card.Title
-                >Nos labels</Card.Title>
+                ><Text style={{ fontWeight: "bold" }}>Nos labels</Text></Card.Title>
                 { props.user.type === "partner" && (
                 <ButtonText
                     color="secondary"
@@ -300,7 +300,7 @@ let openImagePickerAsync = async () => {
         displayLabels =
         <Card key={1} containerStyle={styles.container}>
             <Card.Title style={{textAlign:"left"}}
-            >Nos labels</Card.Title>
+            ><Text style={{ fontWeight: "bold" }}>Nos labels</Text></Card.Title>
             { props.user.type === "partner" && (
             <View style={{backgroundColor: "#FAF0E6", height: 260, justifyContent:"center", alignItems:"center"}}>
                 <Text style={{textAlign:"center", marginTop:10, marginBottom:10 }}>
@@ -350,7 +350,7 @@ let openImagePickerAsync = async () => {
         <Card key={1} containerStyle={styles.container} >
             <View style={{display:"flex", flexDirection:"row", justifyContent:"space-between", left:5, marginRight:15}}>
                 <Card.Title
-                >Nos offres</Card.Title>
+                ><Text style={{ fontWeight: "bold" }}>Nos offres</Text></Card.Title>
                 { props.user.type === "partner" && (
                 <ButtonText
                     color="secondary"
@@ -359,7 +359,7 @@ let openImagePickerAsync = async () => {
                 />
                 )}
             </View>
-            <View style={{display:"flex", justifyContent:"center", alignItems:"center"}}>
+            <View>
                 {
                 company.offers.map((offer, i) => 
                 <OfferCardLight
@@ -373,7 +373,7 @@ let openImagePickerAsync = async () => {
         displayOffers =
         <Card key={1} containerStyle={styles.container} >
             <Card.Title style={{textAlign:"left"}}
-            >Nos offres</Card.Title>
+            ><Text style={{ fontWeight: "bold" }}>Nos offres</Text></Card.Title>
             { props.user.type === "partner" && (
             <View style={{backgroundColor: "#FAF0E6", height: 160, justifyContent:"center", alignItems:"center"}}>
                 <Text style={{textAlign:"center"}}>
@@ -461,7 +461,7 @@ let openImagePickerAsync = async () => {
             
             <HeaderBar
                 title = {company ? company.companyName : "Entreprise"}
-                onBackPress={() => props.navigation.goBack()}
+                onBackPress={() => props.navigation.navigate('Home')}
                 leftComponent
                 locationIndication
                 location={company && company.offices.length > 0 ? company.offices[0].city+', '+company.offices[0].country : "Entreprise"}
@@ -511,8 +511,7 @@ const styles = StyleSheet.create({
         shadowOpacity: 0,
         shadowRadius: 0,
         elevation: 0, // Remove Shadow for Android
-        marginBottom: 0,
-        padding: 0
+        marginBottom: 0
     },
 })
 

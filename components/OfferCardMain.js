@@ -1,8 +1,10 @@
 import React from "react";
-import { View, Text } from "react-native";
+import { View } from "react-native";
 import { Card, AirbnbRating, Image } from "react-native-elements";
 import { Button } from "../components/Buttons";
 import { Ionicons } from "@expo/vector-icons";
+
+import Text from "./Text";
 
 export default function OfferCardMain(props) {
   // boucle pour renplir la list des commitments
@@ -102,7 +104,7 @@ export default function OfferCardMain(props) {
             zIndex: 1,
           }}
         >
-          {props.dataOffre.offerName}
+          <Text style={{ fontWeight: "bold" }}>{props.dataOffre.offerName}</Text>
         </Card.Title>
         <Text
           style={{

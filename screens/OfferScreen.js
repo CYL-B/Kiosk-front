@@ -1,7 +1,9 @@
 import React, { useState, useEffect } from 'react';
-import { View, Text, ImageBackground, TextInput, StyleSheet, KeyboardAvoidingView, ScrollView } from 'react-native';
+import { View, ImageBackground, TextInput, StyleSheet, KeyboardAvoidingView, ScrollView } from 'react-native';
 import { Card, ListItem, Overlay } from 'react-native-elements';
 import * as ImagePicker from 'expo-image-picker';
+
+import Text from "../components/Text";
 
 import { LinearGradient } from 'expo-linear-gradient';
 
@@ -204,7 +206,7 @@ const OfferScreen = (props) => {
             <Card key={1} containerStyle={styles.container}>
                 <View style={{ display: "flex", flexDirection: "row", justifyContent: "space-between" }}>
                     <Card.Title
-                    >Ce que nous proposons</Card.Title>
+                    ><Text style={{ fontWeight: "bold" }}>Ce que nous proposons</Text></Card.Title>
                     { props.user.type === "partner" && (
                     <ButtonText
                         color="secondary"
@@ -220,7 +222,7 @@ const OfferScreen = (props) => {
         displayDescOffer =
             <Card key={1} containerStyle={styles.container}>
                 <Card.Title style={{ textAlign: "left" }}
-                >Ce que nous proposons</Card.Title>
+                ><Text style={{ fontWeight: "bold" }}>Ce que nous proposons</Text></Card.Title>
                 { props.user.type === "partner" && (
                 <View style={{ backgroundColor: "#FAF0E6", height: 160, justifyContent: "center", alignItems: "center" }}>
                     <ButtonText
@@ -238,7 +240,7 @@ const OfferScreen = (props) => {
             <Card key={1} containerStyle={styles.container}>
                 <View style={{ display: "flex", flexDirection: "row", justifyContent: "space-between" }}>
                     <Card.Title
-                    >Nos engagements</Card.Title>
+                    ><Text style={{ fontWeight: "bold" }}>Nos engagements</Text></Card.Title>
                     { props.user.type === "partner" && (
                     <ButtonText
                         color="secondary"
@@ -265,7 +267,7 @@ const OfferScreen = (props) => {
         displayLabels =
             <Card key={1} containerStyle={styles.container}>
                 <Card.Title style={{ textAlign: "left" }}
-                >Nos engagements</Card.Title>
+                ><Text style={{ fontWeight: "bold" }}>Nos engagements</Text></Card.Title>
                 { props.user.type === "partner" && (
                 <View style={{ backgroundColor: "#FAF0E6", height: 160, justifyContent: "center", alignItems: "center" }}>
                     <ButtonText
@@ -282,7 +284,7 @@ const OfferScreen = (props) => {
             <Card key={1} containerStyle={styles.container}>
                 <View style={{ display: "flex", flexDirection: "row", justifyContent: "space-between" }}>
                     <Card.Title
-                    >Qui sommes-nous ?</Card.Title>
+                    ><Text style={{ fontWeight: "bold" }}>Qui sommes-nous ?</Text></Card.Title>
                 </View>
                 <CompanyCard dataCompany={company} navigation={props.navigation} />
             </Card>
@@ -312,7 +314,7 @@ const OfferScreen = (props) => {
             </Overlay>
             <HeaderBar
                 title={offer && offer.offerName ? offer.offerName : 'No name'}
-                onBackPress={() => props.navigation.goBack()}
+                onBackPress={() => props.navigation.navigate('CompanyPage', {companyId: company._id})}
                 leftComponent
                 navigation={props.navigation}
                 locationIndication

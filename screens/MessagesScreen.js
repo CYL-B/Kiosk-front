@@ -1,7 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import { connect } from 'react-redux';
-import { ScrollView, View, Text } from 'react-native';
-import { HeaderBar } from '../components/Header'
+import { ScrollView, View } from 'react-native';
+import { HeaderBar } from '../components/Header';
+import Text from "../components/Text";
 import { ListItem, Avatar } from 'react-native-elements';
 import { REACT_APP_IPSERVER } from '@env'
 import { State } from 'react-native-gesture-handler';
@@ -38,9 +39,9 @@ const MessagesScreen = (props) => {
 
                     <ListItem.Title
                         style={{ color: "#1A0842", fontSize: 20, fontWeight: "bold", marginBottom: 5 }}
-                    >{conversation.companyName}</ListItem.Title>
-                    <ListItem.Subtitle style={{ color: "#1A0842", fontSize: 12 }}>{conversation.message}</ListItem.Subtitle></ListItem.Content>
-                <Text style={{ color: "#1A0842", fontSize: 12 }}>{conversation.date}</Text>
+                    ><Text style={{ fontWeight: "bold" }}>{conversation.companyName}</Text></ListItem.Title>
+                    <ListItem.Subtitle style={{ color: "#1A0842", fontSize: 12 }}><Text>{conversation.message}</Text></ListItem.Subtitle></ListItem.Content>
+                <Text style={{ color: "#1A0842", fontSize: 12 }}><Text>{conversation.date}</Text></Text>
             </ListItem>)
 
     })
