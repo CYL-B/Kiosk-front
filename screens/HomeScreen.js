@@ -247,6 +247,12 @@ const HomeScreen = (props) => {
   );
 };
 
+function mapStateToProps(state) {
+  return {
+    user: state.user,
+  };
+}
+
 function mapDispatchToProps(dispatch) {
   return {
     setcategoriesList: function (categorieslist) {
@@ -255,4 +261,4 @@ function mapDispatchToProps(dispatch) {
   };
 }
 
-export default connect(null, mapDispatchToProps)(HomeScreen);
+export default connect(mapStateToProps, mapDispatchToProps)(HomeScreen);
