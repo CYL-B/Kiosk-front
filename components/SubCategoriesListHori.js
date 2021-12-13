@@ -1,6 +1,7 @@
-import React, { useState, useEffect } from "react";
+import React from "react";
 import { View, ScrollView, Image, Pressable } from "react-native";
-import { Text, ListItem, Avatar } from "react-native-elements";
+
+import Text from "./Text";
 
 import { connect } from "react-redux";
 

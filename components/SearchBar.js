@@ -1,11 +1,10 @@
 import React, { useState } from "react";
-import { View } from "react-native";
 import { SearchBar } from "react-native-elements";
 
 export default function Searchbar(props) {
   const [search, setSearch] = useState("");
 
-  function hanlesearch(val) {
+  function handlesearch(val) {
     setSearch(val);
   }
 
@@ -22,11 +21,11 @@ export default function Searchbar(props) {
         marginTop: 10,
         marginBottom: 20,
         padding: 0,
-        borderRadius: 20,
+        borderRadius: 50,
       }}
       inputContainerStyle={{
         backgroundColor: "#FAF0E6",
-        borderRadius: 20,
+        borderRadius: 50,
         margin: 0,
         padding: 0,
         height: 50,
@@ -38,7 +37,7 @@ export default function Searchbar(props) {
         height: 50,
       }}
       placeholder="Quel est votre besoin ?"
-      onChangeText={(val) => hanlesearch(val)}
+      onChangeText={(val) => handlesearch(val)}
       value={search}
     />
   );

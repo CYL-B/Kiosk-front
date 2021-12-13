@@ -1,18 +1,21 @@
-import React, { useState, useEffect, useCallback } from 'react';
+import React, { useState, useEffect, useCallback, useRef } from 'react';
 import { connect } from 'react-redux';
-import { View, Text, ImageBackground, StyleSheet, TouchableOpacity, SafeAreaView, ScrollView } from 'react-native';
+import { View, ImageBackground, StyleSheet, TouchableOpacity, SafeAreaView, ScrollView } from 'react-native';
+import Text from '../components/Text';
 import { Button, ButtonText } from '../components/Buttons';
 import * as ImagePicker from 'expo-image-picker';
 import { useForm } from "react-hook-form";
 import { Input, Image } from 'react-native-elements';
 
+import LottieView from 'lottie-react-native';
+
 import { REACT_APP_IPSERVER } from '@env'; // mettre à la place de notre url d'ip // varibale d'environnement
 
 const RegisterScreen = (props) => {
-    
+    const animation = useRef(null);
     // Initialisation des états
     const [currentStep, setCurrentStep] = useState(1),
-        [isLogin, setIsLogin] = useState(false),
+        [isLoading, setIsLoading] = useState(false),
         [signUpErrorMessage, setSignUpErrorMessage] = useState(false),
         [imgProfil, setImgProfil] = useState(null);
 
@@ -37,6 +40,8 @@ const RegisterScreen = (props) => {
 
     // fonction qui se déclenche à la validation du formulaire 
     const onSubmit = async formData => {
+        animation.current.play();
+        setIsLoading(true);
         if (formData.email.length > 0 && formData.password.length > 0) {
             let bodyCompany = `companyName=${formData.companyName}`
             if (formData.firstName) {
@@ -104,7 +109,8 @@ const RegisterScreen = (props) => {
                 });
                 let res = await user.json();
                 if (res.result) {
-                    setIsLogin(true);
+                    setIsLoading(false);
+                    animation.current.play();
                     // on store l'utilisateur dans le store
                     props.storeUser(res.user);
                     // on navigue vers la page company
@@ -358,6 +364,23 @@ const RegisterScreen = (props) => {
 
     return (
         <View style={styles.container}>
+            <LottieView
+            loop
+            ref={animation}
+            style={[{
+                position: "absolute",
+                top: "25%",
+                left: 0,
+                zIndex: 10,
+                width: "100%",
+                height: "50%",
+                backgroundColor: 'transparent',
+            },
+            !isLoading && { zIndex: -1, transform: [{ scale: 0 }] }]}
+            source={require('../assets/loading.json')}
+            // OR find more Lottie files @ https://lottiefiles.com/featured
+            // Just click the one you like, place that file in the 'assets' folder to the left, and replace the above 'require' statement
+            />
             <ImageBackground source={require("../assets/background-login.png")} resizeMode="cover" style={styles.image}>
             <ScrollView  contentContainerStyle={styles.image}>
                     <View style={styles.logoContainer}>
@@ -372,14 +395,14 @@ const RegisterScreen = (props) => {
 
                     <View style={styles.buttonContainer}>
                         {currentStep === 4 ? (
-                            <Button size="md" color="primary" title="Valider" onPress={handleSubmit(onSubmit)} />
+                            <Button style={isLoading && {zIndex: -1, transform: [{ scale: 0 }] }} size="md" color="primary" title="Valider" onPress={handleSubmit(onSubmit)} />
                         ) : (
                             <Button size="md" color="primary" title="Suivant" onPress={() => setCurrentStep(currentStep + 1)} />
                         )}
                         {currentStep === 1 ? (
-                            <ButtonText color="light" title="Annuler" onPress={() => props.navigation.navigate('Bienvenue')} />
+                            <ButtonText style={{ margin: 10, padding: 10 }} color="light" title="Annuler" onPress={() => props.navigation.navigate('Bienvenue')} />
                         ) : (
-                            <ButtonText color="light" title="Précédent" onPress={() => setCurrentStep(currentStep - 1)} />
+                            <ButtonText style={{ margin: 10, padding: 10 }} color="light" title="Précédent" onPress={() => setCurrentStep(currentStep - 1)} />
                         )}
                     </View>
                     </ScrollView>

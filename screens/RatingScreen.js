@@ -24,6 +24,7 @@ const RatingScreen = (props) => {
             leftComponent
             locationIndication
             location="Paris"
+            user={props.user}
             onBackPress={() => props.navigation.goBack()}
         >
         </HeaderBar>

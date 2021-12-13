@@ -1,8 +1,10 @@
 import React from "react";
-import { View, Text, Image } from "react-native";
-import { Card, AirbnbRating } from "react-native-elements";
+import { View } from "react-native";
+import { Card, AirbnbRating, Image } from "react-native-elements";
 import { Button } from "../components/Buttons";
 import { Ionicons } from "@expo/vector-icons";
+
+import Text from "./Text";
 
 export default function OfferCardMain(props) {
   // boucle pour renplir la list des commitments
@@ -81,7 +83,8 @@ export default function OfferCardMain(props) {
         }}
       >
         <Image
-          style={{ height: 10, width: 60 }}
+          style={{ height: 70, width: 70, borderRadius: 50 }}
+          resizeMode='contain'
           source={{ uri: props.dataOffre.companyData[0].logo ? props.dataOffre.companyData[0].logo : 'https://www.laguilde.quebec/wp-content/uploads/2020/05/logo-placeholder.jpg' }}
           // source={require("../assets/logo.png")} // a changer avec la recherche BDD
         />
@@ -101,7 +104,7 @@ export default function OfferCardMain(props) {
             zIndex: 1,
           }}
         >
-          {props.dataOffre.offerName}
+          <Text style={{ fontWeight: "bold" }}>{props.dataOffre.offerName}</Text>
         </Card.Title>
         <Text
           style={{
@@ -132,11 +135,10 @@ export default function OfferCardMain(props) {
             containerStyle={{ width: 100 }}
             color="primary"
             title="Voir l'offre"
-            onPress={() =>
-              props.navigation.navigate("OfferPage", {
+            onPress={() => props.navigation.navigate('TabNavigation', { screen: 'Accueil', params: { screen: 'OfferPage', params: {
                 offerId: props.dataOffre._id,
-              })
-            }
+              }
+            }})}
           />
         </View>
       </View>

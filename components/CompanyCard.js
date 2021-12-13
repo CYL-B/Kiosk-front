@@ -1,8 +1,8 @@
 import React from "react";
-import { View, Text, Image } from "react-native";
-import { Card, AirbnbRating, Avatar } from "react-native-elements";
+import { View, Image } from "react-native";
+import { Card, AirbnbRating } from "react-native-elements";
 import { Button } from "../components/Buttons";
-import { Ionicons } from "@expo/vector-icons";
+import Text from "./Text";
 
 export default function CompanyCard(props) {
   return (
@@ -90,7 +90,7 @@ export default function CompanyCard(props) {
             zIndex: 1,
           }}
         >
-          {props.dataCompany.companyName}
+          <Text style={{ fontWeight: "bold" }}>{props.dataCompany.companyName}</Text>
         </Card.Title>
         <Text
           style={{

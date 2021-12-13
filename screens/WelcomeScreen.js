@@ -1,6 +1,6 @@
 import React from "react";
 
-import { Image, StyleSheet, View, Text, ImageBackground } from "react-native";
+import { Image, StyleSheet, View, ImageBackground } from "react-native";
 
 // Import des composants Button customisés
 import { Button, ButtonText } from "../components/Buttons";

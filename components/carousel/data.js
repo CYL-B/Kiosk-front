@@ -1,9 +1,3 @@
-import React from 'react'
-import { Text } from 'react-native-elements';
-
-import { StyleSheet } from 'react-native';
-import { LinearGradient } from 'expo-linear-gradient';
-
 export default data =
 
 [

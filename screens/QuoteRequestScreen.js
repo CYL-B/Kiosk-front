@@ -52,6 +52,7 @@ const QuoteRequestScreen = (props) => {
         leftComponent
         title="Demande de devis"
         navigation={props.navigation}
+<<<<<<< HEAD
       ></HeaderBar>
       <ScrollView>
         <KeyboardAvoidingView
@@ -106,6 +107,63 @@ const QuoteRequestScreen = (props) => {
           <ButtonText title="Annuler"></ButtonText>
         </KeyboardAvoidingView>
       </ScrollView>
+=======
+        user={props.user}
+    >
+
+    </HeaderBar>
+    <ScrollView>
+    <KeyboardAvoidingView behavior="position" contentContainerStyle={{alignItems: "center", paddingLeft:20,paddingRight: 20}}>
+    <OfferCardLight
+        
+        dataOffre={offer} navigation={props.navigation}/>
+        
+        
+<Input 
+keyboardType="numeric"
+labelStyle={{marginTop: 40}} label="Ensoleillement"
+  placeholder='Notez de 1 à 10'
+  onChange={(e) => setSunshine(e.target.value)}
+  value={sunshine}
+/>
+
+<Input
+label="Superficie"
+keyboardType="numeric"
+  placeholder='La superficie de vos bureaux'
+  onChange={(e) => setArea(e.target.value)}
+  value={area}
+/>
+<Input
+label="Forfait entretien"
+  placeholder='Êtes-vous intéressé par un forfait ?'
+  onChange={(e) => setPackage(e.target.value)}
+  value={pack}
+/>
+<Input
+label="Plus de détails"
+
+  placeholder='Autre chose à ajouter ?'
+  multiline={true}
+  placeholderStyle={{marginBottom: 40}}
+  onChange={(e) => setDetails(e.target.value)}
+  value={details}
+/>
+
+    
+    <View><Button 
+title="Envoyer la demande"
+
+size="md"
+color="primary"
+onPress={() => quoteRequest()}
+></Button></View>
+<ButtonText title="Annuler"
+></ButtonText> 
+
+</KeyboardAvoidingView>
+</ScrollView>
+>>>>>>> 66d5bacfe41a9deb5941588ad1403c219d08b6ad
     </View>
   );
 };
