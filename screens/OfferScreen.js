@@ -254,7 +254,7 @@ const OfferScreen = (props) => {
                         <ListItem key={i}>
                             <AntDesign name="check" size={24} color="black" />
                             <ListItem.Content>
-                                <ListItem.Title>{l.commitment}</ListItem.Title>
+                                <ListItem.Title><Text>{l.commitment}</Text></ListItem.Title>
                             </ListItem.Content>
                             { props.user.type === "partner" && (
                             <AntDesign onPress={() => handleCommitmentDelete(l._id)} name="delete" size={24} color="black" />

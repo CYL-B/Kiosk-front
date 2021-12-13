@@ -13,6 +13,15 @@ export default function CompanyCard(props) {
         borderWidth: 0,
         borderRadius: 20,
         zIndex: 2,
+        shadowColor: "rgba(0,0,0,0.4)",
+        shadowOffset: {
+          width: 0,
+          height: 5,
+        },
+        shadowOpacity: 0.34,
+        shadowRadius: 6.27,
+
+        elevation: 10,
       }}
     >
       {/* Image offre */}
@@ -59,7 +68,7 @@ export default function CompanyCard(props) {
           zIndex: 2,
           top: 115,
           left: "77%",
-          shadowColor: "#000",
+          shadowColor: "rgba(0,0,0,0.4)",
           shadowOffset: {
             width: 0,
             height: 2,

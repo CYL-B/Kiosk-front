@@ -14,6 +14,15 @@ export default function OfferCardLight(props) {
         padding: 0,
         borderWidth: 0,
         borderRadius: 20,
+        shadowColor: "rgba(0,0,0,0.4)",
+        shadowOffset: {
+          width: 0,
+          height: 5,
+        },
+        shadowOpacity: 0.34,
+        shadowRadius: 6.27,
+
+        elevation: 10,
       }}
     >
       {/* Image offre */}

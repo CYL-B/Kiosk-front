@@ -9,7 +9,7 @@ const Button = (props) => {
 
   // Style utilisé pour le container du bouton
   let containerStyle = {
-    borderRadius: 5,
+    borderRadius: 15,
   };
 
   if(props.style) {

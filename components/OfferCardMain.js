@@ -10,7 +10,7 @@ export default function OfferCardMain(props) {
   // boucle pour renplir la list des commitments
   var listCommitments = props.dataOffre.commitments.map((e, i) => {
     return (
-      <Text key={i} style={{ marginBottom: 0 }}>
+      <Text numberOfLines={1} key={i} style={{ marginBottom: 0 }}>
         <Ionicons name="checkmark-outline"></Ionicons>
         {e.commitment}
       </Text>
@@ -20,12 +20,20 @@ export default function OfferCardMain(props) {
   return (
     <Card
       containerStyle={{
-        width: 350,
         marginBottom: 10,
         padding: 0,
         borderWidth: 0,
         borderRadius: 20,
         zIndex: 2,
+        shadowColor: "rgba(0,0,0,0.4)",
+        shadowOffset: {
+          width: 0,
+          height: 5,
+        },
+        shadowOpacity: 0.34,
+        shadowRadius: 6.27,
+
+        elevation: 10,
       }}
     >
       {/* Image offre */}
@@ -72,7 +80,7 @@ export default function OfferCardMain(props) {
           zIndex: 2,
           top: 115,
           left: "77%",
-          shadowColor: "#000",
+          shadowColor: "rgba(0,0,0,0.4)",
           shadowOffset: {
             width: 0,
             height: 2,

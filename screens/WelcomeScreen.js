@@ -23,6 +23,7 @@ const WelcomeScreen = (props) => {
 
       <View style={{ alignItems: "center" }}>
         <Button
+          style={{marginBottom: 10}}
           size="md"
           color="primary"
           title="S'inscrire"
@@ -36,10 +37,11 @@ const WelcomeScreen = (props) => {
           onPress={() => props.navigation.navigate("Connexion")}
         />
         <Button
+          style={{marginTop: 30, marginBottom: 20}}
           buttonStyle={styles.button}
           size="md"
           color="secondary"
-          title="S'inscrire en tant que presta"
+          title="Je suis un prestataire"
           onPress={() =>
             props.navigation.navigate("Inscription", { clientType: "partner" })
           }
