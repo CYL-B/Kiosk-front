@@ -1,8 +1,8 @@
 import React from "react";
 import { View, Text, Image } from "react-native";
-import { Card, AirbnbRating, Avatar } from "react-native-elements";
+import { Card, AirbnbRating } from "react-native-elements";
 import { Button } from "../components/Buttons";
-import { Ionicons } from "@expo/vector-icons";
+
 
 export default function CompanyCard(props) {
   return (

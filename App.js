@@ -31,6 +31,7 @@ import MessagesScreen from "./screens/MessagesScreen";
 import ChatScreen from "./screens/ChatScreen";
 import CompanyScreen from "./screens/CompanyScreen";
 import RatingScreen from "./screens/RatingScreen";
+import LeaveRatingsScreen from "./screens/LeaveRatings";
 
 //import des pages du usermenu dans les navigations
 import CompanyProfileScreen from "./screens/Usermenu/CompanyProfileScreen";
@@ -99,6 +100,7 @@ const StackNavigation = () => {
       <Stack.Screen name="UserProfile" component={UserProfileScreen} />
       <Stack.Screen name="Quotation" component={QuotationScreen} />
       <Stack.Screen name="Rating" component={RatingScreen} />
+      <Stack.Screen name="LeaveFeedback" component={LeaveRatingsScreen} />
     </Stack.Navigator>
   );
 };

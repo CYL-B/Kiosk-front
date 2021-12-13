@@ -1,24 +1,20 @@
-import React, { useState, useCallback, useEffect } from 'react'
+import React, { useState, useEffect } from 'react'
 //Store
 import { connect } from 'react-redux';
 //Var de connexion
 import { REACT_APP_IPSERVER } from '@env'
 
 //import de la librairie gifted chat avec ses éléments
-import { GiftedChat, InputToolbar, Send, Bubble, MessageText } from 'react-native-gifted-chat'
 import { View, Text, StyleSheet, TextInput } from 'react-native';
 import { HeaderBar } from '../components/Header'
 import { Divider, Badge, AirbnbRating } from 'react-native-elements';
 import { AvatarRound } from '../components/avatar'
-import { FontAwesome } from '@expo/vector-icons';
-import { Card } from 'react-native-elements/dist/card/Card';
 import { ScrollView } from 'react-native-gesture-handler';
-import data from '../components/carousel/data';
+
 
 const RatingScreen = (props) => {
 
-    // états infos Cie :
-    const [ company, setCompany ] = useState(null);
+    // états infos pour récupérer ratings :
     const [ companyId, setCompanyId ] = useState(props.route.params && props.route.params.companyId ? props.route.params.companyId : "61b70f79caba4a7eea2a8206"); // pramaètre envoyé depuis la page précéndete via props.navigattion.navigate
     const [ token, setToken ] = useState(props.user && props.user.token ? props.user.token : "eY9zt44G4iHEQ2s8YKqJuDUJv0-8HXKa"); // si user exist + token exist > j'envoie le token du MAPSTATE ou celui en dur
     const [ ratings, setRatings ] = useState([]);
@@ -123,7 +119,7 @@ const RatingScreen = (props) => {
                 <View style={{display:"flex", flexDirection:"column",left:15}}>
                     {/* <View style={{marginRight:30, backgroundColor:"blue"}}> */}
                         <Text style={{flexShrink: 1, top:10, marginRight:30}}
-                            > AVIS : Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vivamus sagittis, neque sed ornare dapibus, urna turpis vulputate elit, vel volutpat urna tortor vel neque. Cras porta leo sit amet convallis accumsan. Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. Sed id nisl risus. Curabitur ultrices cursus rhoncus. Nunc hendrerit turpis et massa porttitor, eu varius tortor viverra. Etiam feugiat placerat diam, semper vestibulum turpis ultricies ut. Donec eu felis quis eros semper faucibus sit amet vitae turpis. Aliquam ac sollicitudin mauris. Curabitur urna elit, iaculis in nunc et, rhoncus bibendum enim. 
+                            >{e.feedback}
                         </Text>
                     {/* </View> */}
                         <View style={{ alignItems:"flex-start", top:15, marginRight:30}}>
@@ -132,7 +128,7 @@ const RatingScreen = (props) => {
                             selectedColor="#F47805"
                             unSelectedColor="#F4780533"
                             reviewColor="#F47805"
-                            defaultRating={3} //changer avec rating
+                            defaultRating={e.rating} //changer avec rating
                             isDisabled
                             count={5}
                             size={20}

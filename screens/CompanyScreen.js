@@ -51,7 +51,7 @@ const CompanyScreen = (props) => {
             // appel route put pour modifier données company
             var rawDataCie = await fetch(`http://${REACT_APP_IPSERVER}/companies/${companyId}/${token}`); // (`adresseIPserveur/route appelée/req.params?req.query`)
             var dataCie = await rawDataCie.json();
-console.log("dataCie", dataCie);
+// console.log("dataCie", dataCie);
             if (dataCie.result) {
                 setCompany(dataCie.company); // set état company avec toutes data
                 setImage(dataCie.company.companyImage);
@@ -490,7 +490,7 @@ let openImagePickerAsync = async () => {
             </View>
 
             <Button style={{ margin: 10 }} size="md" color="primary" title="AVIS" onPress={() => props.navigation.navigate('Rating', {companyId: "61b72b8f3ef976a3b8be1b09"})} />
-
+            <Button style={{ margin: 10 }} size="md" color="primary" title="FEEDBACK" onPress={() => props.navigation.navigate('LeaveFeedback', {companyId: "61b72b8f3ef976a3b8be1b09"})} />
 
             {/* CARD OFFRES COMPANY */}
             <View style={{flex:1, paddingBottom:5}}>
