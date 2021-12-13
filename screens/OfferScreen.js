@@ -343,12 +343,15 @@ const OfferScreen = (props) => {
                 </View>
 
             </ScrollView>
+            
             <LinearGradient
-            style={{height: 60, zIndex: 2, position: 'absolute', bottom: 0, left: 0, width: "100%", flexDirection: "row", alignItems: "center", justifyContent: "flex-end", paddingHorizontal: 40}}
+            style={{height: 60, zIndex: 2, position: 'absolute', bottom: 0, left: 0, width: "100%", flexDirection: "row", alignItems: "center", justifyContent: "space-between", paddingHorizontal: 40}}
             start={{ x: 0.5, y: 0 }}
             end={{ x: 0.5, y: 1 }}
             colors={['rgba(255,255,255,0)', 'rgba(255,255,255,0.8)', 'rgba(255,255,255,1)']}
             >
+                <Button color="primary" title="Demander un devis" size="md" onPress={()=>props.navigation.navigate("QuoteRequest", {providerId : company._id,
+                    offerId: offerId})}></Button>
                 <Button color="secondary" size="md" title="Contacter" onPress={() => handleContactClick()} />
             </LinearGradient>
 
