@@ -43,7 +43,8 @@ const SearchScreen = (props) => {
       }}
     >
       <HeaderBar title="Recherche"
-      navigation={props.navigation}></HeaderBar>
+      navigation={props.navigation}
+      user={props.user}></HeaderBar>
       <Searchbar></Searchbar>
       {menuToShow}
     </View>
@@ -52,6 +53,7 @@ const SearchScreen = (props) => {
 
 function mapStateToProps(state) {
   return {
+    user: state.user,
     categoryChosenData: state.categoryChosenData,
     subCategoryChosenData: state.subCategoryChosenData,
   };

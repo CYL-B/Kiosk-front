@@ -467,6 +467,7 @@ let openImagePickerAsync = async () => {
                 location={company && company.offices.length > 0 ? company.offices[0].city+', '+company.offices[0].country : "Entreprise"}
                 navigation={props.navigation}
                 // location={label.offices[i].zipCode}
+                user={props.user}
                 >
             </HeaderBar>
 

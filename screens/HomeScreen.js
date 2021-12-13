@@ -89,7 +89,7 @@ const HomeScreen = (props) => {
     >
       {/* View pour NAVBAR */}
       <View style={{}}>
-        <HeaderBar title="Accueil" navigation={props.navigation} />
+        <HeaderBar title="Accueil" navigation={props.navigation} user={props.user} />
       </View>
 
       {/* View pour la bar de recherche */}
@@ -247,6 +247,10 @@ const HomeScreen = (props) => {
   );
 };
 
+function mapStateToProps(state) {
+  return { user: state.user }
+}
+
 function mapDispatchToProps(dispatch) {
   return {
     setcategoriesList: function (categorieslist) {
@@ -255,4 +259,4 @@ function mapDispatchToProps(dispatch) {
   };
 }
 
-export default connect(null, mapDispatchToProps)(HomeScreen);
+export default connect(mapStateToProps, mapDispatchToProps)(HomeScreen);

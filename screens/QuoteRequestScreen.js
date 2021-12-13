@@ -51,6 +51,7 @@ const QuoteRequestScreen = (props) => {
         leftComponent
         title="Demande de devis"
         navigation={props.navigation}
+        user={props.user}
     >
 
     </HeaderBar>

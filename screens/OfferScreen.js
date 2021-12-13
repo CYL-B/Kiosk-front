@@ -316,6 +316,7 @@ const OfferScreen = (props) => {
                 leftComponent
                 navigation={props.navigation}
                 locationIndication
+                user={props.user}
                 location={company && company.offices && company.offices.length > 0 && company.offices[0].city+', '+company.offices[0].country}>
             </HeaderBar>
 
