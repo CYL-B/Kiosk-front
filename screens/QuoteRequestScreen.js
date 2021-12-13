@@ -44,7 +44,7 @@ const QuoteRequestScreen = (props) => {
         const saveReq = await fetch(`http://${REACT_APP_IPSERVER}/quotations/add-quotation`, {
           method: 'POST',
           headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
-          body: `date=${new Date()}&sunshine=${sunshine}&area=${area}&forfait=${forfait}&details=${details}`
+          body: `date=${new Date()}&sunshine=${sunshine}&area=${area}&forfait=${forfait}&details=${details}&clientId=${props.user.companyId}&offerId=${reqOfferId}&providerId=${providerId}&token=${props.user.token}`
           
         }) 
         const fromBack = await saveReq.json()
