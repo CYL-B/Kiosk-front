@@ -171,6 +171,7 @@ const OfferScreen = (props) => {
                 source={{ uri: image }}
                 style={{ height: 200 }} /* ATTENTION SIZING IMAGE A REVOIR */
             >
+                { props.user.type === "partner" && (
                 <View style={{ position: "absolute", bottom: "5%", right: "5%" }}>
                     <ButtonText
                         color="light"
@@ -178,6 +179,7 @@ const OfferScreen = (props) => {
                         onPress={() => openImagePickerAsync()}
                     />
                 </View>
+                )}
             </ImageBackground>
     } else {
         displayOfferImg =
@@ -185,6 +187,7 @@ const OfferScreen = (props) => {
                 source={require('../assets/image_company_blank.png')}
                 style={{ width: 400, height: 200 }} /* ATTENTION SIZING IMAGE A REVOIR */
             >
+                { props.user.type === "partner" && (
                 <View style={{ position: "absolute", bottom: "5%", right: "5%" }}>
                     <ButtonText
                         color="light"
@@ -192,6 +195,7 @@ const OfferScreen = (props) => {
                         onPress={() => openImagePickerAsync()}
                     />
                 </View>
+                )}
             </ImageBackground>
     };
 
@@ -201,11 +205,13 @@ const OfferScreen = (props) => {
                 <View style={{ display: "flex", flexDirection: "row", justifyContent: "space-between" }}>
                     <Card.Title
                     >Ce que nous proposons</Card.Title>
+                    { props.user.type === "partner" && (
                     <ButtonText
                         color="secondary"
                         title="Modifier"
                         onPress={() => toggleOverlay('description')}
                     />
+                    )}
                 </View>
                 <Text>{offer.description}</Text>
             </Card>
@@ -215,6 +221,7 @@ const OfferScreen = (props) => {
             <Card key={1} containerStyle={styles.container}>
                 <Card.Title style={{ textAlign: "left" }}
                 >Ce que nous proposons</Card.Title>
+                { props.user.type === "partner" && (
                 <View style={{ backgroundColor: "#FAF0E6", height: 160, justifyContent: "center", alignItems: "center" }}>
                     <ButtonText
                         color="secondary"
@@ -222,6 +229,7 @@ const OfferScreen = (props) => {
                         onPress={() => toggleOverlay('description')}
                     />
                 </View>
+                )}
             </Card>
     };
 
@@ -231,11 +239,13 @@ const OfferScreen = (props) => {
                 <View style={{ display: "flex", flexDirection: "row", justifyContent: "space-between" }}>
                     <Card.Title
                     >Nos engagements</Card.Title>
+                    { props.user.type === "partner" && (
                     <ButtonText
                         color="secondary"
                         title="Ajouter"
                         onPress={() => toggleOverlay('engagement')}
                     />
+                    )}
                 </View>
                 <View>
                     {offer.commitments.map((l, i) => (
@@ -244,7 +254,9 @@ const OfferScreen = (props) => {
                             <ListItem.Content>
                                 <ListItem.Title>{l.commitment}</ListItem.Title>
                             </ListItem.Content>
+                            { props.user.type === "partner" && (
                             <AntDesign onPress={() => handleCommitmentDelete(l._id)} name="delete" size={24} color="black" />
+                            )}
                         </ListItem>
                     ))}
                 </View>
@@ -254,6 +266,7 @@ const OfferScreen = (props) => {
             <Card key={1} containerStyle={styles.container}>
                 <Card.Title style={{ textAlign: "left" }}
                 >Nos engagements</Card.Title>
+                { props.user.type === "partner" && (
                 <View style={{ backgroundColor: "#FAF0E6", height: 160, justifyContent: "center", alignItems: "center" }}>
                     <ButtonText
                         color="secondary"
@@ -261,6 +274,7 @@ const OfferScreen = (props) => {
                         onPress={() => toggleOverlay('engagement')}
                     />
                 </View>
+                )}
             </Card>
     };
     if (company) {
@@ -302,7 +316,7 @@ const OfferScreen = (props) => {
                 leftComponent
                 navigation={props.navigation}
                 locationIndication
-                location={company && company.offices[0].city+', '+company.offices[0].country}>
+                location={company && company.offices && company.offices.length > 0 && company.offices[0].city+', '+company.offices[0].country}>
             </HeaderBar>
 
             <ScrollView>

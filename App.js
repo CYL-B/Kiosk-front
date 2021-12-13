@@ -98,7 +98,6 @@ const StackNavigation = () => {
       <Stack.Screen name="Favorites" component={FavoritesScreen} />
       <Stack.Screen name="UserProfile" component={UserProfileScreen} />
       <Stack.Screen name="Quotation" component={QuotationScreen} />
-
       <Stack.Screen name="Rating" component={RatingScreen} />
     </Stack.Navigator>
   );
@@ -108,6 +107,7 @@ const StackNavigation = () => {
 const TabNavigation = () => {
   return (
     <Tab.Navigator
+      initialRouteName="Accueil"
       screenOptions={({ route }) => ({
         tabBarIcon: ({ color }) => {
           let iconName;
@@ -137,12 +137,20 @@ const TabNavigation = () => {
         },
       })}
     >
-      <Tab.Screen name="Accueil" component={StackNavigation} />
-      <Tab.Screen name="Rechercher" component={SearchScreen} />
+      <Tab.Screen 
+        name="Accueil" 
+        component={StackNavigation} 
+        options={{ unmountOnBlur: true }}
+      />
+      <Tab.Screen
+        name="Rechercher"
+        component={SearchScreen}
+        options={{ unmountOnBlur: true }}
+      />
       <Tab.Screen
         name="Messages"
         component={MessagesScreen}
-        options={{ tabBarBadge: 3 }}
+        options={{ tabBarBadge: 3, unmountOnBlur: true }}
       />
     </Tab.Navigator>
   );
@@ -157,7 +165,6 @@ export default function App() {
           <Stack.Screen name="Bienvenue" component={WelcomeScreen} />
           <Stack.Screen name="Connexion" component={LoginScreen} />
           <Stack.Screen name="Inscription" component={RegisterScreen} />
-          <Stack.Screen name="CompanyPage" component={CompanyScreen} />
           <Stack.Screen name="TabNavigation" component={TabNavigation} />
           <Stack.Screen name="Chat" component={ChatScreen} />
           <Stack.Screen name="MessagesScreen" component={MessagesScreen} />

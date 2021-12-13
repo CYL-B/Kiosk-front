@@ -23,15 +23,18 @@ const WelcomeScreen = (props) => {
 
       <View style={{ alignItems: "center" }}>
 
+      {/* <ButtonText color="default" title="Vers Demande de devis" onPress={() => props.navigation.navigate('QuoteRequest')} />
+
+      <ButtonText color="default" title="Vers l'app" onPress={() => props.navigation.navigate('TabNavigation')} /> */}
       
         <Button style={{ margin: 10 }} size="md" color="primary" title="S'inscrire" onPress={() => props.navigation.push('Inscription', { clientType: 'client' })} />
         <ButtonText color="light" title="Vous avez déjà un compte ?" onPress={() => props.navigation.navigate('Connexion')} />
         <Button style={{ margin: 30 }}buttonStyle={styles.button} size="md" color="secondary" title="S'inscrire en tant que presta" onPress={() => props.navigation.navigate('Inscription', { clientType: 'partner' })} />
         
 
-        {/* <ButtonText color="default" title="Vers l'app" onPress={() => props.navigation.navigate('TabNavigation')} />
+        
 
-        <ButtonText color="default" title="Vers Demande de devis" onPress={() => props.navigation.navigate('QuoteRequest')} /> */}
+        
       </View>
     </ImageBackground>
   );
