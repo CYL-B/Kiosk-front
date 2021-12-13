@@ -53,7 +53,7 @@ const HeaderBar = (props) => {
       }}
       rightComponent={<AvatarRound navigation={props.navigation} size="md"
         source={{ uri: 'https://numero.twic.pics/images/flexible_grid/100/push-cover-beyonce-ticket-concert-a-vie-jay-numero-magazine.jpg' }}
-         >
+        >
         
       </AvatarRound>
       }

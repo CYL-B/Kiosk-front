@@ -15,17 +15,54 @@ import { Card } from 'react-native-elements/dist/card/Card';
 import { ScrollView } from 'react-native-gesture-handler';
 
 const RatingScreen = (props) => {
+
+    // états infos Cie :
+    const [ company, setCompany ] = useState(null);
+    const [ companyId, setCompanyId ] = useState(props.route.params && props.route.params.companyId ? props.route.params.companyId : "61b70f79caba4a7eea2a8206"); // pramaètre envoyé depuis la page précéndete via props.navigattion.navigate
+    const [ token, setToken ] = useState(props.user && props.user.token ? props.user.token : "eY9zt44G4iHEQ2s8YKqJuDUJv0-8HXKa"); // si user exist + token exist > j'envoie le token du MAPSTATE ou celui en dur
+    const [ ratings, setRatings ] = useState([]);
+
+
+    // useEffect d'initialisation de la page Company :
+    useEffect(() => {
+
+// DANS USE : fonction chargement des infos de la compagnie loggée :
+        async function loadDataCie() {
+            // appel route put pour modifier données company
+            var rawRatings = await fetch(`http://${REACT_APP_IPSERVER}/ratings/${companyId}/${token}`); // (`adresseIPserveur/route appelée/req.params?req.query`)
+            var dataRatings = await rawRatings.json(); 
+console.log("dataRatings.ratings", dataRatings.ratings); // = ARRAY d'OBJETS
+            if (dataRatings.result) {
+                setRatings(dataRatings.ratings);
+            }
+        }
+        loadDataCie();
+
+    }, []);
+
+    const dateFormat = function (date) {
+        var newDate = new Date(date);
+        var format =
+            newDate.getDate() +
+            "/" +
+            (newDate.getMonth() + 1) +
+            "/" +
+            newDate.getFullYear();
+        return format;
+    };
+
     return (
     
     <View style={{ flex: 1, backgroundColor: "white" }}>
 
         <HeaderBar
-            title="NOM CIE"
+            title = {company ? company.companyName : "Entreprise"}
+            onBackPress={() => props.navigation.goBack()}
             leftComponent
             locationIndication
-            location="Paris"
-            onBackPress={() => props.navigation.goBack()}
-        >
+            location={company && company.offices.length > 0 ? company.offices[0].city+', '+company.offices[0].country : "Adresse"}
+            navigation={props.navigation}
+            >
         </HeaderBar>
 
         <Divider 
@@ -39,7 +76,7 @@ const RatingScreen = (props) => {
             <View
                 style={{left:10}}>
                 <Text style={{ fontSize: 20, color: "#1A0842", marginLeft: 10 }}
-                    >NBR commentaires
+                    >{ratings.length} commentaires
                 </Text>
                 <View style={{display:"flex", flexDirection:"row", left:8}}>
                     <AirbnbRating style={{left:10}}
@@ -53,7 +90,7 @@ const RatingScreen = (props) => {
                         showRating={false}
                     />
                     <Text style={{ fontSize: 20, color: "#1A0842", marginLeft: 10 }}
-                        > NOTE
+                        > NOTE MOYENNE AVIS
                     </Text>
                 </View>
             </View>
@@ -61,19 +98,24 @@ const RatingScreen = (props) => {
 
         <ScrollView >
 
-            <View style={{paddingBottom:30}}>
+            { 
+            ratings.map(function(e, i) {
+                console.log("e", e);
+                return (
+            <View style={{paddingBottom:30}} key={i}>
                 <View style={{display:"flex", flexDirection:"row", left:15, marginTop:20, marginRight:30}}>
                     <AvatarRound 
                         navigation={props.navigation} size="md"
-                        source={{ uri: 'https://numero.twic.pics/images/flexible_grid/100/push-cover-beyonce-ticket-concert-a-vie-jay-numero-magazine.jpg' }}
+                        source={{ uri: e.userId.avatar }}
                     >
                     </AvatarRound>
                     <View style={{left:10}}>
                         <Text
-                            >USER USER
+                            >{e.userId.firstName} {e.userId.lastName}
                         </Text>
                         <Text
-                            >CIE - DATE ???
+                            >
+                                {e.clientId.companyName} - {dateFormat(e.dateRating)}
                         </Text>
                     </View>
                 </View>
@@ -98,49 +140,14 @@ const RatingScreen = (props) => {
                         </View>
                 </View>
             </View>
-
-            <View style={{paddingBottom:30}}>
-                <View style={{display:"flex", flexDirection:"row", left:15, marginTop:20, marginRight:30}}>
-                    <AvatarRound 
-                        navigation={props.navigation} size="md"
-                        source={{ uri: 'https://numero.twic.pics/images/flexible_grid/100/push-cover-beyonce-ticket-concert-a-vie-jay-numero-magazine.jpg' }}
-                    >
-                    </AvatarRound>
-                    <View style={{left:10}}>
-                        <Text
-                            >USER USER
-                        </Text>
-                        <Text
-                            >CIE - DATE ???
-                        </Text>
-                    </View>
-                </View>
-                <View style={{display:"flex", flexDirection:"column",left:15}}>
-                        <Text style={{flexShrink: 1, top:10, marginRight:30}}
-                            > AVIS : Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vivamus sagittis, neque sed ornare dapibus, urna turpis vulputate elit, vel volutpat urna tortor vel neque. Cras porta leo sit amet convallis accumsan. Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. Sed id nisl risus. Curabitur ultrices cursus rhoncus. Nunc hendrerit turpis et massa porttitor, eu varius tortor viverra. Etiam feugiat placerat diam, semper vestibulum turpis ultricies ut. Donec eu felis quis eros semper faucibus sit amet vitae turpis. Aliquam ac sollicitudin mauris. Curabitur urna elit, iaculis in nunc et, rhoncus bibendum enim. 
-                        </Text>
-                        <View style={{ alignItems:"flex-start", top:15, marginRight:30}}>
-                        <AirbnbRating 
-                        style={{marginTop:10}}
-                            selectedColor="#F47805"
-                            unSelectedColor="#F4780533"
-                            reviewColor="#F47805"
-                            defaultRating={3} //changer avec rating
-                            isDisabled
-                            count={5}
-                            size={20}
-                            showRating={false}
-                        />
-                        </View>
-                </View>
-            </View>
+            )})
+            }
 
         </ScrollView>
 
     </View>
     )
 };
-
 
 
 // on récupère le user stocké dans le store : 
