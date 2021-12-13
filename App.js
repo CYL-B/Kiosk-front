@@ -99,14 +99,11 @@ const StackNavigation = () => {
       <Stack.Screen name="Home" component={HomeScreen} />
       <Stack.Screen name="CompanyPage" component={CompanyScreen} />
       <Stack.Screen name="OfferPage" component={OfferScreen} />
-<<<<<<< HEAD
-=======
       <Stack.Screen name="CompanyProfile" component={CompanyProfileScreen} />
       <Stack.Screen name="Favorites" component={FavoritesScreen} />
       <Stack.Screen name="UserProfile" component={UserProfileScreen} />
       <Stack.Screen name="Quotation" component={QuotationScreen} />
       <Stack.Screen name="Rating" component={RatingScreen} />
->>>>>>> cae9a715a339bb5ad897c35180a31c12b6034117
     </Stack.Navigator>
   );
 };
@@ -145,9 +142,9 @@ const TabNavigation = () => {
         },
       })}
     >
-      <Tab.Screen 
-        name="Accueil" 
-        component={StackNavigation} 
+      <Tab.Screen
+        name="Accueil"
+        component={StackNavigation}
         options={{ unmountOnBlur: true }}
       />
       <Tab.Screen
@@ -180,11 +177,7 @@ export default function App() {
           <Stack.Screen name="Inscription" component={RegisterScreen} />
           <Stack.Screen name="TabNavigation" component={TabNavigation} />
           <Stack.Screen name="Chat" component={ChatScreen} />
-<<<<<<< HEAD
-          <Stack.Screen name="MessagesScreen" component={MessagesScreen} />
-=======
           <Stack.Screen name="QuoteRequest" component={QuoteRequestScreen} />
->>>>>>> cae9a715a339bb5ad897c35180a31c12b6034117
         </Stack.Navigator>
       </NavigationContainer>
     </Provider>

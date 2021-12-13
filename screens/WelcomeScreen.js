@@ -1,10 +1,6 @@
 import React from "react";
 
-<<<<<<< HEAD
 import { Image, StyleSheet, View, Text, ImageBackground } from "react-native";
-=======
-import { Image, StyleSheet, View, Text, ImageBackground } from 'react-native';
->>>>>>> cae9a715a339bb5ad897c35180a31c12b6034117
 
 // Import des composants Button customisés
 import { Button, ButtonText } from "../components/Buttons";
@@ -69,14 +65,14 @@ const styles = StyleSheet.create({
   container: {
     width: "100%",
     height: "100%",
-    justifyContent: "space-between"
+    justifyContent: "space-between",
   },
   image: {
     width: 200,
     height: 34.9,
     marginTop: 114,
     alignSelf: "center",
-  }
+  },
 });
 
 export default WelcomeScreen;
