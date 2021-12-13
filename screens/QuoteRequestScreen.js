@@ -13,7 +13,7 @@ const QuoteRequestScreen = (props) => {
   //récupère les infos des inputs
   const [sunshine, setSunshine] = useState("");
   const [area, setArea] = useState("");
-  const [forfait, setForfait] = useState("");
+  const [pack, setPackage] = useState("");
   const [details, setDetails] = useState("");
 
   //faire passer le token et offerId récupérés depuis "demander un devis"
@@ -28,7 +28,7 @@ const QuoteRequestScreen = (props) => {
     };
     findOfferInfo();
   }, []);
-  //
+
   var addQuotation = async () => {
     //reçoit depuis offerpage : offerId, clientId, providerId(companies)
     const saveReq = await fetch(
@@ -36,7 +36,7 @@ const QuoteRequestScreen = (props) => {
       {
         method: "POST",
         headers: { "Content-Type": "application/x-www-form-urlencoded" },
-        body: `clientId=${clientId}&offerId=${offerId}&providerId=${providerId}&date=${new Date()}&sunshine=${sunshine}&area=${area}&package=${forfait}&details=${details}`,
+        body: `clientId=${clientId}&offerId=${offerId}&providerId=${providerId}&date=${new Date()}&sunshine=${sunshine}&area=${area}&pack=${pack}&details=${details}`,
       }
     );
   };
