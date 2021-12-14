@@ -10,6 +10,7 @@ import { HeaderBar } from '../components/Header'
 import { Divider, Badge, AirbnbRating } from 'react-native-elements';
 import { AvatarRound } from '../components/avatar'
 import { ScrollView } from 'react-native-gesture-handler';
+// import { use } from '../../kiosk-backend/routes';
 
 
 const RatingScreen = (props) => {
@@ -18,7 +19,7 @@ const RatingScreen = (props) => {
     const [ companyId, setCompanyId ] = useState(props.route.params && props.route.params.companyId ? props.route.params.companyId : "61b70f79caba4a7eea2a8206"); // pramaètre envoyé depuis la page précéndete via props.navigattion.navigate
     const [ token, setToken ] = useState(props.user && props.user.token ? props.user.token : "eY9zt44G4iHEQ2s8YKqJuDUJv0-8HXKa"); // si user exist + token exist > j'envoie le token du MAPSTATE ou celui en dur
     const [ ratings, setRatings ] = useState([]);
-
+    const [ avgRate, setAvgRate ] = useState(0);
 
     // useEffect d'initialisation de la page Company :
     useEffect(() => {
@@ -31,6 +32,9 @@ const RatingScreen = (props) => {
 // console.log("dataRatings.ratings", dataRatings.ratings); // = ARRAY d'OBJETS
             if (dataRatings.result) {
                 setRatings(dataRatings.ratings);
+                setAvgRate(dataRatings.avg[0].averageNoteByCie.$numberDecimal);
+                console.log("avg", dataRatings.avg);
+                console.log("avg", dataRatings.avg[0].averageNoteByCie.$numberDecimal)
             }
         }
         loadDataCie();
@@ -47,7 +51,9 @@ const RatingScreen = (props) => {
             newDate.getFullYear();
         return format;
     };
+
 // console.log("état ratings", ratings);
+
     return (
     
     <View style={{ flex: 1, backgroundColor: "white" }}>
@@ -88,7 +94,7 @@ const RatingScreen = (props) => {
                         showRating={false}
                     />
                     <Text style={{ fontSize: 20, color: "#1A0842", marginLeft: 10 }}
-                        > NOTE MOYENNE
+                        > {avgRate}
                     </Text>
                 </View>
             </View>
