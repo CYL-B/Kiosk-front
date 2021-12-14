@@ -12,7 +12,7 @@ const SubCateGoriesList = (props) => {
   }
 
   function handlePressRetour() {
-    props.CategoryChoice(props.categoryChosenData.categoryName);
+    props.CategoryChoice();
   }
 
   //si on clique sur Voir tout, subCategoryChosenData dans le store prend la valeur de categoryChosenData.

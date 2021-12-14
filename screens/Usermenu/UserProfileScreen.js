@@ -125,9 +125,13 @@ const UserProfileScreen = (props) => {
   return (
     <KeyboardAvoidingView
       behavior={Platform.OS === "ios" ? "padding" : "height"}
-      style={styles.container}
+      style={{
+        ...styles.container,
+        flexDirection: "column",
+        justifyContent: "center",
+      }}
     >
-      <View style={styles.container}>
+      <View style={{ ...styles.container, justifyContent: "flex-end" }}>
         <ImageBackground
           source={require("../../assets/background-login.png")}
           resizeMode="cover"
@@ -169,7 +173,7 @@ const UserProfileScreen = (props) => {
                 placeholderTextColor="#DCDCDC"
                 value={email}
               />
-              <Input
+              {/* <Input
                 secureTextEntry
                 autoCompleteType="password"
                 placeholder="Entrez votre mot de passe"
@@ -179,7 +183,7 @@ const UserProfileScreen = (props) => {
                 inputContainerStyle={styles.input}
                 labelStyle={styles.label}
                 placeholderTextColor="#DCDCDC"
-              />
+              /> */}
 
               <Input
                 autoCompleteType="name"
@@ -244,9 +248,9 @@ const UserProfileScreen = (props) => {
                 onPress={() => props.navigation.navigate("Home")}
               />
             </View>
+            {/* <View style={{ flex: 1 }} /> */}
           </ScrollView>
         </ImageBackground>
-        <View style={{ flex: 1 }} />
       </View>
     </KeyboardAvoidingView>
   );

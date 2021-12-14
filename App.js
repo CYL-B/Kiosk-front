@@ -182,7 +182,6 @@ export default function App() {
           <Stack.Screen name="TabNavigation" component={TabNavigation} />
           <Stack.Screen name="Chat" component={ChatScreen} />
           <Stack.Screen name="MessagesScreen" component={MessagesScreen} />
-          
         </Stack.Navigator>
       </NavigationContainer>
     </Provider>
