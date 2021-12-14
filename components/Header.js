@@ -58,8 +58,13 @@ const HeaderBar = (props) => {
         height: 120,
       }}
       rightComponent={<AvatarRound navigation={props.navigation} size="md"
+<<<<<<< HEAD
         source={{ uri: props.user.avatar }}
          >
+=======
+        source={{ uri: 'https://numero.twic.pics/images/flexible_grid/100/push-cover-beyonce-ticket-concert-a-vie-jay-numero-magazine.jpg' }}
+        >
+>>>>>>> front-a
         
       </AvatarRound>
       }

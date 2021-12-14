@@ -25,6 +25,8 @@ const CompanyScreen = (props) => {
 // états infos Cie :
     const [ company, setCompany ] = useState(null);
     const [ companyId, setCompanyId ] = useState(props.route.params && props.route.params.companyId ? props.route.params.companyId : "61b097c526db20ecf9e66953");
+    const [ token, setToken ] = useState("");
+    const [ image, setImage ] = useState(null);
 
 // état labels :
     const [ labels, setLabels ] = useState([]);
@@ -34,7 +36,6 @@ const CompanyScreen = (props) => {
     const [visibleLabel, setVisibleLabel] = useState(false);
     const [inputOverlay, setInputOverlay] = useState('');
     const [valueToChange, setValueToChange] = useState(null);
-    const [image, setImage] = useState(null);
 
 // useEffect de suivi d'états :
     useEffect(() => {
@@ -48,12 +49,13 @@ const CompanyScreen = (props) => {
 // DANS USE : fonction chargement des infos de la compagnie loggée :
         async function loadDataCie() {
             // appel route put pour modifier données company
-            var rawDataCie = await fetch(`http://${REACT_APP_IPSERVER}/companies/${companyId}/YvbAvDg256hw2t5HfW_stG2yOt9BySaK`); // (`adresseIPserveur/route appelée/req.params?req.query`)
+            var rawDataCie = await fetch(`http://${REACT_APP_IPSERVER}/companies/${companyId}/${token}`); // (`adresseIPserveur/route appelée/req.params?req.query`)
             var dataCie = await rawDataCie.json();
 // console.log("dataCie", dataCie);
             if (dataCie.result) {
                 setCompany(dataCie.company); // set état company avec toutes data
-                setImage(dataCie.company.companyImage)
+                setImage(dataCie.company.companyImage);
+                setToken(dataCie.company.token);
             }
         }
         loadDataCie();
@@ -102,7 +104,7 @@ let openImagePickerAsync = async () => {
 
         // on ajoute l'url de l'image héberger au body de la prochaine requête
         if (resUpload.result) {
-            let body = `token=YvbAvDg256hw2t5HfW_stG2yOt9BySaK&image=${resUpload.url}`; // url cloudinary
+            let body = `token=${token}=${resUpload.url}`; // url cloudinary
             const dataRaw = await fetch(`http://${REACT_APP_IPSERVER}/companies/${companyId}`, { // renvoie jsute result, donc true ou flase
                 method: 'PUT',
                 headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
@@ -121,7 +123,7 @@ let openImagePickerAsync = async () => {
         const dataRawLab = await fetch(`http://${REACT_APP_IPSERVER}/companies/${companyId}`, {
             method: 'PUT',
             headers: {'Content-Type': 'application/x-www-form-urlencoded'},
-            body: `labelId=${labelId}&token=YvbAvDg256hw2t5HfW_stG2yOt9BySaK`
+            body: `labelId=${labelId}&token=${token}`
         })
         var resLab = await dataRawLab.json()
 // console.log("resLab", resLab);
@@ -161,7 +163,7 @@ let openImagePickerAsync = async () => {
 //overlay : 
     const handleOverlaySubmit = async () => {
         setVisible(!visible);
-        let body = `token=YvbAvDg256hw2t5HfW_stG2yOt9BySaK`;
+        let body = `token=${token}`;
         if (valueToChange === 'description') {
             body += `&description=${inputOverlay}`
         }
@@ -175,7 +177,7 @@ let openImagePickerAsync = async () => {
         })
         var res = await dataRaw.json(); // true ou false
         if (res.result) {
-            console.log('offerSaved', res.offerSaved);
+// console.log('offerSaved', res.offerSaved);
             if (valueToChange == "offre" && res.offerSaved) {
                 props.navigation.navigate("OfferPage", { offerId: res.offerSaved._id })
             }
@@ -183,7 +185,7 @@ let openImagePickerAsync = async () => {
         }
     }
 
-    console.log(props.user.type);
+// console.log(props.user.type);
 
 // gestion displays selon data / !data : 
     if (company && company.companyImage) {
@@ -432,7 +434,7 @@ let openImagePickerAsync = async () => {
                                     
                             <ListItem 
                                 key={i} 
-                                bottomDivider                                
+                                bottomDivider
                             >
                                 <Image 
                                     source={{ uri: `http://${REACT_APP_IPSERVER}/images/assets/${label.logo}`}}
@@ -488,6 +490,9 @@ let openImagePickerAsync = async () => {
             <View style={{flex:1, paddingBottom:30}}>
                 {displayLabels}
             </View>
+
+            <Button style={{ margin: 10 }} size="md" color="primary" title="AVIS" onPress={() => props.navigation.navigate('Rating', {companyId: "61b72b8f3ef976a3b8be1b09"})} />
+            <Button style={{ margin: 10 }} size="md" color="primary" title="FEEDBACK" onPress={() => props.navigation.navigate('LeaveFeedback', {companyId: "61b72b8f3ef976a3b8be1b09"})} />
 
             {/* CARD OFFRES COMPANY */}
             <View style={{flex:1, paddingBottom:5}}>
