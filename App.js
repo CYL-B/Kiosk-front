@@ -31,6 +31,7 @@ import MessagesScreen from "./screens/MessagesScreen";
 import ChatScreen from "./screens/ChatScreen";
 import CompanyScreen from "./screens/CompanyScreen";
 import RatingScreen from "./screens/RatingScreen";
+import LeaveRatingsScreen from "./screens/LeaveRatings";
 
 //import des pages du usermenu dans les navigations
 import CompanyProfileScreen from "./screens/Usermenu/CompanyProfileScreen";
@@ -104,6 +105,8 @@ const StackNavigation = () => {
       <Stack.Screen name="UserProfile" component={UserProfileScreen} />
       <Stack.Screen name="Quotation" component={QuotationScreen} />
       <Stack.Screen name="Rating" component={RatingScreen} />
+      <Stack.Screen name="LeaveFeedback" component={LeaveRatingsScreen} />
+      <Stack.Screen name="QuoteRequest" component={QuoteRequestScreen} />
     </Stack.Navigator>
   );
 };
@@ -155,7 +158,7 @@ const TabNavigation = () => {
       <Tab.Screen
         name="Messages"
         component={MessagesScreen}
-        options={{ tabBarBadge: 3, unmountOnBlur: true }}
+        options={{ tabBarBadge: 3 }}
       />
     </Tab.Navigator>
   );
@@ -175,9 +178,11 @@ export default function App() {
           <Stack.Screen name="Bienvenue" component={WelcomeScreen} />
           <Stack.Screen name="Connexion" component={LoginScreen} />
           <Stack.Screen name="Inscription" component={RegisterScreen} />
+          <Stack.Screen name="CompanyPage" component={CompanyScreen} />
           <Stack.Screen name="TabNavigation" component={TabNavigation} />
           <Stack.Screen name="Chat" component={ChatScreen} />
-          <Stack.Screen name="QuoteRequest" component={QuoteRequestScreen} />
+          <Stack.Screen name="MessagesScreen" component={MessagesScreen} />
+          
         </Stack.Navigator>
       </NavigationContainer>
     </Provider>

@@ -3,111 +3,145 @@ import { View, ScrollView, KeyboardAvoidingView } from "react-native";
 import { HeaderBar } from "../components/Header";
 import OfferCardLight from "../components/OfferCardLight";
 import { Button, ButtonText } from "../components/Buttons";
-import { REACT_APP_IPSERVER } from "@env";
-import { Input } from "react-native-elements";
+import { REACT_APP_IPSERVER } from '@env';
+import { Input } from 'react-native-elements';
+import { connect } from 'react-redux';
+import { set } from 'react-native-reanimated';
 
 const QuoteRequestScreen = (props) => {
-  // const[offerId, setOfferId] = useState(props.route.params.offerId)
+  //affichage de l'offre cliquée
   const [offer, setOffer] = useState({});
 
   //récupère les infos des inputs
   const [sunshine, setSunshine] = useState("");
   const [area, setArea] = useState("");
-  const [pack, setPackage] = useState("");
+  const [forfait, setForfait] = useState("");
   const [details, setDetails] = useState("");
 
-  //faire passer le token et offerId récupérés depuis "demander un devis"
+  //récupère les infos de offerpage au clic sur "demander un devis"
+
+
+  const [reqOfferId, setReqOfferId] = useState(props.route.params.offerId)
+  const [reqProviderId, setReqProviderId] = useState(props.route.params.providerId)
+
+
+  //récupère le statut du devis depuis le back
+  const [quoteStatus, setQuoteStatus] = useState("");
+  const [error, setError] = useState("");
+
+  //route qui permet d'afficher l'offre qui a été cliquée 
   useEffect(() => {
     const findOfferInfo = async () => {
-      const data = await fetch(
-        `http://${REACT_APP_IPSERVER}/quotations/quote-request`
-      );
+      const data = await fetch(`http://${REACT_APP_IPSERVER}/quotations/quote-request/${props.user.token}/${reqOfferId}`)
       const body = await data.json();
-      console.log(body);
-      setOffer(body);
-    };
-    findOfferInfo();
+      setOffer(body.offer)
+    }; findOfferInfo()
   }, []);
 
+  //route d'ajout d'un devis
   var addQuotation = async () => {
-    //reçoit depuis offerpage : offerId, clientId, providerId(companies)
-    const saveReq = await fetch(
-      `http://${REACT_APP_IPSERVER}/quotations/add-quotation`,
-      {
-        method: "POST",
-        headers: { "Content-Type": "application/x-www-form-urlencoded" },
-        body: `clientId=${clientId}&offerId=${offerId}&providerId=${providerId}&date=${new Date()}&sunshine=${sunshine}&area=${area}&pack=${pack}&details=${details}`,
-      }
-    );
-  };
+    //reçoit depuis offerpage : offerId, providerId(companies)
+
+    const saveReq = await fetch(`http://${REACT_APP_IPSERVER}/quotations/add-quotation`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+      body: `date=${new Date()}&sunshine=${sunshine}&area=${area}&forfait=${forfait}&details=${details}&clientId=${props.user.companyId}&offerId=${reqOfferId}&providerId=${reqProviderId}&token=${props.user.token}`
+
+    })
+    const fromBack = await saveReq.json()
+    setQuoteStatus(fromBack.quotationSaved.status)
+    setError(fromBack.erreur)
+
+  }
 
   const quoteRequest = () => {
-    props.navigation.navigate("Quotation");
+    props.navigation.navigate("Quotation", { offerId: reqProviderId, quoteStatus: quoteStatus });
     addQuotation();
-  };
 
-  return (
-    <View style={{ flex: 1, backgroundColor: "white" }}>
-      <HeaderBar
-        leftComponent
-        title="Demande de devis"
-        navigation={props.navigation}
-        user={props.user}
-      ></HeaderBar>
-      <ScrollView>
-        <KeyboardAvoidingView
-          behavior="position"
-          contentContainerStyle={{
-            alignItems: "center",
-            paddingLeft: 20,
-            paddingRight: 20,
-          }}
-        >
-          <OfferCardLight dataOffre={offer} navigation={props.navigation} />
+    var confirmation = <View><Text>{error}</Text>
+      <Button title="Oui"
 
-          <Input
-            keyboardType="numeric"
-            labelStyle={{ marginTop: 40 }}
-            label="Ensoleillement"
-            placeholder="Notez de 1 à 10"
-            onChange={(e) => setSunshine(e.target.value)}
-            value={sunshine}
-          />
+        size="md"
+        color="primary"
+        onPress={() => quoteRequest()}></Button>
+      <Button title="Non"
 
-          <Input
-            label="Superficie"
-            keyboardType="numeric"
-            placeholder="La superficie de vos bureaux"
-            onChange={(e) => setArea(e.target.value)}
-            value={area}
-          />
-          <Input
-            label="Forfait entretien"
-            placeholder="Êtes-vous intéressé par un forfait ?"
-            onChange={(e) => setPackage(e.target.value)}
-            value={pack}
-          />
-          <Input
-            label="Plus de détails"
-            placeholder="Autre chose à ajouter ?"
-            multiline={true}
-            placeholderStyle={{ marginBottom: 40 }}
-            onChange={(e) => setDetails(e.target.value)}
-            value={details}
-          />
+        size="md"
+        color="secondary"
+        onPress={() => props.navigation.goBack()}></Button></View>
 
-          <View>
-            <Button
-              title="Envoyer la demande"
-              size="md"
-              color="primary"
-              onPress={() => quoteRequest()}
-            ></Button>
-          </View>
-          <ButtonText title="Annuler"></ButtonText>
-        </KeyboardAvoidingView>
-      </ScrollView>
-    </View>
-  );
-};
-export default QuoteRequestScreen;
+  }
+
+  return (<View style={{ flex: 1, backgroundColor: "white" }}>
+    <HeaderBar
+      leftComponent
+      title="Demande de devis"
+      navigation={props.navigation}
+      user={props.user}
+    >
+
+    </HeaderBar>
+    <ScrollView>
+      <KeyboardAvoidingView behavior="position" contentContainerStyle={{ alignItems: "center", paddingLeft: 20, paddingRight: 20 }}>
+        <OfferCardLight
+
+          dataOffre={offer} navigation={props.navigation} />
+
+
+        <Input
+          keyboardType="numeric"
+          labelStyle={{ marginTop: 40, color: "#1A0842" }} label="Ensoleillement"
+          placeholder='Notez de 1 à 10'
+          onChangeText={(value) => setSunshine(value)}
+          value={sunshine}
+        />
+
+        <Input
+          label="Superficie"
+          labelStyle={{ color: "#1A0842" }}
+          keyboardType="numeric"
+          placeholder='La superficie de vos bureaux en m2'
+          onChangeText={(value) => setArea(value)}
+          value={area}
+        />
+        <Input
+          label="Forfait entretien"
+          labelStyle={{ color: "#1A0842" }}
+          placeholder='Êtes-vous intéressé par un forfait ?'
+          onChangeText={(value) => setForfait(value)}
+          value={forfait}
+        />
+        <Input
+          label="Plus de détails"
+          labelStyle={{ color: "#1A0842" }}
+
+          placeholder='Autre chose à ajouter ?'
+          multiline={true}
+          placeholderStyle={{ marginBottom: 40 }}
+          onChangeText={(value) => setDetails(value)}
+          value={details}
+        />
+
+
+        <View><Button
+          title="Envoyer la demande"
+
+          size="md"
+          color="primary"
+          onPress={() => quoteRequest()}
+        ></Button></View>
+        <ButtonText title="Annuler"
+          onPress={() => props.navigation.goBack()}
+        ></ButtonText>
+
+      </KeyboardAvoidingView>
+    </ScrollView>
+  </View>
+  )
+}
+
+function mapStateToProps(state) {
+  return { user: state.user }
+}
+export default connect(mapStateToProps, null)(QuoteRequestScreen)
+

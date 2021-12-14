@@ -20,9 +20,6 @@ const ChatScreen = (props) => {
   const [convId, setConvId] = useState(props.route.params && props.route.params.convId ? props.route.params.convId : "61b0e6837ee15e4f2a1a936f");
   
 
-  // &user=${props.user}
-  
-
   //on récupère le convID depuis "messages screen" au press sur la conversation correspondante
 
 
