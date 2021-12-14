@@ -1,9 +1,9 @@
 import React, { useState, useEffect } from 'react';
 import { connect } from 'react-redux';
-import { ScrollView, View, Text } from 'react-native';
-import { HeaderBar } from '../components/Header'
-import { ListItem } from 'react-native-elements';
-import { AvatarRound } from '../components/avatar'
+import { ScrollView, View } from 'react-native';
+import { HeaderBar } from '../components/Header';
+import Text from "../components/Text";
+import { ListItem, Avatar } from 'react-native-elements';
 import { REACT_APP_IPSERVER } from '@env'
 import { State } from 'react-native-gesture-handler';
 
@@ -18,13 +18,11 @@ const MessagesScreen = (props) => {
     //ne pas oublier de renvoyer le user dans le fetch
     useEffect(() => {
         const findConversations = async () => {
-            const data = await fetch(`http://${REACT_APP_IPSERVER}/conversations/${props.user.companyId}`)
+            const data = await fetch(`http://${REACT_APP_IPSERVER}/conversations/${props.user.companyId}/${props.user.type}`)
             const body = await data.json();
             setConversations(body.conversationsToDisplay)
         }; findConversations()
     }, []);
-
-    console.log("conv", conversations)
 
     var conversationsList = conversations.map((conversation, i) => {
         return (
@@ -35,15 +33,15 @@ const MessagesScreen = (props) => {
             onPress={() => props.navigation.navigate('Chat', {convId: conversation.id})}
             key={i}
         >
-            <AvatarRound size="md"
-                source={{ uri: conversation.logo }}></AvatarRound>
+            <Avatar rounded size="small" imageProps={{resizeMode: 'contain'}} title={conversation.companyName.substring(0, 2)}
+                source={{ uri: conversation.logo }}></Avatar>
             <ListItem.Content>
 
                     <ListItem.Title
                         style={{ color: "#1A0842", fontSize: 20, fontWeight: "bold", marginBottom: 5 }}
-                    >{conversation.companyName}</ListItem.Title>
-                    <ListItem.Subtitle style={{ color: "#1A0842", fontSize: 12 }}>{conversation.message}</ListItem.Subtitle></ListItem.Content>
-                <Text style={{ color: "#1A0842", fontSize: 12 }}>{conversation.date}</Text>
+                    ><Text style={{ fontWeight: "bold" }}>{conversation.companyName}</Text></ListItem.Title>
+                    <ListItem.Subtitle style={{ color: "#1A0842", fontSize: 12 }}><Text>{conversation.message}</Text></ListItem.Subtitle></ListItem.Content>
+                <Text style={{ color: "#1A0842", fontSize: 12 }}><Text>{conversation.date}</Text></Text>
             </ListItem>)
 
     })
@@ -51,6 +49,7 @@ const MessagesScreen = (props) => {
         <View><HeaderBar
             title="Messages"
             navigation={props.navigation}
+            user={props.user}
         >
 
         </HeaderBar>

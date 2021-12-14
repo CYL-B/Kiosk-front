@@ -1,19 +1,28 @@
 import React from "react";
-import { View, Text, Image } from "react-native";
-import { Card, AirbnbRating } from "react-native-elements";
+import { View } from "react-native";
+import { Card } from "react-native-elements";
 import { Button } from "../components/Buttons";
-import { Ionicons } from "@expo/vector-icons";
+
+import Text from "./Text";
 
 export default function OfferCardLight(props) {
   // boucle pour renplir la list des commitments
   return (
     <Card
       containerStyle={{
-        width: 350,
         marginBottom: 10,
         padding: 0,
         borderWidth: 0,
         borderRadius: 20,
+        shadowColor: "rgba(0,0,0,0.4)",
+        shadowOffset: {
+          width: 0,
+          height: 5,
+        },
+        shadowOpacity: 0.34,
+        shadowRadius: 6.27,
+
+        elevation: 10,
       }}
     >
       {/* Image offre */}
@@ -40,7 +49,7 @@ export default function OfferCardLight(props) {
             marginBottom: 0,
           }}
         >
-          {props.dataOffre.offerName}
+          <Text style={{ fontWeight: "bold" }}>{props.dataOffre.offerName}</Text>
         </Card.Title>
         <Text>{props.dataOffre.shortDescription}</Text>
       </View>

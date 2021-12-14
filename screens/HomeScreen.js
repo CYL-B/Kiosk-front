@@ -1,8 +1,8 @@
 import React, { useEffect } from "react";
 import { View } from "react-native";
 // Import des composants Button customisés
-import { Text } from "react-native-elements";
-import { Button, ButtonText } from "../components/Buttons";
+import Text from "../components/Text";
+import { ButtonText } from "../components/Buttons";
 
 import SubCategoriesListHori from "../components/SubCategoriesListHori";
 import { HeaderBar } from "../components/Header";
@@ -89,7 +89,11 @@ const HomeScreen = (props) => {
     >
       {/* View pour NAVBAR */}
       <View style={{}}>
-        <HeaderBar title="Accueil" navigation={props.navigation} />
+        <HeaderBar
+          title="Kiosk"
+          navigation={props.navigation}
+          user={props.user}
+        />
       </View>
 
       {/* View pour la bar de recherche */}
@@ -118,12 +122,12 @@ const HomeScreen = (props) => {
               marginBottom: 15,
             }}
           >
-            <View style={{ marginLeft: 10 }}>
+            <View style={{ marginLeft: 20 }}>
               <Text style={{ fontWeight: "bold", fontSize: 18 }}>
-                Recherche par sous-Categories
+                Nos catégories
               </Text>
             </View>
-            <View style={{ marginRight: 10 }}>
+            <View style={{ marginRight: 20 }}>
               <ButtonText
                 color="primary"
                 title="Voir plus"
@@ -149,13 +153,13 @@ const HomeScreen = (props) => {
               marginBottom: 15,
             }}
           >
-            <View style={{ marginLeft: 10 }}>
+            <View style={{ marginLeft: 20 }}>
               <Text style={{ fontWeight: "bold", fontSize: 18 }}>
                 L'entreprise de la semaine
               </Text>
             </View>
           </View>
-          <View style={{ alignItems: "center" }}>
+          <View style={{ padding: 20 }}>
             <CompanyCard
               navigation={props.navigation}
               dataCompany={dataCompany}
@@ -164,7 +168,7 @@ const HomeScreen = (props) => {
         </View>
 
         <View style={{ marginTop: 20 }}>
-          <View style={{ marginLeft: 10 }}>
+          <View style={{ marginLeft: 20 }}>
             <Text style={{ fontWeight: "bold", fontSize: 18 }}>Nos pack</Text>
             <View
               style={{
@@ -247,6 +251,12 @@ const HomeScreen = (props) => {
   );
 };
 
+function mapStateToProps(state) {
+  return {
+    user: state.user,
+  };
+}
+
 function mapDispatchToProps(dispatch) {
   return {
     setcategoriesList: function (categorieslist) {
@@ -255,4 +265,4 @@ function mapDispatchToProps(dispatch) {
   };
 }
 
-export default connect(null, mapDispatchToProps)(HomeScreen);
+export default connect(mapStateToProps, mapDispatchToProps)(HomeScreen);

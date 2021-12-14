@@ -1,7 +1,12 @@
 import React from 'react';
+
+//Store
+import { connect } from 'react-redux';
+
+
 //import du header, du texte et de listItem de react native elements
 
-import { Header, Text} from 'react-native-elements';
+import { Header} from 'react-native-elements';
 import { TouchableOpacity, View } from 'react-native';
 
 //import des icons depuis fontawesome et ionicons
@@ -10,6 +15,7 @@ import { Ionicons } from '@expo/vector-icons';
 
 //import du composant "avatarRound" créé dans le répertoire "components" pour l'utiliser en tant que right component du header
 import { AvatarRound } from './avatar'
+import Text from "./Text";
 
 
 const HeaderBar = (props) => {
@@ -46,14 +52,19 @@ const HeaderBar = (props) => {
       centerContainerStyle= {{
         justifyContent: "center"
       }}
-      centerComponent={<View style={{ alignItems: 'center' }}><Text style={{ color: "#1A0842", fontSize: 22, fontWeight: "bold" }}>{props.title}</Text>{locationIndication}</View>} 
+      centerComponent={<View style={{ alignItems: 'center' }}><Text numberOfLines={1} style={{ color: "#1A0842", fontSize: 22, fontWeight: "bold" }}>{props.title}</Text>{locationIndication}</View>} 
       containerStyle={{
         backgroundColor: 'white',
         height: 120,
       }}
       rightComponent={<AvatarRound navigation={props.navigation} size="md"
-        source={{ uri: 'https://numero.twic.pics/images/flexible_grid/100/push-cover-beyonce-ticket-concert-a-vie-jay-numero-magazine.jpg' }}
+<<<<<<< HEAD
+        source={{ uri: props.user.avatar }}
          >
+=======
+        source={{ uri: 'https://numero.twic.pics/images/flexible_grid/100/push-cover-beyonce-ticket-concert-a-vie-jay-numero-magazine.jpg' }}
+        >
+>>>>>>> front-a
         
       </AvatarRound>
       }

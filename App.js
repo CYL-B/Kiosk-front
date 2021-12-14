@@ -31,6 +31,7 @@ import MessagesScreen from "./screens/MessagesScreen";
 import ChatScreen from "./screens/ChatScreen";
 import CompanyScreen from "./screens/CompanyScreen";
 import RatingScreen from "./screens/RatingScreen";
+import LeaveRatingsScreen from "./screens/LeaveRatings";
 
 //import des pages du usermenu dans les navigations
 import CompanyProfileScreen from "./screens/Usermenu/CompanyProfileScreen";
@@ -43,7 +44,10 @@ import QuoteRequestScreen from "./screens/QuoteRequestScreen";
 
 // import des modules de navigation
 import { NavigationContainer } from "@react-navigation/native";
-import { createStackNavigator, CardStyleInterpolators } from "@react-navigation/stack";
+import {
+  createStackNavigator,
+  CardStyleInterpolators,
+} from "@react-navigation/stack";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 
 // import des composants de navigation
@@ -55,13 +59,13 @@ const forSlide = ({ current, next, inverted, layouts: { screen } }) => {
     current.progress.interpolate({
       inputRange: [0, 1],
       outputRange: [0, 1],
-      extrapolate: 'clamp',
+      extrapolate: "clamp",
     }),
     next
       ? next.progress.interpolate({
           inputRange: [0, 1],
           outputRange: [0, 1],
-          extrapolate: 'clamp',
+          extrapolate: "clamp",
         })
       : 0
   );
@@ -78,7 +82,7 @@ const forSlide = ({ current, next, inverted, layouts: { screen } }) => {
                 0, // Fully focused
                 screen.width * -0.3, // Fully unfocused
               ],
-              extrapolate: 'clamp',
+              extrapolate: "clamp",
             }),
             inverted
           ),
@@ -90,7 +94,9 @@ const forSlide = ({ current, next, inverted, layouts: { screen } }) => {
 
 const StackNavigation = () => {
   return (
-    <Stack.Navigator screenOptions={{ headerShown: false, cardStyleInterpolator: forSlide }}>
+    <Stack.Navigator
+      screenOptions={{ headerShown: false, cardStyleInterpolator: forSlide }}
+    >
       <Stack.Screen name="Home" component={HomeScreen} />
       <Stack.Screen name="CompanyPage" component={CompanyScreen} />
       <Stack.Screen name="OfferPage" component={OfferScreen} />
@@ -99,6 +105,7 @@ const StackNavigation = () => {
       <Stack.Screen name="UserProfile" component={UserProfileScreen} />
       <Stack.Screen name="Quotation" component={QuotationScreen} />
       <Stack.Screen name="Rating" component={RatingScreen} />
+      <Stack.Screen name="LeaveFeedback" component={LeaveRatingsScreen} />
     </Stack.Navigator>
   );
 };
@@ -107,7 +114,7 @@ const StackNavigation = () => {
 const TabNavigation = () => {
   return (
     <Tab.Navigator
-      initialRouteName="Accueil"
+      initialRouteName="Home"
       screenOptions={({ route }) => ({
         tabBarIcon: ({ color }) => {
           let iconName;
@@ -130,16 +137,16 @@ const TabNavigation = () => {
         tabBarStyle: {
           backgroundColor: "#FFFBF7",
           color: "#1A0842",
-          height: 90,
+          height: 70,
         },
         tabBarItemStyle: {
           padding: 10,
         },
       })}
     >
-      <Tab.Screen 
-        name="Accueil" 
-        component={StackNavigation} 
+      <Tab.Screen
+        name="Accueil"
+        component={StackNavigation}
         options={{ unmountOnBlur: true }}
       />
       <Tab.Screen
@@ -150,7 +157,7 @@ const TabNavigation = () => {
       <Tab.Screen
         name="Messages"
         component={MessagesScreen}
-        options={{ tabBarBadge: 3, unmountOnBlur: true }}
+        options={{ tabBarBadge: 3 }}
       />
     </Tab.Navigator>
   );
@@ -161,10 +168,16 @@ export default function App() {
   return (
     <Provider store={store}>
       <NavigationContainer>
-        <Stack.Navigator screenOptions={{ headerShown: false, cardStyleInterpolator: forSlide}}>
+        <Stack.Navigator
+          screenOptions={{
+            headerShown: false,
+            cardStyleInterpolator: forSlide,
+          }}
+        >
           <Stack.Screen name="Bienvenue" component={WelcomeScreen} />
           <Stack.Screen name="Connexion" component={LoginScreen} />
           <Stack.Screen name="Inscription" component={RegisterScreen} />
+          <Stack.Screen name="CompanyPage" component={CompanyScreen} />
           <Stack.Screen name="TabNavigation" component={TabNavigation} />
           <Stack.Screen name="Chat" component={ChatScreen} />
           <Stack.Screen name="MessagesScreen" component={MessagesScreen} />
