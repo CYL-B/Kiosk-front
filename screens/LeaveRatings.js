@@ -70,63 +70,63 @@ const LeaveRatingsScreen = (props) => {
 
             <ScrollView style={{backgroundColor:"white"}}>
 
-            <KeyboardAvoidingView 
-                behavior="position" 
-                // contentContainerStyle={{alignItems: "center", paddingLeft:20, paddingRight: 20}}
-            >
-            </KeyboardAvoidingView>
+                <KeyboardAvoidingView 
+                    behavior="position" 
+                    // contentContainerStyle={{alignItems: "center", paddingLeft:20, paddingRight: 20}}
+                >
+                
 
-            <View style={{flex:1, paddingBottom:80, backgroundColor:"white"}}>
-                <View style={{ top:10, paddingLeft:15, paddingRight: 15}}>
-                <CompanyCard
-                    navigation={props.navigation}
-                    dataCompany={company}
-                />
-                </View>
+                    <View style={{flex:1, paddingBottom:80, backgroundColor:"white"}}>
+                        <View style={{ top:10, paddingLeft:15, paddingRight: 15}}>
+                        <CompanyCard
+                            navigation={props.navigation}
+                            dataCompany={company}
+                        />
+                        </View>
 
-                <View style={{top:40, paddingLeft:15, paddingRight: 15}}>
-                <Input
-                  value={feedback}
-                  label={`Décrivez votre expérience avec ${company.companyName}`}
-                  // keyboardType="numeric"
-                  placeholder='En quelques mots'
-                  onChangeText={(value) => setFeedback(value)}
-                />
-                </View>
+                        <View style={{top:40, paddingLeft:15, paddingRight: 15}}>
+                        <Input
+                          value={feedback}
+                          label={`Décrivez votre expérience avec ${company.companyName}`}
+                          // keyboardType="numeric"
+                          placeholder='En quelques mots'
+                          onChangeText={(value) => setFeedback(value)}
+                        />
+                        </View>
 
-                <View style={{height:50, justifyContent:"center", top:50, paddingLeft:15, paddingRight: 15}}>
-                <AirbnbRating
-                    type="custom"
-                    selectedColor="#F47805"
-                    unSelectedColor="#F4780533"
-                    reviewColor="#F47805"
-                    defaultRating={0}
-                    count={5}
-                    size={30}
-                    showRating={false}
-                    onFinishRating={(rating) => setRate(rating)}
-                />
-                </View>
+                        <View style={{height:50, justifyContent:"center", top:50, paddingLeft:15, paddingRight: 15}}>
+                        <AirbnbRating
+                            type="custom"
+                            selectedColor="#F47805"
+                            unSelectedColor="#F4780533"
+                            reviewColor="#F47805"
+                            defaultRating={0}
+                            count={5}
+                            size={30}
+                            showRating={false}
+                            onFinishRating={(rating) => setRate(rating)}
+                        />
+                        </View>
 
-                <View style={{top:50, paddingHorizontal:15, paddingVertical:20, alignItems:"center"}}>
-                  <View style={{paddingBottom:10}}>
-                  <Button 
-                      title="Poster l'avis"
-                      size="md"
-                      color="primary"
-                      onPress={() => sendRating()}
-                  >
-                  </Button>
-                  </View>
-                  <ButtonText 
-                    title="Annuler" 
-                    onPress={() => props.navigation.goBack()}
-                  >
-                  </ButtonText>
-                </View>
+                        <View style={{top:50, paddingHorizontal:15, paddingVertical:20, alignItems:"center"}}>
+                          <View style={{paddingBottom:10}}>
+                          <Button 
+                              title="Poster l'avis"
+                              size="md"
+                              color="primary"
+                              onPress={() => sendRating()}
+                          >
+                          </Button>
+                          </View>
+                          <ButtonText 
+                            title="Annuler" 
+                            onPress={() => props.navigation.goBack()}
+                          >
+                          </ButtonText>
+                        </View>
 
-            </View>
-            
+                    </View>
+                </KeyboardAvoidingView>
             </ScrollView>
 
     </View>

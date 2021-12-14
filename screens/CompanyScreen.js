@@ -38,11 +38,11 @@ const CompanyScreen = (props) => {
     const [inputOverlay, setInputOverlay] = useState('');
     const [valueToChange, setValueToChange] = useState(null);
 
-// useEffect de suivi d'états :
-    useEffect(() => {
-// console.log("suivi état company", company);
-// console.log("zipcode", company.offices[0].zipCode);
-    }, [company])
+// // useEffect de suivi d'états :
+//     useEffect(() => {
+// // console.log("suivi état company", company);
+// // console.log("zipcode", company.offices[0].zipCode);
+//     }, [company])
 
 // useEffect d'initialisation de la page Company :
     useEffect(() => {

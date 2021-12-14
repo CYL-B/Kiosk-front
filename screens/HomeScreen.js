@@ -1,5 +1,5 @@
 import React, { useEffect } from "react";
-import { View } from "react-native";
+import { View, ImageBackground, Dimensions } from 'react-native';
 // Import des composants Button customisés
 import Text from "../components/Text";
 import { ButtonText } from "../components/Buttons";
@@ -7,6 +7,7 @@ import { ButtonText } from "../components/Buttons";
 import SubCategoriesListHori from "../components/SubCategoriesListHori";
 import { HeaderBar } from "../components/Header";
 import CompanyCard from "../components/CompanyCard";
+// import PackCard from "../components/PackCard";
 
 import { connect } from "react-redux";
 
@@ -15,6 +16,10 @@ import { ScrollView } from "react-native-gesture-handler";
 import Searchbar from "../components/SearchBar";
 
 const HomeScreen = (props) => {
+
+  const windowWidth = Dimensions.get('window').width;
+  const windowHeight = Dimensions.get('window').height;
+  
   var dataCompany = {
     siret: "9999999999",
     companyName: "CompanyTest1",
@@ -167,66 +172,98 @@ const HomeScreen = (props) => {
           </View>
         </View>
 
-        <View style={{ marginTop: 20 }}>
-          <View style={{ marginLeft: 20 }}>
-            <Text style={{ fontWeight: "bold", fontSize: 18 }}>Nos pack</Text>
+{/* NOS PACKS */}
+        <View style={{ marginTop: 20, marginBottom:30 }}>
+          
+          <View>
+
+            <Text style={{ fontWeight: "bold", fontSize: 18, marginLeft: 20 }}>Nos packs</Text>
+
             <View
               style={{
                 display: "flex",
                 flexDirection: "row",
                 flexWrap: "wrap",
-                justifyContent: "center",
-                alignItems: "center",
+                justifyContent:"space-evenly",
+                alignContent:"space-around",
+                top:20,
+                paddingVertical:10
               }}
             >
-              <View
-                style={{
-                  margin: 30,
-                  height: 150,
-                  width: 120,
-                  borderWidth: 1,
-                  justifyContent: "center",
-                  alignItems: "center",
-                }}
-              >
-                <Text>Pack 1</Text>
+
+            <View style={{display:"flex", flexDirection:"row", paddingBottom:10}}>
+              <View style={{paddingRight:10}}>
+                <ImageBackground
+                  source={require('../assets/nouveaubureau.png')}
+                  imageStyle={{borderRadius:20}}
+                  style={{ 
+                    margin: 3,
+                    height: 200,
+                    width: windowWidth/2.4,
+                    justifyContent: "center",
+                    // alignItems: "center",
+                  }}>
+                  <Text
+                    style={{color:"#FFFFFF", textAlign:"center", paddingHorizontal:10}}
+                  >Je change de bureau</Text>
+                </ImageBackground>
               </View>
-              <View
-                style={{
-                  margin: 30,
-                  height: 150,
-                  width: 120,
-                  borderWidth: 1,
-                  justifyContent: "center",
-                  alignItems: "center",
-                }}
-              >
-                <Text>Pack 2</Text>
+
+              {/* <View> */}
+                <ImageBackground
+                  source={require('../assets/maboite.png')}
+                  imageStyle={{borderRadius:20}}
+                  style={{ 
+                    margin: 3,
+                    height: 200,
+                    width: windowWidth/2.4,
+                    justifyContent: "center",
+                    // alignItems: "center",
+                  }}>
+                  <Text
+                    style={{color:"#FFFFFF", textAlign:"center", paddingHorizontal:10}}
+                  >Je monte ma boîte</Text>
+                </ImageBackground>
+              {/* </View> */}
+            </View>
+
+            <View style={{display:"flex", flexDirection:"row", paddingBottom:10}}>
+              <View style={{paddingRight:10}}>
+                <ImageBackground
+                  source={require('../assets/équipement.png')}
+                  imageStyle={{borderRadius:20}}
+                  style={{ 
+                    margin: 3,
+                    height: 200,
+                    width: windowWidth/2.4,
+                    justifyContent: "center",
+                    alignItems: "center",
+                  }}>
+                  <Text
+                    style={{color:"#FFFFFF", textAlign:"center", paddingHorizontal:10}}
+                  >J'équipe mes employés</Text>
+                </ImageBackground>
               </View>
-              <View
-                style={{
-                  margin: 30,
-                  height: 150,
-                  width: 120,
-                  borderWidth: 1,
-                  justifyContent: "center",
-                  alignItems: "center",
-                }}
-              >
-                <Text>Pack 3</Text>
-              </View>
-              <View
-                style={{
-                  margin: 30,
-                  height: 150,
-                  width: 120,
-                  borderWidth: 1,
-                  justifyContent: "center",
-                  alignItems: "center",
-                }}
-              >
-                <Text>Pack 4</Text>
-              </View>
+
+              {/* <View> */}
+                <ImageBackground
+                  source={require('../assets/employés.png')}
+                  imageStyle={{borderRadius:20}}
+                  style={{ 
+                    margin: 3,
+                    height: 200,
+                    width: windowWidth/2.4,
+                    justifyContent: "center",
+                    alignItems: "center",
+                    
+                  }}>
+                  <Text
+                    style={{color:"#FFFFFF", textAlign:"center", paddingHorizontal:10}}
+                  >Je chouchoute mes employés</Text>
+                </ImageBackground>
+              {/* </View> */}
+            </View>
+
             </View>
           </View>
         </View>
