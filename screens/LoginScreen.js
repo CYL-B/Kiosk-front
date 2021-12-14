@@ -1,9 +1,10 @@
 import React, { useEffect, useCallback, useState } from 'react';
 import { connect } from 'react-redux';
-import { View, Text, ImageBackground, StyleSheet } from 'react-native';
+import { View, ImageBackground, StyleSheet } from 'react-native';
 import { Button, ButtonText } from '../components/Buttons';
 import { useForm } from "react-hook-form";
 import { Input, Image } from 'react-native-elements';
+import Text from "../components/Text";
 
 import { REACT_APP_IPSERVER } from '@env';
 
@@ -12,7 +13,6 @@ const LoginScreen = (props) => {
             [signInErrorMessage, setSignInErrorMessage] = useState(false);
     const { handleSubmit, setValue } = useForm();
     const onSubmit = useCallback(async formData => {
-        console.log(formData);
         if (formData.email.length > 0 && formData.password.length > 0) {
             let user = await fetch(`http://${REACT_APP_IPSERVER}/users/connect`, {
               method: 'POST',
@@ -21,12 +21,10 @@ const LoginScreen = (props) => {
             })
             let res = await user.json();
             if (res.result) {
-              console.log('found');
               setIsLogin(true);
               props.storeUser(res.user);
                     props.navigation.navigate('TabNavigation');
             } else {
-              console.log('not found');
               setSignInErrorMessage(res.message);
             }
           } else {
@@ -139,7 +137,6 @@ const LoginScreen = (props) => {
 function mapDispatchToProps(dispatch) {
     return {
         storeUser: function (user) {
-            console.log(user);
             dispatch({ type: 'storeUser', user })
         }
     }

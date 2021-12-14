@@ -1,13 +1,15 @@
 import React from "react";
-import { Text, TouchableOpacity } from "react-native";
+import { TouchableOpacity } from "react-native";
+import Text from "./Text";
 
 // Import du module qui facilite la création de gradient
 import { LinearGradient } from "expo-linear-gradient";
 
 const Button = (props) => {
+
   // Style utilisé pour le container du bouton
   let containerStyle = {
-    borderRadius: 5,
+    borderRadius: 15,
   };
 
   if(props.style) {
@@ -27,7 +29,7 @@ const Button = (props) => {
     };
     fontStyle = {
       color: "#FFFFFF",
-      fontSize: 16,
+      fontSize: 16
     };
   } else {
     btnStyle = {
@@ -36,7 +38,7 @@ const Button = (props) => {
     };
     fontStyle = {
       color: "#FFFFFF",
-      fontSize: 14,
+      fontSize: 14
     };
   }
 

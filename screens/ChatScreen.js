@@ -6,10 +6,11 @@ import { REACT_APP_IPSERVER } from '@env'
 
 //import de la librairie gifted chat avec ses éléments
 import { GiftedChat, InputToolbar, Send, Bubble, MessageText } from 'react-native-gifted-chat'
-import { View, Text, StyleSheet } from 'react-native';
+import { View, StyleSheet } from 'react-native';
 import { HeaderBar } from '../components/Header'
 import { Divider, Badge } from 'react-native-elements';
 import { AvatarRound } from '../components/avatar'
+import Text from "../components/Text";
 import { FontAwesome } from '@expo/vector-icons';
 
 
@@ -27,10 +28,8 @@ const ChatScreen = (props) => {
 
   useEffect(() => {
     const findMessages = async()=>{
-      const data = await fetch(`http://${REACT_APP_IPSERVER}/conversations/messages/${convId}`)
+      const data = await fetch(`http://${REACT_APP_IPSERVER}/conversations/messages/${convId}/${props.user._id}`)
       const body = await data.json();
-      console.log("body",body.sortedMessages)
-      
       setMessages(body.sortedMessages)
     }
     findMessages();
@@ -44,7 +43,6 @@ const ChatScreen = (props) => {
   const onSend = useCallback((messages = []) => {
     var newMessage
     var addMessage = async (message) => {
-      console.log('addMessage', message[0].text)
       const saveReq = await fetch(`http://${REACT_APP_IPSERVER}/conversations/messages`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
@@ -53,9 +51,7 @@ const ChatScreen = (props) => {
       }) 
       const fromBack = await saveReq.json()
       newMessage = fromBack.messageToSendToFront
-      console.log("newMessage", newMessage)
       setMessages(previousMessages => GiftedChat.append(previousMessages, newMessage))
-    console.log("messagesChat", messages)
     }
     addMessage(messages)
   },
@@ -102,6 +98,7 @@ const ChatScreen = (props) => {
     locationIndication
     location="Paris"
     onBackPress={() => props.navigation.goBack()}
+    user={props.user}
   ></HeaderBar>
     <Divider style={{ backgroundColor: '#FAF0E6', height: 60, flexDirection: "row", justifyContent: "center", alignItems: "center" }}><Badge status="error" badgeStyle={{ marginTop: 6 }} /><Text style={{ fontSize: 20, color: "#1A0842", marginLeft: 10 }}>Pas de contrat en cours</Text></Divider>
     <GiftedChat

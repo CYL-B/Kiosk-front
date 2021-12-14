@@ -19,7 +19,6 @@ const SearchScreen = (props) => {
     //condition pour afficher soir la liste de categorie, soit la liste de sous categorie, sois la liste de résultat
 
     if (props.categoryChosenData == "" && props.subCategoryChosenData == "") {
-      console.log("test1");
       setMenuToShow(<CateGoriesList></CateGoriesList>);
     } else if (
       props.categoryChosenData.categoryName !== "" &&
@@ -42,8 +41,11 @@ const SearchScreen = (props) => {
         width: "100%",
       }}
     >
-      <HeaderBar title="Recherche"
-      navigation={props.navigation}></HeaderBar>
+      <HeaderBar
+        title="Recherche"
+        navigation={props.navigation}
+        user={props.user}
+      ></HeaderBar>
       <Searchbar></Searchbar>
       {menuToShow}
     </View>
@@ -52,6 +54,7 @@ const SearchScreen = (props) => {
 
 function mapStateToProps(state) {
   return {
+    user: state.user,
     categoryChosenData: state.categoryChosenData,
     subCategoryChosenData: state.subCategoryChosenData,
   };
@@ -59,8 +62,9 @@ function mapStateToProps(state) {
 
 function mapDispatchToProps(dispatch) {
   return {
-    setcategoriesList: function (categorieslist) {
-      dispatch({ type: "setcategoriesList", categorieslist });
+    storeUser: function (user) {
+      console.log(user);
+      dispatch({ type: "storeUser", user });
     },
   };
 }
