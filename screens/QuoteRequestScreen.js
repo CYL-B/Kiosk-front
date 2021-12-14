@@ -19,14 +19,15 @@ const QuoteRequestScreen = (props) => {
   const [details, setDetails] = useState("");
 
   //récupère les infos de offerpage au clic sur "demander un devis"
-  // const { offerId } = props.route.params.offerId;
-  // const{ providerId } = props.route.params.providerId
 
-  // const[reqOfferId, setReqOfferId] = useState(offerId)
-  // const[reqProviderId, setProviderId] = useState(providerId)
+
+  const [reqOfferId, setReqOfferId] = useState(props.route.params.offerId)
+  const [reqProviderId, setReqProviderId] = useState(props.route.params.providerId)
+
 
   //récupère le statut du devis depuis le back
-  const [quoteStatus, setQuoteStatus] = useState("")
+  const [quoteStatus, setQuoteStatus] = useState("");
+  const [error, setError] = useState("");
 
   //route qui permet d'afficher l'offre qui a été cliquée 
   useEffect(() => {
@@ -40,30 +41,43 @@ const QuoteRequestScreen = (props) => {
   //route d'ajout d'un devis
   var addQuotation = async () => {
     //reçoit depuis offerpage : offerId, providerId(companies)
-    // clientId=${props.user.companyId}&offerId=${offerId}&providerId=${providerId}
+
     const saveReq = await fetch(`http://${REACT_APP_IPSERVER}/quotations/add-quotation`, {
       method: 'POST',
       headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
-      body: `date=${new Date()}&sunshine=${sunshine}&area=${area}&forfait=${forfait}&details=${details}`
+      body: `date=${new Date()}&sunshine=${sunshine}&area=${area}&forfait=${forfait}&details=${details}&clientId=${props.user.companyId}&offerId=${reqOfferId}&providerId=${reqProviderId}&token=${props.user.token}`
 
     })
     const fromBack = await saveReq.json()
     setQuoteStatus(fromBack.quotationSaved.status)
+    setError(fromBack.erreur)
 
   }
-    
 
-const quoteRequest = () => {
-  // props.navigation.navigate("StackNavigation", {screen : "Quotation"} {offerId: offerId}, {quoteStatus : quoteStatus});
-  addQuotation();
-};
+  const quoteRequest = () => {
+    props.navigation.navigate("Quotation", { offerId: reqProviderId, quoteStatus: quoteStatus });
+    addQuotation();
 
-return (
-  <View style={{ flex: 1, backgroundColor: "white" }}>
+    var confirmation = <View><Text>{error}</Text>
+      <Button title="Oui"
+
+        size="md"
+        color="primary"
+        onPress={() => quoteRequest()}></Button>
+      <Button title="Non"
+
+        size="md"
+        color="secondary"
+        onPress={() => props.navigation.goBack()}></Button></View>
+
+  }
+
+  return (<View style={{ flex: 1, backgroundColor: "white" }}>
     <HeaderBar
       leftComponent
       title="Demande de devis"
       navigation={props.navigation}
+      user={props.user}
     >
 
     </HeaderBar>
@@ -86,7 +100,7 @@ return (
           label="Superficie"
           labelStyle={{ color: "#1A0842" }}
           keyboardType="numeric"
-          placeholder='La superficie de vos bureaux'
+          placeholder='La superficie de vos bureaux en m2'
           onChangeText={(value) => setArea(value)}
           value={area}
         />
@@ -117,12 +131,13 @@ return (
           onPress={() => quoteRequest()}
         ></Button></View>
         <ButtonText title="Annuler"
+          onPress={() => props.navigation.goBack()}
         ></ButtonText>
 
       </KeyboardAvoidingView>
     </ScrollView>
   </View>
-)
+  )
 }
 
 function mapStateToProps(state) {

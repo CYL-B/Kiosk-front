@@ -106,6 +106,7 @@ const StackNavigation = () => {
       <Stack.Screen name="Quotation" component={QuotationScreen} />
       <Stack.Screen name="Rating" component={RatingScreen} />
       <Stack.Screen name="LeaveFeedback" component={LeaveRatingsScreen} />
+      <Stack.Screen name="QuoteRequest" component={QuoteRequestScreen} />
     </Stack.Navigator>
   );
 };
@@ -181,7 +182,7 @@ export default function App() {
           <Stack.Screen name="TabNavigation" component={TabNavigation} />
           <Stack.Screen name="Chat" component={ChatScreen} />
           <Stack.Screen name="MessagesScreen" component={MessagesScreen} />
-          <Stack.Screen name="QuoteRequest" component={QuoteRequestScreen} />
+          
         </Stack.Navigator>
       </NavigationContainer>
     </Provider>
