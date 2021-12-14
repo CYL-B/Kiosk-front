@@ -41,6 +41,7 @@ import QuotationScreen from "./screens/Usermenu/QuotationScreen";
 
 //import de la page demande de devis
 import QuoteRequestScreen from "./screens/QuoteRequestScreen";
+import SendQuoteScreen from "./screens/Usermenu/SendQuoteScreen";
 
 // import des modules de navigation
 import { NavigationContainer } from "@react-navigation/native";
@@ -107,6 +108,7 @@ const StackNavigation = () => {
       <Stack.Screen name="Rating" component={RatingScreen} />
       <Stack.Screen name="LeaveFeedback" component={LeaveRatingsScreen} />
       <Stack.Screen name="QuoteRequest" component={QuoteRequestScreen} />
+      <Stack.Screen name="SendQuote" component={SendQuoteScreen}/>
     </Stack.Navigator>
   );
 };
