@@ -60,7 +60,6 @@ const SearchScreen = (props) => {
       );
       setMenuToShow(<OfferList navigation={props.navigation}></OfferList>);
     }
-    //return menuToShow;
   }, [props.categoryChosenData, props.subCategoryChosenData]);
 
   return (
@@ -73,7 +72,7 @@ const SearchScreen = (props) => {
       }}
     >
       {headerBar}
-      <Searchbar></Searchbar>
+      <Searchbar navigation={props.navigation}></Searchbar>
       {menuToShow}
     </View>
   );

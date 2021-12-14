@@ -32,9 +32,11 @@ const OfferList = (props) => {
       offerList = offerList.offerList;
       setOfferList(offerList);
     };
+
     getOfferWithId();
   }, [props.subCategoryChosenData]);
 
+  console.log(offerList);
   //Si on trouve des offre, on appelle le composant OfferCardMain en lui passant les propriétés de la liste
 
   if (offerList === undefined || offerList.length == 0) {
