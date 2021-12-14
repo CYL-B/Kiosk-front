@@ -1,4 +1,4 @@
-import React, { useEffect, useCallback, useState } from 'react';
+import React, { useCallback, useState } from 'react';
 import { connect } from 'react-redux';
 import { View, ImageBackground, StyleSheet } from 'react-native';
 import { Button, ButtonText } from '../components/Buttons';

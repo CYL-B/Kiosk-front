@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import { View, Text, ScrollView } from 'react-native';
 import { Card, Badge} from "react-native-elements";
-import {Button} from '/Users/Camille/Desktop/Lacapsule1/lacapsule2/kiosk-project/kiosk/frontend/components/Buttons.js'
-import { HeaderBar } from '/Users/Camille/Desktop/Lacapsule1/lacapsule2/kiosk-project/kiosk/frontend/components/Header.js';
+import {Button} from '../../components/Buttons.js'
+import { HeaderBar } from '../../components/Header.js';
 
 //import du switch
 import Toggle from 'react-native-toggle-element';

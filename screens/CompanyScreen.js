@@ -1,5 +1,5 @@
-import React, {useState, useEffect} from 'react';
-import { View, ImageBackground, TextInput, KeyboardAvoidingView, StyleSheet } from 'react-native';
+import React, {useState, useEffect, useRef} from 'react';
+import { View, ImageBackground, TextInput, KeyboardAvoidingView, StyleSheet, TouchableOpacity } from 'react-native';
 import { Card, Image, ListItem, Overlay } from 'react-native-elements';
 import { ScrollView } from 'react-native-gesture-handler';
 import * as ImagePicker from 'expo-image-picker';
@@ -12,9 +12,11 @@ import { REACT_APP_IPSERVER } from '@env'; // mettre à la place de notre url d'
 
 import {connect} from 'react-redux';
 
+import LottieView from "lottie-react-native";
+
 
 const CompanyScreen = (props) => {
-
+    const animation = useRef(null);
     
 // variables de display :
     var displayCieImg; // aller chercher une image dans le téléhone du presta
@@ -38,6 +40,8 @@ const CompanyScreen = (props) => {
     const [inputOverlay, setInputOverlay] = useState('');
     const [valueToChange, setValueToChange] = useState(null);
 
+    const [isLiked, setIsLiked] = useState(false);
+
 // useEffect de suivi d'états :
     useEffect(() => {
 // console.log("suivi état company", company);
@@ -50,7 +54,7 @@ const CompanyScreen = (props) => {
 // DANS USE : fonction chargement des infos de la compagnie loggée :
         async function loadDataCie() {
             // appel route put pour modifier données company
-            var rawDataCie = await fetch(`http://${REACT_APP_IPSERVER}/companies/${companyId}/${token}`); // (`adresseIPserveur/route appelée/req.params?req.query`)
+            var rawDataCie = await fetch(`http://${REACT_APP_IPSERVER}/companies/${companyId}/${props.user.token}`); // (`adresseIPserveur/route appelée/req.params?req.query`)
             var dataCie = await rawDataCie.json();
 // console.log("dataCie", dataCie);
             if (dataCie.result) {
@@ -73,6 +77,11 @@ const CompanyScreen = (props) => {
 // console.log("état", labels);
         }
         loadDataLabels();
+
+        // get like status in store user
+        var user = props.user;
+        var userLikes = user.favorites;
+        setIsLiked(userLikes.some(e => e.companyId && e.companyId === companyId));
 
     }, []);
 
@@ -186,6 +195,22 @@ let openImagePickerAsync = async () => {
         }
     }
 
+    const handleLikeClick = async () => {
+        animation.current.reset();
+        !isLiked ? animation.current.play(0, 40) : animation.current.play(40, 75);
+        let body = `token=${token}&companyId=${companyId}&userId=${props.user._id}`;
+        const dataRaw = await fetch(`http://${REACT_APP_IPSERVER}/companies/like`, { // renvoie jsute result, donc true ou flase
+            method: 'POST',
+            headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+            body: body
+        })
+        var res = await dataRaw.json(); // true ou false
+        if (res.result) {
+            setIsLiked(!isLiked);
+            props.storeUser(res.user);
+        }
+    }
+
 // console.log(props.user.type);
 
 // gestion displays selon data / !data : 
@@ -195,6 +220,41 @@ let openImagePickerAsync = async () => {
             source={{uri: image}}
             style={{ height: 200 }} /* ATTENTION SIZING IMAGE A REVOIR */
         >
+            <TouchableOpacity style={{ 
+                        backgroundColor: '#fff', 
+                        position: "absolute",
+                        top: "37%",
+                        right: 10,
+                        zIndex: 10,
+                        width: 56,
+                        height: 56,
+                        borderRadius: 50,
+                        shadowColor: "rgba(0,0,0,0.4)",
+                        shadowOffset: {
+                            width: 0,
+                            height: 2,
+                        },
+                        shadowOpacity: 0.25,
+                        shadowRadius: 3.84,
+                        elevation: 5
+                    }}
+                    onPress={() => handleLikeClick()}
+                >
+                <LottieView
+                    ref={animation}
+                    loop={false}
+                    progress={isLiked ? 0.5 : 0}
+                    style={[
+                    {
+                        marginTop: 2,
+                        backgroundColor: "transparent",
+                    }
+                    ]}
+                    source={require("../assets/like.json")}
+                    // OR find more Lottie files @ https://lottiefiles.com/featured
+                    // Just click the one you like, place that file in the 'assets' folder to the left, and replace the above 'require' statement
+                />
+                </TouchableOpacity>
             { props.user.type === "partner" && (
             <View style={{position:"absolute", bottom:"5%", right:"5%", marginRight:15}}>
                 <ButtonText
@@ -523,7 +583,15 @@ const styles = StyleSheet.create({
 
 // on récupère le user stocké dans le store : 
 function mapStateToProps(state) {
-      return { user: state.user }
-    };
+    return { user: state.user }
+};
 
-    export default connect(mapStateToProps, null)(CompanyScreen);
+function mapDispatchToProps(dispatch) {
+    return {
+        storeUser: function (user) {
+        dispatch({ type: "storeUser", user });
+        },
+    };
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(CompanyScreen);
