@@ -31,8 +31,6 @@ function Searchbar(props) {
       props.navigation.navigate("Rechercher");
     } else {
       console.log("pas de sous categories");
-      props.subCategoryChoice();
-      props.categoryAll();
       props.navigation.navigate("Rechercher");
     }
   };

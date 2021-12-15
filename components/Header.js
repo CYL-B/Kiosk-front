@@ -1,11 +1,5 @@
 import React from "react";
 
-<<<<<<< HEAD
-=======
-//Store
-import { connect } from "react-redux";
-
->>>>>>> pageprofil
 //import du header, du texte et de listItem de react native elements
 
 import { Header } from "react-native-elements";
@@ -46,44 +40,44 @@ const HeaderBar = (props) => {
 
   return (
     <View>
-    <Header
-      elevated={false}
-      barStyle="dark-content"
-      statusBarProps={{ backgroundColor: '#ffffff'}}
-      leftComponent = {leftComponentDisplay}
-      leftContainerStyle= {{
-        justifyContent: "center"
-      }}
-      rightContainerStyle={{
-        justifyContent: "center",
-      }}
-      centerContainerStyle={{
-        justifyContent: "center",
-      }}
-      centerComponent={
-        <View style={{ alignItems: "center" }}>
-          <Text
-            numberOfLines={1}
-            style={{ color: "#1A0842", fontSize: 22, fontWeight: "bold" }}
-          >
-            {props.title}
-          </Text>
-          {locationIndication}
-        </View>
-      }
-      containerStyle={{
-        backgroundColor: '#ffffff'
-      }}
-      rightComponent={<AvatarRound navigation={props.navigation} size="md"
-        source={{ uri: props.user.avatar }}
-         >
-        
-      </AvatarRound>
-      }
-  
-
-    />
-    </View>)
-}
+      <Header
+        elevated={false}
+        barStyle="dark-content"
+        statusBarProps={{ backgroundColor: "#ffffff" }}
+        leftComponent={leftComponentDisplay}
+        leftContainerStyle={{
+          justifyContent: "center",
+        }}
+        rightContainerStyle={{
+          justifyContent: "center",
+        }}
+        centerContainerStyle={{
+          justifyContent: "center",
+        }}
+        centerComponent={
+          <View style={{ alignItems: "center" }}>
+            <Text
+              numberOfLines={1}
+              style={{ color: "#1A0842", fontSize: 22, fontWeight: "bold" }}
+            >
+              {props.title}
+            </Text>
+            {locationIndication}
+          </View>
+        }
+        containerStyle={{
+          backgroundColor: "#ffffff",
+        }}
+        rightComponent={
+          <AvatarRound
+            navigation={props.navigation}
+            size="md"
+            source={{ uri: props.user.avatar }}
+          ></AvatarRound>
+        }
+      />
+    </View>
+  );
+};
 
 export { HeaderBar };
