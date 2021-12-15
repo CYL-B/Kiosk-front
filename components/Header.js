@@ -1,11 +1,5 @@
 import React from "react";
 
-<<<<<<< HEAD
-=======
-//Store
-import { connect } from "react-redux";
-
->>>>>>> pageprofil
 //import du header, du texte et de listItem de react native elements
 
 import { Header } from "react-native-elements";
