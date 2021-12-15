@@ -4,7 +4,19 @@ import { Text, ListItem, Avatar } from "react-native-elements";
 
 import { connect } from "react-redux";
 
+import { useIsFocused } from "@react-navigation/native";
+
 const SubCateGoriesList = (props) => {
+  const isFocused = useIsFocused();
+
+  if (isFocused) {
+    console.log("props.categoryChosenData isfocus", props.categoryChosenData);
+    console.log(
+      "props.subCategoryChosenData isfocus",
+      props.subCategoryChosenData
+    );
+  }
+
   var categoriesData = props.categorieslist;
 
   function handlePress(subCategoryChosenData) {

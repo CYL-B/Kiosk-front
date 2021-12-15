@@ -15,21 +15,19 @@ import { useIsFocused } from "@react-navigation/native";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 
 const WelcomeScreen = (props) => {
-  const isFocused = useIsFocused();
-
   useEffect(() => {
     AsyncStorage.getItem("user", function (error, data) {
       var userData = JSON.parse(data);
       if (userData) {
-        console.log("userData", userData);
         props.storeUser(userData);
         props.navigation.navigate("TabNavigation");
       }
     });
   }, []);
 
+  const isFocused = useIsFocused();
   if (isFocused) {
-    console.log("props.user", props.user);
+    //console.log("props.user", props.user);
   }
 
   return (

@@ -23,9 +23,20 @@ const SearchScreen = (props) => {
     ></HeaderBar>
   );
 
+  async function handlePressRetour() {
+    props.subCategoryChoiceReset();
+    //props.CategoryChoiceReset();
+    props.ResetRecherche();
+    console.log("retour");
+  }
+
   useEffect(() => {
     //condition pour afficher soir la liste de categorie, soit la liste de sous categorie, sois la liste de résultat
-    if (props.categoryChosenData == "" && props.subCategoryChosenData == "") {
+    if (
+      props.categoryChosenData == "" &&
+      props.subCategoryChosenData == "" &&
+      !props.recherche
+    ) {
       setHeaderBar(
         <HeaderBar
           title="Recherche"
@@ -36,7 +47,8 @@ const SearchScreen = (props) => {
       setMenuToShow(<CateGoriesList></CateGoriesList>);
     } else if (
       props.categoryChosenData.categoryName !== "" &&
-      props.subCategoryChosenData === ""
+      props.subCategoryChosenData === "" &&
+      !props.recherche
     ) {
       setHeaderBar(
         <HeaderBar
@@ -48,11 +60,13 @@ const SearchScreen = (props) => {
         ></HeaderBar>
       );
       setMenuToShow(<SubCategoriesList></SubCategoriesList>);
-    } else if (props.subCategoryChosenData !== "") {
+    } else if (props.subCategoryChosenData !== "" || props.recherche) {
       setHeaderBar(
         <HeaderBar
           title="Recherche"
-          onBackPress={() => props.subCategoryChoiceReset()}
+          onBackPress={() => {
+            handlePressRetour();
+          }}
           leftComponent
           navigation={props.navigation}
           user={props.user}
@@ -60,7 +74,7 @@ const SearchScreen = (props) => {
       );
       setMenuToShow(<OfferList navigation={props.navigation}></OfferList>);
     }
-  }, [props.categoryChosenData, props.subCategoryChosenData]);
+  }, [props.categoryChosenData, props.subCategoryChosenData, props.recherche]);
 
   return (
     <View
@@ -83,6 +97,7 @@ function mapStateToProps(state) {
     user: state.user,
     categoryChosenData: state.categoryChosenData,
     subCategoryChosenData: state.subCategoryChosenData,
+    recherche: state.recherche,
   };
 }
 
@@ -96,6 +111,9 @@ function mapDispatchToProps(dispatch) {
     },
     subCategoryChoiceReset: function () {
       dispatch({ type: "ResteSubCategorie" });
+    },
+    ResetRecherche: function () {
+      dispatch({ type: "ResetRecherche" });
     },
   };
 }

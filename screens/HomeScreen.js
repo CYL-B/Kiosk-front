@@ -15,7 +15,7 @@ import { REACT_APP_IPSERVER } from "@env";
 import { ScrollView } from "react-native-gesture-handler";
 import Searchbar from "../components/SearchBar";
 
-import AsyncStorage from "@react-native-async-storage/async-storage";
+import { useIsFocused } from "@react-navigation/native";
 
 const HomeScreen = (props) => {
   const windowWidth = Dimensions.get("window").width;
@@ -74,14 +74,12 @@ const HomeScreen = (props) => {
     __v: 24,
   };
 
-  useEffect(() => {
-    AsyncStorage.getItem("user", function (error, data) {
-      var userData = JSON.parse(data);
-      if (userData) {
-        console.log("userData", userData);
-      }
-    });
+  const isFocused = useIsFocused();
+  if (isFocused) {
+    console.log("props.recherche", props.recherche);
+  }
 
+  useEffect(() => {
     var setcategorieslist = async function () {
       const data = await fetch(
         `http://${REACT_APP_IPSERVER}/recherche/getcategories`
@@ -334,6 +332,7 @@ const HomeScreen = (props) => {
 function mapStateToProps(state) {
   return {
     user: state.user,
+    recherche: state.recherche,
   };
 }
 
