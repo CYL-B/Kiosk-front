@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
-import { View, ScrollView, KeyboardAvoidingView, Text} from "react-native";
+import { View, ScrollView, KeyboardAvoidingView} from "react-native";
+import { Text } from 'react-native-elements';
 import { HeaderBar } from "../../components/Header";
 import OfferCardLight from "../../components/OfferCardLight";
 import { Button, ButtonText } from "../../components/Buttons";
@@ -35,7 +36,7 @@ const SendQuoteScreen = (props) => {
     const saveReq = await fetch(`http://${REACT_APP_IPSERVER}/quotations/send-quotation`, {
       method: 'PUT',
       headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
-      body: `quoteId=${reqQuoteId}&token=${props.user.token}`
+      body: `quoteId=${reqQuoteId}&token=${props.user.token}&date=${new Date()}`
 
     })
     const fromBack = await saveReq.json()
@@ -45,15 +46,16 @@ const SendQuoteScreen = (props) => {
 
   const sendQuote = () => {
     sendQuotation();
-    // props.navigation.goBack();
+    props.navigation.goBack();
     
   }
 console.log("answers", answers)
 
 var answersToDisplay = answers.map((answer, i)=>{
   return(
-  <View><Text>{answer.question}</Text>
-  <Text>{answer.answer}</Text></View>)
+  <View style={{margin:15}}>
+    <Text h4 style={{color: "#1A0842", fontWeight:"bold"}} >{answer.question}</Text>
+  <Text style={{color: "#1A0842"}}>{answer.answer}</Text></View>)
 })
 
 
@@ -67,8 +69,10 @@ var answersToDisplay = answers.map((answer, i)=>{
 
     </HeaderBar>
 
-    <ScrollView contentContainerStyle={{ alignItems: "center", paddingLeft: 20, paddingRight: 20 }}>
+    <ScrollView contentContainerStyle={{ alignItems: "flex-start", paddingLeft: 20, paddingRight: 20 }}>
+    <Text h3 style={{color: "#1A0842", fontWeight:"bold"}}>Récapitulatif de la demande : </Text>
     {answersToDisplay}
+    
 
 
         <View><Button
