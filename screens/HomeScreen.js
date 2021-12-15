@@ -1,5 +1,5 @@
 import React, { useEffect } from "react";
-import { View, ImageBackground, Dimensions } from 'react-native';
+import { View, ImageBackground, Dimensions } from "react-native";
 // Import des composants Button customisés
 import Text from "../components/Text";
 import { ButtonText } from "../components/Buttons";
@@ -15,11 +15,12 @@ import { REACT_APP_IPSERVER } from "@env";
 import { ScrollView } from "react-native-gesture-handler";
 import Searchbar from "../components/SearchBar";
 
-const HomeScreen = (props) => {
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
-  const windowWidth = Dimensions.get('window').width;
-  const windowHeight = Dimensions.get('window').height;
-  
+const HomeScreen = (props) => {
+  const windowWidth = Dimensions.get("window").width;
+  const windowHeight = Dimensions.get("window").height;
+
   var dataCompany = {
     siret: "9999999999",
     companyName: "CompanyTest1",
@@ -74,6 +75,13 @@ const HomeScreen = (props) => {
   };
 
   useEffect(() => {
+    AsyncStorage.getItem("user", function (error, data) {
+      var userData = JSON.parse(data);
+      if (userData) {
+        console.log("userData", userData);
+      }
+    });
+
     var setcategorieslist = async function () {
       const data = await fetch(
         `http://${REACT_APP_IPSERVER}/recherche/getcategories`
@@ -170,98 +178,135 @@ const HomeScreen = (props) => {
           </View>
         </View>
 
-{/* NOS PACKS */}
-        <View style={{ marginTop: 20, marginBottom:30 }}>
-          
+        {/* NOS PACKS */}
+        <View style={{ marginTop: 20, marginBottom: 30 }}>
           <View>
-
-            <Text style={{ fontWeight: "bold", fontSize: 18, marginLeft: 20 }}>Nos packs</Text>
+            <Text style={{ fontWeight: "bold", fontSize: 18, marginLeft: 20 }}>
+              Nos packs
+            </Text>
 
             <View
               style={{
                 display: "flex",
                 flexDirection: "row",
                 flexWrap: "wrap",
-                justifyContent:"space-evenly",
-                alignContent:"space-around",
-                top:20,
-                paddingVertical:10
+                justifyContent: "space-evenly",
+                alignContent: "space-around",
+                top: 20,
+                paddingVertical: 10,
               }}
             >
+              <View
+                style={{
+                  display: "flex",
+                  flexDirection: "row",
+                  paddingBottom: 10,
+                }}
+              >
+                <View style={{ paddingRight: 10 }}>
+                  <ImageBackground
+                    source={require("../assets/nouveaubureau.png")}
+                    imageStyle={{ borderRadius: 20 }}
+                    style={{
+                      margin: 3,
+                      height: 200,
+                      width: windowWidth / 2.4,
+                      justifyContent: "center",
+                      // alignItems: "center",
+                    }}
+                  >
+                    <Text
+                      style={{
+                        color: "#FFFFFF",
+                        textAlign: "center",
+                        paddingHorizontal: 10,
+                      }}
+                    >
+                      Je change de bureau
+                    </Text>
+                  </ImageBackground>
+                </View>
 
-            <View style={{display:"flex", flexDirection:"row", paddingBottom:10}}>
-              <View style={{paddingRight:10}}>
+                {/* <View> */}
                 <ImageBackground
-                  source={require('../assets/nouveaubureau.png')}
-                  imageStyle={{borderRadius:20}}
-                  style={{ 
+                  source={require("../assets/maboite.png")}
+                  imageStyle={{ borderRadius: 20 }}
+                  style={{
                     margin: 3,
                     height: 200,
-                    width: windowWidth/2.4,
+                    width: windowWidth / 2.4,
                     justifyContent: "center",
                     // alignItems: "center",
-                  }}>
+                  }}
+                >
                   <Text
-                    style={{color:"#FFFFFF", textAlign:"center", paddingHorizontal:10}}
-                  >Je change de bureau</Text>
+                    style={{
+                      color: "#FFFFFF",
+                      textAlign: "center",
+                      paddingHorizontal: 10,
+                    }}
+                  >
+                    Je monte ma boîte
+                  </Text>
                 </ImageBackground>
+                {/* </View> */}
               </View>
 
-              {/* <View> */}
-                <ImageBackground
-                  source={require('../assets/maboite.png')}
-                  imageStyle={{borderRadius:20}}
-                  style={{ 
-                    margin: 3,
-                    height: 200,
-                    width: windowWidth/2.4,
-                    justifyContent: "center",
-                    // alignItems: "center",
-                  }}>
-                  <Text
-                    style={{color:"#FFFFFF", textAlign:"center", paddingHorizontal:10}}
-                  >Je monte ma boîte</Text>
-                </ImageBackground>
-              {/* </View> */}
-            </View>
+              <View
+                style={{
+                  display: "flex",
+                  flexDirection: "row",
+                  paddingBottom: 10,
+                }}
+              >
+                <View style={{ paddingRight: 10 }}>
+                  <ImageBackground
+                    source={require("../assets/équipement.png")}
+                    imageStyle={{ borderRadius: 20 }}
+                    style={{
+                      margin: 3,
+                      height: 200,
+                      width: windowWidth / 2.4,
+                      justifyContent: "center",
+                      alignItems: "center",
+                    }}
+                  >
+                    <Text
+                      style={{
+                        color: "#FFFFFF",
+                        textAlign: "center",
+                        paddingHorizontal: 10,
+                      }}
+                    >
+                      J'équipe mes employés
+                    </Text>
+                  </ImageBackground>
+                </View>
 
-            <View style={{display:"flex", flexDirection:"row", paddingBottom:10}}>
-              <View style={{paddingRight:10}}>
+                {/* <View> */}
                 <ImageBackground
-                  source={require('../assets/équipement.png')}
-                  imageStyle={{borderRadius:20}}
-                  style={{ 
+                  source={require("../assets/employés.png")}
+                  imageStyle={{ borderRadius: 20 }}
+                  style={{
                     margin: 3,
                     height: 200,
-                    width: windowWidth/2.4,
+                    width: windowWidth / 2.4,
                     justifyContent: "center",
                     alignItems: "center",
-                  }}>
+                  }}
+                >
                   <Text
-                    style={{color:"#FFFFFF", textAlign:"center", paddingHorizontal:10}}
-                  >J'équipe mes employés</Text>
+                    style={{
+                      color: "#FFFFFF",
+                      textAlign: "center",
+                      paddingHorizontal: 10,
+                    }}
+                  >
+                    Je chouchoute mes employés
+                  </Text>
                 </ImageBackground>
+                {/* </View> */}
               </View>
-
-              {/* <View> */}
-                <ImageBackground
-                  source={require('../assets/employés.png')}
-                  imageStyle={{borderRadius:20}}
-                  style={{ 
-                    margin: 3,
-                    height: 200,
-                    width: windowWidth/2.4,
-                    justifyContent: "center",
-                    alignItems: "center",
-                    
-                  }}>
-                  <Text
-                    style={{color:"#FFFFFF", textAlign:"center", paddingHorizontal:10}}
-                  >Je chouchoute mes employés</Text>
-                </ImageBackground>
-              {/* </View> */}
-            </View>
-
             </View>
           </View>
         </View>

@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 
 import { Image, StyleSheet, View, ImageBackground } from "react-native";
 
@@ -12,8 +12,22 @@ import { connect } from "react-redux";
 
 import { useIsFocused } from "@react-navigation/native";
 
+import AsyncStorage from "@react-native-async-storage/async-storage";
+
 const WelcomeScreen = (props) => {
   const isFocused = useIsFocused();
+
+  useEffect(() => {
+    AsyncStorage.getItem("user", function (error, data) {
+      var userData = JSON.parse(data);
+      if (userData) {
+        console.log("userData", userData);
+        props.storeUser(userData);
+        props.navigation.navigate("TabNavigation");
+      }
+    });
+  }, []);
+
   if (isFocused) {
     console.log("props.user", props.user);
   }
@@ -94,4 +108,12 @@ function mapStateToProps(state) {
   };
 }
 
-export default connect(mapStateToProps, null)(WelcomeScreen);
+function mapDispatchToProps(dispatch) {
+  return {
+    storeUser: function (user) {
+      dispatch({ type: "storeUser", user });
+    },
+  };
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(WelcomeScreen);

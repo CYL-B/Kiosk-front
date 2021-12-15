@@ -10,6 +10,7 @@ import { useIsFocused } from "@react-navigation/native";
 import Constants from "expo-constants";
 
 import { connect } from "react-redux";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
 import { Avatar, Overlay, ListItem } from "react-native-elements";
 //création d'un composant avatar avec options de taille (petit et moyen)
@@ -36,6 +37,7 @@ const AvatarRound = (props) => {
 
   function handlePressDeconnexion() {
     props.navigation.navigate("Bienvenue");
+    AsyncStorage.removeItem("user");
     props.storeUserReset();
   }
 

@@ -7,6 +7,8 @@ import { Input, Image } from "react-native-elements";
 
 import { REACT_APP_IPSERVER } from "@env";
 
+import AsyncStorage from "@react-native-async-storage/async-storage";
+
 const LoginScreen = (props) => {
   const [isLogin, setIsLogin] = useState(false),
     [signInErrorMessage, setSignInErrorMessage] = useState(false);
@@ -24,6 +26,7 @@ const LoginScreen = (props) => {
         console.log("found");
         setIsLogin(true);
         props.storeUser(res.user);
+        AsyncStorage.setItem("user", JSON.stringify(res.user));
         props.navigation.navigate("TabNavigation");
       } else {
         console.log("not found");
@@ -134,7 +137,7 @@ const LoginScreen = (props) => {
           <Button
             size="md"
             color="primary"
-            title="Modifier"
+            title="Se connecter"
             onPress={handleSubmit(onSubmit)}
           />
           <ButtonText
