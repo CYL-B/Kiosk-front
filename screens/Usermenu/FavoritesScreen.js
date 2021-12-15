@@ -47,8 +47,6 @@ const FavoriteScreen = (props) => {
     loadData();
   }, []);
 
-  const toggleSwitch = () => setToggleValue(previousState => !previousState);
-
   console.log("favoriteOffers", favoriteOffers);
   console.log("favoriteCompanies", favoriteCompanies);
 
@@ -63,13 +61,13 @@ const FavoriteScreen = (props) => {
     return (
       <View style={{ flex: 1, backgroundColor: "white" }}>
         <HeaderBar
-          title="Offres"
+          title="Favoris"
           navigation={props.navigation}
           user={props.user}
         ></HeaderBar>
 
         <View style={{ alignItems: "center", marginTop: 10 }}>
-          {/* <Toggle
+          <Toggle
             value={toggleValue}
             onPress={(newState) => setToggleValue(newState)}
             leftComponent={leftComponentDisplay}
@@ -86,36 +84,29 @@ const FavoriteScreen = (props) => {
               activeBackgroundColor: "#FAF0E6",
               inActiveBackgroundColor: "#FAF0E6",
             }}
-          /> */}
-          <Switch
-                trackColor={{ false: '#767577', true: '#81b0ff' }}
-                thumbColor={toggleValue ? '#f5dd4b' : '#f4f3f4'}
-                ios_backgroundColor="#3e3e3e"
-                onValueChange={toggleSwitch}
-                value={toggleValue}
-            />
+          />
         </View>
         <ScrollView>{favoriteOffers}</ScrollView>
       </View>
     );
   } else if(toggleValue && favoriteCompanies) {
     let leftComponentDisplay = (
-      <Text style={{ color: "#1A0842", fontWeight: "bold" }}>En cours</Text>
+      <Text style={{ color: "#1A0842", fontWeight: "bold" }}>Offre</Text>
     );
     let rightComponentDisplay = (
-      <Text style={{ color: "white", fontWeight: "bold" }}>Passés</Text>
+      <Text style={{ color: "white", fontWeight: "bold" }}>Entreprise</Text>
     );
 
     return (
       <View style={{ flex: 1, backgroundColor: "white" }}>
         <HeaderBar
-          title="Entreprises"
+          title="Favoris"
           navigation={props.navigation}
           user={props.user}
         ></HeaderBar>
 
         <View style={{ alignItems: "center", marginTop: 10 }}>
-          {/* <Toggle
+          <Toggle
             value={toggleValue}
             onPress={(newState) => setToggleValue(newState)}
             leftComponent={leftComponentDisplay}
@@ -132,14 +123,7 @@ const FavoriteScreen = (props) => {
               activeBackgroundColor: "#FAF0E6",
               inActiveBackgroundColor: "#FAF0E6",
             }}
-          /> */}
-          <Switch
-                trackColor={{ false: '#767577', true: '#81b0ff' }}
-                thumbColor={toggleValue ? '#f5dd4b' : '#f4f3f4'}
-                ios_backgroundColor="#3e3e3e"
-                onValueChange={toggleSwitch}
-                value={toggleValue}
-            />
+          />
         </View>
         <ScrollView>{favoriteCompanies}</ScrollView>
       </View>

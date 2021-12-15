@@ -48,6 +48,7 @@ const RegisterScreen = (props) => {
 
   // fonction qui se déclenche à la validation du formulaire
   const onSubmit = async (formData) => {
+    setIsLoading(true);
     if (formData.email.length > 0 && formData.password.length > 0) {
       let bodyCompany = `companyName=${formData.companyName}`;
       if (formData.firstName) {
@@ -118,13 +119,13 @@ const RegisterScreen = (props) => {
         });
         let res = await user.json();
         if (res.result) {
-          setIsLogin(true);
+          setIsLoading(false);
           // on store l'utilisateur dans le store
           props.storeUser(res.user);
           // on navigue vers la page company
           if (clientType === "partner") {
             //props.navigation.navigate('CompanyPage', { companyId: res.user.companyId});
-            props.navigation.navigate("TabNavigation", {
+            props.navigation.push("TabNavigation", {
               screen: "Accueil",
               params: {
                 screen: "CompanyPage",
@@ -132,7 +133,7 @@ const RegisterScreen = (props) => {
               },
             });
           } else {
-            props.navigation.navigate("TabNavigation");
+            props.navigation.push("TabNavigation");
           }
         } else {
           setSignUpErrorMessage(res.message);

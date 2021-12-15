@@ -85,6 +85,7 @@ const QuoteRequestScreen = (props) => {
 
   return (<View style={{ flex: 1, backgroundColor: "white" }}>
     <HeaderBar
+      onBackPress={() => props.navigation.goBack()}
       leftComponent
       title="Demande de devis"
       navigation={props.navigation}
