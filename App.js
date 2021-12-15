@@ -137,12 +137,8 @@ const TabNavigation = () => {
         tabBarInactiveTintColor: "#1A0842",
         tabBarStyle: {
           backgroundColor: "#FFFBF7",
-          color: "#1A0842",
-          height: 70,
-        },
-        tabBarItemStyle: {
-          padding: 10,
-        },
+          color: "#1A0842"
+        }
       })}
     >
       <Tab.Screen

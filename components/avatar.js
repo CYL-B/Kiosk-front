@@ -1,4 +1,11 @@
 import React, { useState } from 'react';
+import { Platform } from 'react-native';
+
+import Text from './Text';
+
+import { StatusBar } from 'expo-status-bar';
+
+import Constants from 'expo-constants';
 
 
 
@@ -23,7 +30,6 @@ const AvatarRound = (props) => {
     } else {
         size = 25;
     };
-    const { onPress } = props;
 
     return (
         <Avatar
@@ -33,29 +39,36 @@ const AvatarRound = (props) => {
             source={props.source}
         >
             <Overlay style={{ flex: 1 }} overlayStyle={{
-                position: "absolute", top: 85.5, right: 25, borderRadius: 10, backgroundColor: "#FAF0E6", elevation: 4, shadowOpacity: 0.29,
+                position: "absolute", 
+                top: Platform.OS === 'ios' ? Constants.statusBarHeight+55 : 55, 
+                right: 10, borderRadius: 10, 
+                backgroundColor: "#FAF0E6", 
+                elevation: 4, 
+                shadowOpacity: 0.29,
                 shadowRadius: 4.65,
+                borderWidth: 0.5,
+                borderColor: '#E8E9E9',
             }}
                 isVisible={isVisible} onBackdropPress={toggleOverlay}
                 backdropStyle={{ backgroundColor: "transparent" }}>
                 <ListItem containerStyle={{ backgroundColor: "#FAF0E6" }} onPress={() => navigate("UserProfile")}>
-                    <ListItem.Title style={{ color: "#1A0842", fontWeight: "bold" }}>Profil</ListItem.Title>
+                    <ListItem.Title style={{ color: "#1A0842" }}><Text>Profil</Text></ListItem.Title>
 
                 </ListItem>
                 <ListItem containerStyle={{ backgroundColor: "#FAF0E6" }} onPress={() => navigate("Favorites")}>
-                    <ListItem.Title style={{ color: "#1A0842", fontWeight: "bold" }}>Favoris</ListItem.Title>
+                    <ListItem.Title style={{ color: "#1A0842" }}><Text>Favoris</Text></ListItem.Title>
 
                 </ListItem>
                 <ListItem containerStyle={{ backgroundColor: "#FAF0E6" }} onPress={() => navigate("Quotation")}>
-                    <ListItem.Title style={{ color: "#1A0842", fontWeight: "bold" }}>Devis</ListItem.Title>
+                    <ListItem.Title style={{ color: "#1A0842" }}><Text>Devis</Text></ListItem.Title>
 
                 </ListItem>
                 <ListItem containerStyle={{ backgroundColor: "#FAF0E6" }} onPress={() => navigate("CompanyProfile")}>
-                    <ListItem.Title style={{ color: "#1A0842", fontWeight: "bold" }}>Entreprise</ListItem.Title>
+                    <ListItem.Title style={{ color: "#1A0842" }}><Text>Entreprise</Text></ListItem.Title>
 
                 </ListItem>
                 <ListItem containerStyle={{ backgroundColor: "#FAF0E6" }}>
-                    <ListItem.Title style={{ color: "#1A0842", fontWeight: "bold" }}>Déconnexion</ListItem.Title>
+                    <ListItem.Title style={{ color: "#1A0842" }}><Text>Déconnexion</Text></ListItem.Title>
 
                 </ListItem>
             </Overlay></Avatar>

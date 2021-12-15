@@ -1,5 +1,5 @@
-import React, { useState, useEffect } from 'react';
-import { View, ImageBackground, TextInput, StyleSheet, KeyboardAvoidingView, ScrollView } from 'react-native';
+import React, { useState, useEffect, useRef } from 'react';
+import { View, ImageBackground, TextInput, StyleSheet, KeyboardAvoidingView, ScrollView, TouchableOpacity } from 'react-native';
 import { Card, ListItem, Overlay } from 'react-native-elements';
 import * as ImagePicker from 'expo-image-picker';
 
@@ -18,9 +18,11 @@ import { connect } from 'react-redux';
 
 import CompanyCard from '../components/CompanyCard';
 
+import LottieView from "lottie-react-native";
+
 
 const OfferScreen = (props) => {
-
+    const animation = useRef(null);
     var data = "";
     var displayOfferImg; // aller chercher une image dans le téléhone du presta
     var displayDescOffer; // input
@@ -30,11 +32,14 @@ const OfferScreen = (props) => {
     const [offer, setOffer] = useState(null),
         [company, setCompany] = useState(null),
         [offerId, setOfferId] = useState(props.route.params && props.route.params.offerId ? props.route.params.offerId : "61b0e6837ee15e4f2a1a936f" ),
-        [token, setToken] = useState("YvbAvDg256hw2t5HfW_stG2yOt9BySaK"),
+        [token, setToken] = useState(null),
         [visible, setVisible] = useState(false),
         [inputOverlay, setInputOverlay] = useState(''),
         [valueToChange, setValueToChange] = useState(null),
-        [image, setImage] = useState(null);
+        [image, setImage] = useState(null),
+        [isLiked, setIsLiked] = useState(false);
+
+
 
     const styles = StyleSheet.create({
         container: {
@@ -63,9 +68,15 @@ const OfferScreen = (props) => {
                 setOffer(res.offer);
                 setCompany(res.company);
                 setImage(res.offer.offerImage);
+                setToken(props.user.token);
             }
         }
         loadDataOffer();
+
+        // get like status in store user
+        var user = props.user;
+        var userLikes = user.favorites;
+        setIsLiked(userLikes.some(e => e.offerId && e.offerId === offerId));
     }, []);
 
     const toggleOverlay = (value) => {
@@ -167,13 +178,63 @@ const OfferScreen = (props) => {
         }
     }
 
+    const handleLikeClick = async () => {
+        !isLiked ? animation.current.play(0, 40) : animation.current.play(40, 75);
+        let body = `token=${token}&offerId=${offerId}&userId=${props.user._id}`;
+        const dataRaw = await fetch(`http://${REACT_APP_IPSERVER}/offers/like`, { // renvoie jsute result, donc true ou flase
+            method: 'POST',
+            headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+            body: body
+        })
+        var res = await dataRaw.json(); // true ou false
+        if (res.result) {
+            setIsLiked(!isLiked);
+            props.storeUser(res.user);
+        }
+    }
+
     if (image) {
         displayOfferImg =
             <ImageBackground
                 source={{ uri: image }}
                 style={{ height: 200 }} /* ATTENTION SIZING IMAGE A REVOIR */
             >
-                { props.user.type === "partner" && (
+                <TouchableOpacity style={{ 
+                        backgroundColor: '#fff', 
+                        position: "absolute",
+                        top: "37%",
+                        right: 10,
+                        zIndex: 10,
+                        width: 56,
+                        height: 56,
+                        borderRadius: 50,
+                        shadowColor: "rgba(0,0,0,0.4)",
+                        shadowOffset: {
+                            width: 0,
+                            height: 2,
+                        },
+                        shadowOpacity: 0.25,
+                        shadowRadius: 3.84,
+                        elevation: 5
+                    }}
+                    onPress={() => handleLikeClick()}
+                >
+                <LottieView
+                    ref={animation}
+                    loop={false}
+                    progress={isLiked ? 0.5 : 0}
+                    style={[
+                    {
+                        marginTop: 2,
+                        backgroundColor: "transparent",
+                    }
+                    ]}
+                    source={require("../assets/like.json")}
+                    // OR find more Lottie files @ https://lottiefiles.com/featured
+                    // Just click the one you like, place that file in the 'assets' folder to the left, and replace the above 'require' statement
+                />
+                </TouchableOpacity>
+                { props.user && props.user.type === "partner" && (
                 <View style={{ position: "absolute", bottom: "5%", right: "5%" }}>
                     <ButtonText
                         color="light"
@@ -189,7 +250,7 @@ const OfferScreen = (props) => {
                 source={require('../assets/image_company_blank.png')}
                 style={{ width: 400, height: 200 }} /* ATTENTION SIZING IMAGE A REVOIR */
             >
-                { props.user.type === "partner" && (
+                { props.user && props.user.type === "partner" && (
                 <View style={{ position: "absolute", bottom: "5%", right: "5%" }}>
                     <ButtonText
                         color="light"
@@ -207,7 +268,7 @@ const OfferScreen = (props) => {
                 <View style={{ display: "flex", flexDirection: "row", justifyContent: "space-between" }}>
                     <Card.Title
                     ><Text style={{ fontWeight: "bold" }}>Ce que nous proposons</Text></Card.Title>
-                    { props.user.type === "partner" && (
+                    { props.user && props.user.type === "partner" && (
                     <ButtonText
                         color="secondary"
                         title="Modifier"
@@ -223,7 +284,7 @@ const OfferScreen = (props) => {
             <Card key={1} containerStyle={styles.container}>
                 <Card.Title style={{ textAlign: "left" }}
                 ><Text style={{ fontWeight: "bold" }}>Ce que nous proposons</Text></Card.Title>
-                { props.user.type === "partner" && (
+                { props.user && props.user.type === "partner" && (
                 <View style={{ backgroundColor: "#FAF0E6", height: 160, justifyContent: "center", alignItems: "center" }}>
                     <ButtonText
                         color="secondary"
@@ -241,7 +302,7 @@ const OfferScreen = (props) => {
                 <View style={{ display: "flex", flexDirection: "row", justifyContent: "space-between" }}>
                     <Card.Title
                     ><Text style={{ fontWeight: "bold" }}>Nos engagements</Text></Card.Title>
-                    { props.user.type === "partner" && (
+                    { props.user && props.user.type === "partner" && (
                     <ButtonText
                         color="secondary"
                         title="Ajouter"
@@ -256,7 +317,7 @@ const OfferScreen = (props) => {
                             <ListItem.Content>
                                 <ListItem.Title><Text>{l.commitment}</Text></ListItem.Title>
                             </ListItem.Content>
-                            { props.user.type === "partner" && (
+                            { props.user && props.user.type === "partner" && (
                             <AntDesign onPress={() => handleCommitmentDelete(l._id)} name="delete" size={24} color="black" />
                             )}
                         </ListItem>
@@ -268,7 +329,7 @@ const OfferScreen = (props) => {
             <Card key={1} containerStyle={styles.container}>
                 <Card.Title style={{ textAlign: "left" }}
                 ><Text style={{ fontWeight: "bold" }}>Nos engagements</Text></Card.Title>
-                { props.user.type === "partner" && (
+                { props.user && props.user.type === "partner" && (
                 <View style={{ backgroundColor: "#FAF0E6", height: 160, justifyContent: "center", alignItems: "center" }}>
                     <ButtonText
                         color="secondary"
@@ -366,4 +427,11 @@ const OfferScreen = (props) => {
 function mapStateToProps(state) {
     return { user: state.user }
 };
-export default connect(mapStateToProps, null)(OfferScreen);
+function mapDispatchToProps(dispatch) {
+    return {
+      storeUser: function (user) {
+        dispatch({ type: "storeUser", user });
+      },
+    };
+}
+export default connect(mapStateToProps, mapDispatchToProps)(OfferScreen);

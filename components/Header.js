@@ -1,9 +1,5 @@
 import React from 'react';
 
-//Store
-import { connect } from 'react-redux';
-
-
 //import du header, du texte et de listItem de react native elements
 
 import { Header} from 'react-native-elements';
@@ -32,16 +28,17 @@ const HeaderBar = (props) => {
 
   var locationIndication
   if (props.locationIndication){
-    locationIndication = <Text style={{ color: "#1A0842", fontSize: 10 }}><Ionicons name="ios-location-sharp" size={10} color="#1A0842" />{props.location}</Text>
+    locationIndication = <Text style={{ color: "#1A0842", fontSize: 10, margin: 0 }}><Ionicons name="ios-location-sharp" size={10} color="#1A0842" />{props.location}</Text>
   }
 
 //comdition pour afficher le sous titre location "locationIndication" qui se situe en dessous du titre de la page dans les composants recevant le header. Il est aussi possible d'ajuster le lieu "location "
 
   return (
+    <View>
     <Header
-      statusBarProps={{ barStyle: 'light-content' }}
-      elevated={true}
-      barStyle="light-content"
+      elevated={false}
+      barStyle="dark-content"
+      statusBarProps={{ backgroundColor: '#ffffff'}}
       leftComponent = {leftComponentDisplay}
       leftContainerStyle= {{
         justifyContent: "center"
@@ -54,22 +51,17 @@ const HeaderBar = (props) => {
       }}
       centerComponent={<View style={{ alignItems: 'center' }}><Text numberOfLines={1} style={{ color: "#1A0842", fontSize: 22, fontWeight: "bold" }}>{props.title}</Text>{locationIndication}</View>} 
       containerStyle={{
-        backgroundColor: 'white',
-        height: 120,
+        backgroundColor: '#ffffff'
       }}
       rightComponent={<AvatarRound navigation={props.navigation} size="md"
-<<<<<<< HEAD
         source={{ uri: props.user.avatar }}
          >
-=======
-        source={{ uri: 'https://numero.twic.pics/images/flexible_grid/100/push-cover-beyonce-ticket-concert-a-vie-jay-numero-magazine.jpg' }}
-        >
->>>>>>> front-a
         
       </AvatarRound>
       }
 
-    />)
+    />
+    </View>)
 }
 
 export { HeaderBar };

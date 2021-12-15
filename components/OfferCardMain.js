@@ -93,7 +93,7 @@ export default function OfferCardMain(props) {
         <Image
           style={{ height: 70, width: 70, borderRadius: 50 }}
           resizeMode='contain'
-          source={{ uri: props.dataOffre.companyData[0].logo ? props.dataOffre.companyData[0].logo : 'https://www.laguilde.quebec/wp-content/uploads/2020/05/logo-placeholder.jpg' }}
+          source={{ uri: props.dataOffre.companyData.length > 0 && props.dataOffre.companyData[0].logo ? props.dataOffre.companyData[0].logo : 'https://www.laguilde.quebec/wp-content/uploads/2020/05/logo-placeholder.jpg' }}
           // source={require("../assets/logo.png")} // a changer avec la recherche BDD
         />
       </View>
@@ -120,7 +120,7 @@ export default function OfferCardMain(props) {
             marginBottom: 10,
           }}
         >
-          {props.dataOffre.companyData[0].offices[0].city}
+          {props.dataOffre.companyData.length > 0 && props.dataOffre.companyData[0].offices[0].city}
         </Text>
         <Text>{props.dataOffre.shortDescription}</Text>
       </View>
