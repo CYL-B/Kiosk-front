@@ -8,7 +8,16 @@ import { Button, ButtonText } from "../components/Buttons";
 // Import du Carousel
 import CarouselCards from "../components/carousel/CarouselCards";
 
+import { connect } from "react-redux";
+
+import { useIsFocused } from "@react-navigation/native";
+
 const WelcomeScreen = (props) => {
+  const isFocused = useIsFocused();
+  if (isFocused) {
+    console.log("props.user", props.user);
+  }
+
   return (
     <ImageBackground
       source={require("../assets/welcomebackground2.png")}
@@ -23,7 +32,7 @@ const WelcomeScreen = (props) => {
 
       <View style={{ alignItems: "center" }}>
         <Button
-          style={{marginBottom: 10}}
+          style={{ marginBottom: 10 }}
           size="md"
           color="primary"
           title="S'inscrire"
@@ -37,7 +46,7 @@ const WelcomeScreen = (props) => {
           onPress={() => props.navigation.navigate("Connexion")}
         />
         <Button
-          style={{marginTop: 30, marginBottom: 20}}
+          style={{ marginTop: 30, marginBottom: 20 }}
           buttonStyle={styles.button}
           size="md"
           color="secondary"
@@ -77,4 +86,12 @@ const styles = StyleSheet.create({
   },
 });
 
-export default WelcomeScreen;
+//export default WelcomeScreen;
+
+function mapStateToProps(state) {
+  return {
+    user: state.user,
+  };
+}
+
+export default connect(mapStateToProps, null)(WelcomeScreen);
