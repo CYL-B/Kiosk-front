@@ -10,6 +10,9 @@ export default function (subCategoryChosenData = "", action) {
       action.categoryChosenData.categoryName;
 
     return newSubCategoryChosenData;
+  } else if (action.type === "ResteSubCategorie") {
+    var newSubCategoryChosenData = "";
+    return newSubCategoryChosenData;
   } else {
     return subCategoryChosenData;
   }

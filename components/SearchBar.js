@@ -1,12 +1,41 @@
 import React, { useState } from "react";
 import { SearchBar } from "react-native-elements";
 
-export default function Searchbar(props) {
+import { connect } from "react-redux";
+
+import { REACT_APP_IPSERVER } from "@env";
+
+function Searchbar(props) {
   const [search, setSearch] = useState("");
 
-  function handlesearch(val) {
-    setSearch(val);
-  }
+  var handlesearch = async function (val) {
+    console.log("envoyer resultat", val);
+    const data = await fetch(
+      `http://${REACT_APP_IPSERVER}/recherche/rechercheparlabar`,
+      {
+        method: "POST",
+        headers: { "Content-Type": "application/x-www-form-urlencoded" },
+        body: `recherche=${val}`,
+      }
+    );
+    var sousCategorieData = await data.json();
+
+    console.log("sousCategorie", sousCategorieData);
+
+    if (sousCategorieData.result === true) {
+      console.log("sousCategorie", sousCategorieData);
+      props.subCategoryChoice({
+        subCategoryName: sousCategorieData.sousCategorie.subCategoryName,
+        subCategoryId: sousCategorieData.sousCategorie._id,
+      });
+      props.navigation.navigate("Rechercher");
+    } else {
+      console.log("pas de sous categories");
+      props.subCategoryChoice();
+      props.categoryAll();
+      props.navigation.navigate("Rechercher");
+    }
+  };
 
   return (
     <SearchBar
@@ -37,8 +66,22 @@ export default function Searchbar(props) {
         height: 50,
       }}
       placeholder="Quel est votre besoin ?"
-      onChangeText={(val) => handlesearch(val)}
+      onSubmitEditing={() => handlesearch(search)}
+      onChangeText={(val) => setSearch(val)}
       value={search}
     />
   );
 }
+
+function mapDispatchToProps(dispatch) {
+  return {
+    subCategoryChoice: function (subCategoryChosenData) {
+      dispatch({ type: "setSubCategoryChosen", subCategoryChosenData });
+    },
+    categoryAll: function (categoryChosenData) {
+      dispatch({ type: "setcategoryall", categoryChosenData });
+    },
+  };
+}
+
+export default connect(null, mapDispatchToProps)(Searchbar);
