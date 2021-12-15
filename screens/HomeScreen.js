@@ -109,9 +109,7 @@ const HomeScreen = (props) => {
             justifyContent: "center",
           }}
         >
-          <Searchbar
-            onPress={() => props.navigation.navigate("Rechercher")}
-          ></Searchbar>
+          <Searchbar navigation={props.navigation}></Searchbar>
         </View>
 
         {/* View pour List categorie horizontale */}

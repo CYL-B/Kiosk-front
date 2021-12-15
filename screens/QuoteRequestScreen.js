@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { View, ScrollView, KeyboardAvoidingView } from "react-native";
+import { View, ScrollView, KeyboardAvoidingView, Text, Alert } from "react-native";
 import { HeaderBar } from "../components/Header";
 import OfferCardLight from "../components/OfferCardLight";
 import { Button, ButtonText } from "../components/Buttons";
@@ -29,14 +29,37 @@ const QuoteRequestScreen = (props) => {
   const [quoteStatus, setQuoteStatus] = useState("");
   const [error, setError] = useState("");
 
-  //route qui permet d'afficher l'offre qui a été cliquée 
+
+  //route qui permet d'afficher l'offre qui a été cliquée et de vérifier si le client a déjà fait une demande de devis pour cette offre
   useEffect(() => {
     const findOfferInfo = async () => {
       const data = await fetch(`http://${REACT_APP_IPSERVER}/quotations/quote-request/${props.user.token}/${reqOfferId}`)
       const body = await data.json();
-      setOffer(body.offer)
-    }; findOfferInfo()
+      setOffer(body.offer);
+      setError(body.erreur);
+
+    }; findOfferInfo();
+
   }, []);
+
+
+
+//message d'alerte lorsque le client a déjà demandé un devis pour cette offre
+  if (error == "Vous avez déjà demandé un devis pour cette offre. Voulez-vous redemander un devis ?") {
+
+    const createTwoButtonAlert = () =>
+      Alert.alert('Alerte', 'Vous avez déjà demandé un devis pour cette offre. Voulez-vous redemander un devis ?', [
+        {
+          text: 'Non',
+          onPress: () => props.navigation.goBack(),
+          style: 'cancel',
+        },
+        { text: 'Oui', onPress: () => console.log('OK Pressed') },
+      ]);
+
+    createTwoButtonAlert();
+    setError("")
+  }
 
   //route d'ajout d'un devis
   var addQuotation = async () => {
@@ -50,27 +73,15 @@ const QuoteRequestScreen = (props) => {
     })
     const fromBack = await saveReq.json()
     setQuoteStatus(fromBack.quotationSaved.status)
-    setError(fromBack.erreur)
 
   }
 
   const quoteRequest = () => {
     props.navigation.navigate("Quotation", { offerId: reqProviderId, quoteStatus: quoteStatus });
     addQuotation();
-
-    var confirmation = <View><Text>{error}</Text>
-      <Button title="Oui"
-
-        size="md"
-        color="primary"
-        onPress={() => quoteRequest()}></Button>
-      <Button title="Non"
-
-        size="md"
-        color="secondary"
-        onPress={() => props.navigation.goBack()}></Button></View>
-
   }
+
+
 
   return (<View style={{ flex: 1, backgroundColor: "white" }}>
     <HeaderBar
@@ -81,11 +92,13 @@ const QuoteRequestScreen = (props) => {
     >
 
     </HeaderBar>
+
     <ScrollView>
       <KeyboardAvoidingView behavior="position" contentContainerStyle={{ alignItems: "center", paddingLeft: 20, paddingRight: 20 }}>
         <OfferCardLight
 
           dataOffre={offer} navigation={props.navigation} />
+
 
 
         <Input
