@@ -268,21 +268,6 @@ const HomeScreen = (props) => {
           </View>
         </View>
 
-        {/* <View
-        style={{
-          flex: 1,
-          backgroundColor: "yellow",
-          alignItems: "center",
-          justifyContent: "center",
-        }}
-      >
-        <Button
-          size="md"
-          color="primary"
-          title="Company Page"
-          onPress={() => props.navigation.navigate("CompanyPage")}
-        />
-      </View> */}
       </ScrollView>
     </View>
   );
