@@ -1,5 +1,5 @@
-import React, { useEffect } from "react";
-import { View, ImageBackground, Dimensions } from 'react-native';
+import React, { useEffect, useState } from "react";
+import { View, ImageBackground, Dimensions, Button } from 'react-native';
 // Import des composants Button customisés
 import Text from "../components/Text";
 import { ButtonText } from "../components/Buttons";
@@ -19,6 +19,8 @@ const HomeScreen = (props) => {
 
   const windowWidth = Dimensions.get('window').width;
   const windowHeight = Dimensions.get('window').height;
+
+  const [ packs, setPacks ] = useState([]);
   
   var dataCompany = {
     siret: "9999999999",
@@ -83,7 +85,21 @@ const HomeScreen = (props) => {
       props.setcategoriesList(categorieslist);
     };
     setcategorieslist();
+
+    async function loadDataPacks() {
+      // appel route get pour récupérer données de tous les packs :
+      var rawDataPacks = await fetch(`http://${REACT_APP_IPSERVER}/recherche/getPacks`); // (`adresseIPserveur/route appelée/req.params?req.query`)
+      var dataPacks = await rawDataPacks.json();
+      if (dataPacks.result) {
+          setPacks([...dataPacks.dataPack]);
+      }
+console.log("dataPacks", dataPacks);
+    }
+      loadDataPacks()
+
   }, []);
+
+console.log("état packs", packs);
 
   return (
     <View
@@ -172,95 +188,46 @@ const HomeScreen = (props) => {
 
 {/* NOS PACKS */}
         <View style={{ marginTop: 20, marginBottom:30 }}>
-          
+
           <View>
 
             <Text style={{ fontWeight: "bold", fontSize: 18, marginLeft: 20 }}>Nos packs</Text>
 
-            <View
+            <View 
               style={{
-                display: "flex",
-                flexDirection: "row",
-                flexWrap: "wrap",
+                width:"100%", 
+                paddingBottom:10, 
+                flexDirection:"row", 
+                flexWrap: "wrap", 
                 justifyContent:"space-evenly",
-                alignContent:"space-around",
+                alignContent:"space-around", 
                 top:20,
                 paddingVertical:10
-              }}
-            >
+              }}>
 
-            <View style={{display:"flex", flexDirection:"row", paddingBottom:10}}>
-              <View style={{paddingRight:10}}>
+              {
+              packs ? packs.map((e, i) => (
+              
+              <View key={i} style={{ marginBottom:"3%"}}>
                 <ImageBackground
-                  source={require('../assets/nouveaubureau.png')}
+                  source={{ uri: `http://${REACT_APP_IPSERVER}/images/assets/${e.packImage}`}}
                   imageStyle={{borderRadius:20}}
                   style={{ 
                     margin: 3,
                     height: 200,
                     width: windowWidth/2.4,
                     justifyContent: "center",
-                    // alignItems: "center",
                   }}>
                   <Text
                     style={{color:"#FFFFFF", textAlign:"center", paddingHorizontal:10}}
-                  >Je change de bureau</Text>
+                    onPress={() => props.navigation.navigate('ResultsPacks', {packId: "61b9fa3103cd5ee16272db93", packName: "Je monte ma boite"})}
+                  >{e.packName}</Text>
                 </ImageBackground>
               </View>
 
-              {/* <View> */}
-                <ImageBackground
-                  source={require('../assets/maboite.png')}
-                  imageStyle={{borderRadius:20}}
-                  style={{ 
-                    margin: 3,
-                    height: 200,
-                    width: windowWidth/2.4,
-                    justifyContent: "center",
-                    // alignItems: "center",
-                  }}>
-                  <Text
-                    style={{color:"#FFFFFF", textAlign:"center", paddingHorizontal:10}}
-                  >Je monte ma boîte</Text>
-                </ImageBackground>
-              {/* </View> */}
-            </View>
-
-            <View style={{display:"flex", flexDirection:"row", paddingBottom:10}}>
-              <View style={{paddingRight:10}}>
-                <ImageBackground
-                  source={require('../assets/équipement.png')}
-                  imageStyle={{borderRadius:20}}
-                  style={{ 
-                    margin: 3,
-                    height: 200,
-                    width: windowWidth/2.4,
-                    justifyContent: "center",
-                    alignItems: "center",
-                  }}>
-                  <Text
-                    style={{color:"#FFFFFF", textAlign:"center", paddingHorizontal:10}}
-                  >J'équipe mes employés</Text>
-                </ImageBackground>
-              </View>
-
-              {/* <View> */}
-                <ImageBackground
-                  source={require('../assets/employés.png')}
-                  imageStyle={{borderRadius:20}}
-                  style={{ 
-                    margin: 3,
-                    height: 200,
-                    width: windowWidth/2.4,
-                    justifyContent: "center",
-                    alignItems: "center",
-                    
-                  }}>
-                  <Text
-                    style={{color:"#FFFFFF", textAlign:"center", paddingHorizontal:10}}
-                  >Je chouchoute mes employés</Text>
-                </ImageBackground>
-              {/* </View> */}
-            </View>
+              ))
+              : null 
+              }
 
             </View>
           </View>

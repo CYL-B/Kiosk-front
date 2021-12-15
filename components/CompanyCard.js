@@ -5,6 +5,7 @@ import { Button } from "../components/Buttons";
 import Text from "./Text";
 
 export default function CompanyCard(props) {
+if (props.dataCompany) {
   return (
     <Card
       containerStyle={{
@@ -140,4 +141,4 @@ export default function CompanyCard(props) {
       </View>
     </Card>
   );
-}
+}}
