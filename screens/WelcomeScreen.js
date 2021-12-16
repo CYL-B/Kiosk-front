@@ -1,6 +1,12 @@
 import React, { useEffect } from "react";
 import { connect } from "react-redux";
-import { Image, StyleSheet, View, ImageBackground, Dimensions } from "react-native";
+import {
+  Image,
+  StyleSheet,
+  View,
+  ImageBackground,
+  Dimensions,
+} from "react-native";
 // Import des composants Button customisés
 import { Button, ButtonText } from "../components/Buttons";
 // Import du Carousel
@@ -8,31 +14,40 @@ import CarouselCards from "../components/carousel/CarouselCards";
 import { useIsFocused } from "@react-navigation/native";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 
+import { REACT_APP_IPSERVER } from "@env";
 
 const WelcomeScreen = (props) => {
-
   // variables gestion affichage responsive :
   const windowWidth = Dimensions.get("window").width;
   const windowHeight = Dimensions.get("window").height;
 
   const isFocused = useIsFocused();
   if (isFocused) {
-//console.log("props.user", props.user);
+    //console.log("props.user", props.user);
   }
 
   useEffect(() => {
+    async function getUSerdata(userData) {
+      let data = await fetch(`http://${REACT_APP_IPSERVER}/users/getUserData`, {
+        method: "POST",
+        headers: { "Content-Type": "application/x-www-form-urlencoded" },
+        body: `token=${userData.token}`,
+      });
+      let res = await data.json();
+      console.log("user", res.user);
+      props.storeUser(res.user);
+      props.navigation.navigate("TabNavigation");
+    }
+
     AsyncStorage.getItem("user", function (error, data) {
-      var userData = JSON.parse(data);
-      if (userData) {
-        props.storeUser(userData);
-        props.navigation.navigate("TabNavigation");
+      if (data) {
+        var userData = JSON.parse(data);
+        getUSerdata(userData);
       }
     });
   }, []);
 
-
   return (
-
     <ImageBackground
       source={require("../assets/welcomebackground2.png")}
       style={styles.container}
@@ -50,7 +65,8 @@ const WelcomeScreen = (props) => {
           size="md"
           color="primary"
           title="S'inscrire"
-          onPress={() => props.navigation.navigate("Inscription", { clientType: "client" })
+          onPress={() =>
+            props.navigation.navigate("Inscription", { clientType: "client" })
           }
         />
         <ButtonText
@@ -64,11 +80,11 @@ const WelcomeScreen = (props) => {
           size="md"
           color="secondary"
           title="Je suis un prestataire"
-          onPress={() => props.navigation.navigate("Inscription", { clientType: "partner" })
+          onPress={() =>
+            props.navigation.navigate("Inscription", { clientType: "partner" })
           }
         />
       </View>
-
     </ImageBackground>
   );
 };
@@ -84,7 +100,7 @@ const styles = StyleSheet.create({
     height: 34.9,
     marginTop: 114,
     alignSelf: "center",
-  }
+  },
 });
 
 function mapStateToProps(state) {
