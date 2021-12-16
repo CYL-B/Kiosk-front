@@ -277,6 +277,7 @@ const RegisterScreen = (props) => {
         <Input
           autoCompleteType="tel"
           textContentType="telephoneNumber"
+          keyboardType="numeric"
           placeholder="Votre numéro de téléphone pro"
           onChangeText={onChangeField("telephoneNumber")}
           inputStyle={styles.inputText}

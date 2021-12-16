@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { View, Text, ScrollView, Switch } from "react-native";
+import { useIsFocused } from '@react-navigation/native';
 import { HeaderBar } from "../../components/Header";
 import OfferCard from "../../components/OfferCardLight";
 import CompanyCard from "../../components/CompanyCard";
@@ -11,6 +12,8 @@ import { connect } from "react-redux";
 import { REACT_APP_IPSERVER } from "@env";
 
 const FavoriteScreen = (props) => {
+  const isFocused = useIsFocused();
+
   const [toggleValue, setToggleValue] = useState(false),
         [favoriteOffers, setFavoriteOffers] = useState([]),
         [favoriteCompanies, setFavoriteCompanies] = useState([]);
@@ -18,40 +21,46 @@ const FavoriteScreen = (props) => {
   useEffect(() => {
     const loadData = async () => {
         let offersId = props.user.favorites.filter(e => e.offerId);
+        console.log("offersId:",offersId);
         setFavoriteOffers([]);
         setFavoriteCompanies([]);
+        let offers = [];
         for(let i = 0; i < offersId.length; i++) {
-// console.log('offerId', offersId[i]);
+            //console.log('offerId', offersId[i]);
             var rawDataOffer = await fetch(`http://${REACT_APP_IPSERVER}/offers/${offersId[i].offerId}/${props.user.token}`); // (`adresseIPserveur/route appelée/req.params?req.query`)
             var res = await rawDataOffer.json();
-            let offer;
             if (res.result) {
-                offer = res.offer;
-// console.log('offer', offer);
+                offers.push(res.offer);
+                
+                // console.log('offer', offer);
             }
-            setFavoriteOffers([...favoriteOffers, <OfferCard dataOffre={offer} navigation={props.navigation} key={i} />]);
+            //favoriteOffers.push(<View key={i}><OfferCard dataOffre={offer} navigation={props.navigation} /></View>);
         };
+        setFavoriteOffers(offers);
         let companiesId = props.user.favorites.filter(e => e.companyId);
+        let companies = [];
         for(let i = 0; i < companiesId.length; i++) {
-// console.log('companiesId', companiesId[i]);
+            //console.log('companiesId', companiesId[i]);
             var rawDataOffer = await fetch(`http://${REACT_APP_IPSERVER}/companies/${companiesId[i].companyId}/${props.user.token}`); // (`adresseIPserveur/route appelée/req.params?req.query`)
             var res = await rawDataOffer.json();
-            let company;
             if (res.result) {
-                company = res.company;
-// console.log('company', company);
+                companies.push(res.company);
+                //console.log('company', company);
             }
-            setFavoriteCompanies([...favoriteCompanies, <CompanyCard dataCompany={company} navigation={props.navigation} key={i} />]);
+            //favoriteCompanies.push(<View key={i}><CompanyCard dataCompany={company} navigation={props.navigation} /></View>);
         };
+        setFavoriteCompanies(companies);
     }
-    loadData();
-  }, []);
+    isFocused && loadData();
+  }, [isFocused]);
 
-// console.log("favoriteOffers", favoriteOffers);
-// console.log("favoriteCompanies", favoriteCompanies);
+  // console.log("favoriteOffers", favoriteOffers);
+  //console.log("favoriteCompanies", favoriteCompanies);
 
-  if (!toggleValue && favoriteOffers) {
-// console.log('offer side');
+  console.log(favoriteOffers.length);
+
+  if (!toggleValue && favoriteOffers.length > 0) {
+    //console.log('offer side');
     let leftComponentDisplay = (
       <Text style={{ color: "white", fontWeight: "bold" }}>Offre</Text>
     );
@@ -86,10 +95,14 @@ const FavoriteScreen = (props) => {
             }}
           />
         </View>
-        <ScrollView>{favoriteOffers}</ScrollView>
+        <ScrollView style={{ flex: 1 }}>{
+        favoriteOffers.map((e, i) => (
+          <View key={i}><OfferCard dataOffre={e} navigation={props.navigation} /></View>
+        ))
+        }</ScrollView>
       </View>
     );
-  } else if(toggleValue && favoriteCompanies) {
+  } else if(toggleValue && favoriteCompanies.length > 0) {  
     let leftComponentDisplay = (
       <Text style={{ color: "#1A0842", fontWeight: "bold" }}>Offre</Text>
     );
@@ -125,7 +138,9 @@ const FavoriteScreen = (props) => {
             }}
           />
         </View>
-        <ScrollView>{favoriteCompanies}</ScrollView>
+        <ScrollView>{favoriteCompanies.map((e, i) => (
+          <View key={i}><CompanyCard dataCompany={e} navigation={props.navigation} /></View>
+        ))}</ScrollView>
       </View>
     );
   } else {
