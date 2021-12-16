@@ -178,7 +178,6 @@ const TabNavigation = () => {
       <Tab.Screen
         name="Messages"
         component={MessagesScreen}
-        options={{ tabBarBadge: 3 }}
       />
     </Tab.Navigator>
   );

@@ -49,6 +49,7 @@ const RegisterScreen = (props) => {
   // fonction qui se déclenche à la validation du formulaire
   const onSubmit = async (formData) => {
     setIsLoading(true);
+    animation.current.play();
     if (formData.email.length > 0 && formData.password.length > 0) {
       let bodyCompany = `companyName=${formData.companyName}`;
       if (formData.firstName) {

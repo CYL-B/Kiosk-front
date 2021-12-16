@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { connect } from 'react-redux';
 import { ScrollView, View } from 'react-native';
+import { useIsFocused } from '@react-navigation/native';
 import { HeaderBar } from '../components/Header';
 import Text from "../components/Text";
 import { ListItem, Avatar } from 'react-native-elements';
@@ -8,7 +9,7 @@ import { REACT_APP_IPSERVER } from '@env'
 // import { State } from 'react-native-gesture-handler';
 
 const MessagesScreen = (props) => {
-
+    const isFocused = useIsFocused();
     const [conversations, setConversations] = useState([])
 
     //ce code permet de couper les messages trop longs
@@ -21,8 +22,9 @@ const MessagesScreen = (props) => {
             const data = await fetch(`http://${REACT_APP_IPSERVER}/conversations/${props.user.companyId}/${props.user.type}/${props.user.token}`)
             const body = await data.json();
             setConversations(body.conversationsToDisplay)
-        }; findConversations()
-    }, []);
+        }; 
+        isFocused && findConversations();
+    }, [isFocused]);
 
     var conversationsList = conversations.map((conversation, i) => {
         return (
