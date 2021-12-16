@@ -19,6 +19,7 @@ import { useIsFocused } from "@react-navigation/native";
 
 const HomeScreen = (props) => {
   const [dataCompany, setDataCompany] = useState(null);
+  const [packs, setPacks] = useState(null);
 
   const windowWidth = Dimensions.get("window").width;
   const windowHeight = Dimensions.get("window").height;
