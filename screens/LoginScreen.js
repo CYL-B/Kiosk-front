@@ -24,7 +24,7 @@ const LoginScreen = (props) => {
         console.log("found");
         setIsLogin(true);
         props.storeUser(res.user);
-        props.navigation.navigate("TabNavigation");
+        props.navigation.push("TabNavigation");
       } else {
         console.log("not found");
         setSignInErrorMessage(res.message);
@@ -134,7 +134,7 @@ const LoginScreen = (props) => {
           <Button
             size="md"
             color="primary"
-            title="Modifier"
+            title="Connexion"
             onPress={handleSubmit(onSubmit)}
           />
           <ButtonText

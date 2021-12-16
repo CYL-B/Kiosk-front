@@ -61,6 +61,7 @@ var answersToDisplay = answers.map((answer, i)=>{
 
   return (<View style={{ flex: 1, backgroundColor: "white" }}>
     <HeaderBar
+      onBackPress={() => props.navigation.goBack()}
       leftComponent
       title="Envoyer le devis"
       navigation={props.navigation}

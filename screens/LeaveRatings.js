@@ -61,6 +61,7 @@ const LeaveRatingsScreen = (props) => {
     <View style={{flex:1}}>
 
         <HeaderBar
+          onBackPress={() => props.navigation.goBack()}
           leftComponent
           title="Votre avis"
           navigation={props.navigation}

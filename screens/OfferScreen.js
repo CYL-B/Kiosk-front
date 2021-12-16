@@ -51,8 +51,8 @@ const OfferScreen = (props) => {
             shadowOpacity: 0,
             shadowRadius: 0,
             elevation: 0, // Remove Shadow for Android
-            marginBottom: 0,
-            padding: 0
+            margin: 0,
+            width: '100%'
         },
     })
 
@@ -188,7 +188,6 @@ const OfferScreen = (props) => {
         })
         var res = await dataRaw.json(); // true ou false
         if (res.result) {
-            setIsLiked(!isLiked);
             props.storeUser(res.user);
         }
     }
@@ -248,7 +247,7 @@ const OfferScreen = (props) => {
         displayOfferImg =
             <ImageBackground
                 source={require('../assets/image_company_blank.png')}
-                style={{ width: 400, height: 200 }} /* ATTENTION SIZING IMAGE A REVOIR */
+                style={{ height: 200 }} /* ATTENTION SIZING IMAGE A REVOIR */
             >
                 { props.user && props.user.type === "partner" && (
                 <View style={{ position: "absolute", bottom: "5%", right: "5%" }}>
@@ -266,8 +265,9 @@ const OfferScreen = (props) => {
         displayDescOffer =
             <Card key={1} containerStyle={styles.container}>
                 <View style={{ display: "flex", flexDirection: "row", justifyContent: "space-between" }}>
-                    <Card.Title
-                    ><Text style={{ fontWeight: "bold" }}>Ce que nous proposons</Text></Card.Title>
+                    <Card.Title style={{ marginHorizontal: 10 }}>
+                        <Text style={{ fontWeight: "bold" }}>Ce que nous proposons</Text>
+                    </Card.Title>
                     { props.user && props.user.type === "partner" && (
                     <ButtonText
                         color="secondary"
@@ -276,13 +276,13 @@ const OfferScreen = (props) => {
                     />
                     )}
                 </View>
-                <Text>{offer.description}</Text>
+                <Text style={{ marginHorizontal: 10, marginBottom: 10 }}>{offer.description}</Text>
             </Card>
 
     } else {
         displayDescOffer =
             <Card key={1} containerStyle={styles.container}>
-                <Card.Title style={{ textAlign: "left" }}
+                <Card.Title style={{ marginHorizontal: 10, textAlign: "left" }}
                 ><Text style={{ fontWeight: "bold" }}>Ce que nous proposons</Text></Card.Title>
                 { props.user && props.user.type === "partner" && (
                 <View style={{ backgroundColor: "#FAF0E6", height: 160, justifyContent: "center", alignItems: "center" }}>
@@ -300,7 +300,7 @@ const OfferScreen = (props) => {
         displayLabels =
             <Card key={1} containerStyle={styles.container}>
                 <View style={{ display: "flex", flexDirection: "row", justifyContent: "space-between" }}>
-                    <Card.Title
+                    <Card.Title style={{ marginHorizontal: 10 }}
                     ><Text style={{ fontWeight: "bold" }}>Nos engagements</Text></Card.Title>
                     { props.user && props.user.type === "partner" && (
                     <ButtonText
@@ -327,7 +327,7 @@ const OfferScreen = (props) => {
     } else {
         displayLabels =
             <Card key={1} containerStyle={styles.container}>
-                <Card.Title style={{ textAlign: "left" }}
+                <Card.Title style={{ marginHorizontal: 10, textAlign: "left" }}
                 ><Text style={{ fontWeight: "bold" }}>Nos engagements</Text></Card.Title>
                 { props.user && props.user.type === "partner" && (
                 <View style={{ backgroundColor: "#FAF0E6", height: 160, justifyContent: "center", alignItems: "center" }}>
@@ -345,7 +345,7 @@ const OfferScreen = (props) => {
             <Card key={1} containerStyle={styles.container}>
                 <View style={{ display: "flex", flexDirection: "row", justifyContent: "space-between" }}>
                     <Card.Title
-                    ><Text style={{ fontWeight: "bold" }}>Qui sommes-nous ?</Text></Card.Title>
+                    style={{ marginHorizontal: 10 }}><Text style={{ fontWeight: "bold" }}>Qui sommes-nous ?</Text></Card.Title>
                 </View>
                 <CompanyCard dataCompany={company} navigation={props.navigation} />
             </Card>
@@ -375,12 +375,12 @@ const OfferScreen = (props) => {
             </Overlay>
             <HeaderBar
                 title={offer && offer.offerName ? offer.offerName : 'No name'}
-                onBackPress={() => props.navigation.navigate('CompanyPage', {companyId: company._id})}
+                onBackPress={() => props.navigation.goBack()}
                 leftComponent
                 navigation={props.navigation}
                 locationIndication
                 user={props.user}
-                location={company && company.offices && company.offices.length > 0 && company.offices[0].city+', '+company.offices[0].country}>
+                location={company && company.offices && company.offices.length > 0 && company.offices[0].postalCode+' '+company.offices[0].city+', '+company.offices[0].country}>
             </HeaderBar>
 
             <ScrollView>
@@ -391,12 +391,12 @@ const OfferScreen = (props) => {
                 </View>
 
                 {/* CARD INFOS COMPANY */}
-                <View style={{ flex: 1 }}>
+                <View style={{ flex: 1, paddingVertical: 10 }}>
                     {displayDescOffer}
                 </View>
 
                 {/* CARD LABELS COMPANY */}
-                <View style={{ flex: 1 }}>
+                <View style={{ flex: 1, paddingVertical: 10 }}>
                     {displayLabels}
                 </View>
 
@@ -407,6 +407,7 @@ const OfferScreen = (props) => {
 
             </ScrollView>
             
+            { company && props.user.companyId != company._id && (
             <LinearGradient
             style={{height: 60, zIndex: 2, position: 'absolute', bottom: 0, left: 0, width: "100%", flexDirection: "row", alignItems: "center", justifyContent: "space-between", paddingHorizontal: 40}}
             start={{ x: 0.5, y: 0 }}
@@ -417,6 +418,7 @@ const OfferScreen = (props) => {
                     offerId: offerId})}></Button>
                 <Button color="secondary" size="md" title="Contacter" onPress={() => handleContactClick()} />
             </LinearGradient>
+            )}
 
         </View>
     );
