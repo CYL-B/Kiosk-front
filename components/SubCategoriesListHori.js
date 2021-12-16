@@ -7,7 +7,7 @@ import { connect } from "react-redux";
 
 const CateGoriesList = (props) => {
   //subcategorielist en dure
-  var subcategorieList = [
+  /* var subcategorieList = [
     {
       subCategoryName: "Entretien",
       subCategoryImage:
@@ -104,9 +104,19 @@ const CateGoriesList = (props) => {
         "https://images.unsplash.com/photo-1498050108023-c5249f4df085?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=2072&q=80",
       _id: "61af7536b46295d96d1e42e3",
     },
-  ];
+  ];*/
+
+  var categorieslist = props.categorieslist;
+  var subcategorieList = [];
+  for (var i = 0; i < categorieslist.length; i++) {
+    for (var j = 0; j < categorieslist[i].subCategories.length; j++) {
+      subcategorieList.push(categorieslist[i].subCategories[j]);
+    }
+  }
 
   function handlePress(subCategoryChoice) {
+    props.CategoryChoiceReset();
+    props.subCategoryChoiceReset();
     props.subCategoryChoice(subCategoryChoice);
     props.navigation.navigate("Rechercher");
   }
@@ -171,6 +181,12 @@ function mapDispatchToProps(dispatch) {
   return {
     subCategoryChoice: function (subCategoryChosenData) {
       dispatch({ type: "setSubCategoryChosen", subCategoryChosenData });
+    },
+    CategoryChoiceReset: function () {
+      dispatch({ type: "Reset" });
+    },
+    subCategoryChoiceReset: function () {
+      dispatch({ type: "ResteSubCategorie" });
     },
   };
 }

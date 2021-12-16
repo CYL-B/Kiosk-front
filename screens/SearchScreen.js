@@ -27,7 +27,6 @@ const SearchScreen = (props) => {
     props.subCategoryChoiceReset();
     //props.CategoryChoiceReset();
     props.ResetRecherche();
-    console.log("retour");
   }
 
   useEffect(() => {

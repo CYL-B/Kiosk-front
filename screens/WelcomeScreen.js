@@ -1,20 +1,25 @@
 import React, { useEffect } from "react";
-
-import { Image, StyleSheet, View, ImageBackground } from "react-native";
-
+import { connect } from "react-redux";
+import { Image, StyleSheet, View, ImageBackground, Dimensions } from "react-native";
 // Import des composants Button customisés
 import { Button, ButtonText } from "../components/Buttons";
-
 // Import du Carousel
 import CarouselCards from "../components/carousel/CarouselCards";
-
-import { connect } from "react-redux";
-
 import { useIsFocused } from "@react-navigation/native";
-
 import AsyncStorage from "@react-native-async-storage/async-storage";
 
+
 const WelcomeScreen = (props) => {
+
+  // variables gestion affichage responsive :
+  const windowWidth = Dimensions.get("window").width;
+  const windowHeight = Dimensions.get("window").height;
+
+  const isFocused = useIsFocused();
+  if (isFocused) {
+//console.log("props.user", props.user);
+  }
+
   useEffect(() => {
     AsyncStorage.getItem("user", function (error, data) {
       var userData = JSON.parse(data);
@@ -25,12 +30,9 @@ const WelcomeScreen = (props) => {
     });
   }, []);
 
-  const isFocused = useIsFocused();
-  if (isFocused) {
-    //console.log("props.user", props.user);
-  }
 
   return (
+
     <ImageBackground
       source={require("../assets/welcomebackground2.png")}
       style={styles.container}
@@ -48,8 +50,7 @@ const WelcomeScreen = (props) => {
           size="md"
           color="primary"
           title="S'inscrire"
-          onPress={() =>
-            props.navigation.navigate("Inscription", { clientType: "client" })
+          onPress={() => props.navigation.navigate("Inscription", { clientType: "client" })
           }
         />
         <ButtonText
@@ -63,23 +64,11 @@ const WelcomeScreen = (props) => {
           size="md"
           color="secondary"
           title="Je suis un prestataire"
-          onPress={() =>
-            props.navigation.navigate("Inscription", { clientType: "partner" })
+          onPress={() => props.navigation.navigate("Inscription", { clientType: "partner" })
           }
         />
-
-        {/* <ButtonText
-          color="default"
-          title="Vers l'app"
-          onPress={() => props.navigation.navigate("TabNavigation")}
-        />
-
-        <ButtonText
-          color="default"
-          title="Vers Demande de devis"
-          onPress={() => props.navigation.navigate("QuoteRequest")}
-        /> */}
       </View>
+
     </ImageBackground>
   );
 };
@@ -95,10 +84,8 @@ const styles = StyleSheet.create({
     height: 34.9,
     marginTop: 114,
     alignSelf: "center",
-  },
+  }
 });
-
-//export default WelcomeScreen;
 
 function mapStateToProps(state) {
   return {

@@ -1,28 +1,29 @@
 import React, { useEffect, useState } from "react";
-import { View, ImageBackground, Dimensions, Button } from "react-native";
+import { View, ImageBackground, Dimensions } from "react-native";
+import { connect } from "react-redux";
+import { REACT_APP_IPSERVER } from "@env";
+import { ScrollView } from "react-native-gesture-handler";
 // Import des composants Button customisés
 import Text from "../components/Text";
 import { ButtonText } from "../components/Buttons";
-
 import SubCategoriesListHori from "../components/SubCategoriesListHori";
 import { HeaderBar } from "../components/Header";
 import CompanyCard from "../components/CompanyCard";
-// import PackCard from "../components/PackCard";
-
-import { connect } from "react-redux";
-
-import { REACT_APP_IPSERVER } from "@env";
-import { ScrollView } from "react-native-gesture-handler";
 import Searchbar from "../components/SearchBar";
 
 import { useIsFocused } from "@react-navigation/native";
 
 const HomeScreen = (props) => {
   const [dataCompany, setDataCompany] = useState(null);
-  const [packs, setPacks] = useState(null);
+  const [packs, setPacks] = useState([]);
 
   const windowWidth = Dimensions.get("window").width;
   const windowHeight = Dimensions.get("window").height;
+
+  const isFocused = useIsFocused();
+  if (isFocused) {
+    // console.log("props.recherche", props.recherche);
+  }
 
   // useEffect d'initialisation de la page Company :
   useEffect(() => {
@@ -43,22 +44,24 @@ const HomeScreen = (props) => {
           setDataCompany(dataCie.company); // set état company avec toutes data
         }
       }
-      // appel route put pour modifier données company
     }
     loadDataCie();
-  }, []);
 
+<<<<<<< HEAD
   const isFocused = useIsFocused();
   if (isFocused) {
     //console.log("props.recherche", props.recherche);
   }
 
   useEffect(() => {
+=======
+>>>>>>> e22983c3d1a9f9b6fdf0a6b87914288a03c53f13
     var setcategorieslist = async function () {
       const data = await fetch(
         `http://${REACT_APP_IPSERVER}/recherche/getcategories`
       );
       const body = await data.json();
+
       var categorieslist = body.categorieList;
       props.setcategoriesList(categorieslist);
     };
@@ -81,14 +84,9 @@ const HomeScreen = (props) => {
   //console.log("état packs", packs);
 
   return (
-    <View
-      style={{
-        flex: 1,
-        backgroundColor: "white",
-      }}
-    >
+    <View style={{ flex: 1, backgroundColor: "white" }}>
       {/* View pour NAVBAR */}
-      <View style={{}}>
+      <View>
         <HeaderBar
           title="Kiosk"
           navigation={props.navigation}
@@ -98,23 +96,16 @@ const HomeScreen = (props) => {
 
       {/* View pour la bar de recherche */}
       <ScrollView>
-        <View
-          style={{
-            alignItems: "center",
-            justifyContent: "center",
-          }}
-        >
+        <View style={{ alignItems: "center", justifyContent: "center" }}>
           <Searchbar navigation={props.navigation}></Searchbar>
         </View>
 
         {/* View pour List categorie horizontale */}
-
-        <View style={{}}>
+        <View>
           <View
             style={{
               display: "flex",
               flexDirection: "row",
-              //borderWidth: 1,
               justifyContent: "space-between",
               alignItems: "center",
               marginBottom: 15,
@@ -145,7 +136,6 @@ const HomeScreen = (props) => {
             style={{
               display: "flex",
               flexDirection: "row",
-              //borderWidth: 1,
               justifyContent: "space-between",
               alignItems: "center",
               marginBottom: 15,
@@ -157,6 +147,7 @@ const HomeScreen = (props) => {
               </Text>
             </View>
           </View>
+
           <View>
             {dataCompany && (
               <CompanyCard
@@ -219,7 +210,6 @@ const HomeScreen = (props) => {
                           {e.packName}
                         </Text>
                       </ImageBackground>
-                      {/* </View> */}
                     </View>
                   ))
                 : null}

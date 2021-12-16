@@ -1,49 +1,50 @@
+import { REACT_APP_IPSERVER } from '@env'; // mettre à la place de notre url d'ip avec http:// devant = varibale d'environnement
 import React, {useState, useEffect, useRef} from 'react';
 import { View, ImageBackground, TextInput, KeyboardAvoidingView, StyleSheet, TouchableOpacity } from 'react-native';
 import { Card, Image, ListItem, Overlay } from 'react-native-elements';
+import {connect} from 'react-redux';
 import { ScrollView } from 'react-native-gesture-handler';
-import * as ImagePicker from 'expo-image-picker';
+
 import Text from "../components/Text";
 import { ButtonText, Button } from '../components/Buttons';
 import {HeaderBar} from '../components/Header'
 import OfferCardLight from '../components/OfferCardLight';
 
-import { REACT_APP_IPSERVER } from '@env'; // mettre à la place de notre url d'ip avec http:// devant = varibale d'environnement
-
-import {connect} from 'react-redux';
-
 import LottieView from "lottie-react-native";
+import * as ImagePicker from 'expo-image-picker';
 
 
 const CompanyScreen = (props) => {
+
+// ?????
     const animation = useRef(null);
-    
 // variables de display :
-    var displayCieImg; // aller chercher une image dans le téléhone du presta
-    var displayDescCie; // input
-    var displayLabels; // affichage en list des labels à ajouter
-    var displayRatings; // affichage en list des ratings à ajouter
-    var displayOffers; // aller cherche une offre en DB ?
-
-
+    var displayCieImg;
+    var displayDescCie;
+    var displayLabels;
+    var displayRatings;
+    var displayOffers;
 // états infos Cie :
     const [ company, setCompany ] = useState(null);
     const [ ratings, setRatings ] = useState(null);
-    const [ companyId, setCompanyId ] = useState(props.route.params && props.route.params.companyId ? props.route.params.companyId : "61b097c526db20ecf9e66953");
+    const [ companyId, setCompanyId ] = useState(props.route.params && props.route.params.companyId ? props.route.params.companyId : null);
     const [ token, setToken ] = useState("");
     const [ image, setImage ] = useState(null);
     const [ isLiked, setIsLiked ] = useState(false);
-
 // état labels :
     const [ labels, setLabels ] = useState([]);
-
 // états overlay :
     const [visible, setVisible] = useState(false);
     const [visibleLabel, setVisibleLabel] = useState(false);
     const [inputOverlay, setInputOverlay] = useState('');
     const [valueToChange, setValueToChange] = useState(null);
 
+<<<<<<< HEAD
     //console.log("ratings", ratings);
+=======
+// console.log("ratings", ratings);
+
+>>>>>>> e22983c3d1a9f9b6fdf0a6b87914288a03c53f13
 // useEffect d'initialisation de la page Company :
     useEffect(() => {
 
@@ -86,7 +87,6 @@ const CompanyScreen = (props) => {
 // Demande de l'autorisation d'accéder à la galerie d'image de l'utilisateur
 let openImagePickerAsync = async () => {
     let permissionResult = await ImagePicker.requestMediaLibraryPermissionsAsync();
-
     if (permissionResult.granted === false) {
         alert("Permission to access camera roll is required!");
         return; // arrête la fonction
@@ -214,67 +214,63 @@ let openImagePickerAsync = async () => {
         displayCieImg = 
         <ImageBackground
             source={{uri: image}}
-            style={{ height: 200 }} /* ATTENTION SIZING IMAGE A REVOIR */
+            style={{ height: 200 }}
         >
-            <TouchableOpacity style={{ 
-                        backgroundColor: '#fff', 
-                        position: "absolute",
-                        top: "37%",
-                        right: 10,
-                        zIndex: 10,
-                        width: 56,
-                        height: 56,
-                        borderRadius: 50,
-                        shadowColor: "rgba(0,0,0,0.4)",
-                        shadowOffset: {
-                            width: 0,
-                            height: 2,
-                        },
-                        shadowOpacity: 0.25,
-                        shadowRadius: 3.84,
-                        elevation: 5
-                    }}
-                    onPress={() => handleLikeClick()}
-                >
+            <TouchableOpacity 
+                style={{ 
+                    backgroundColor: '#fff', 
+                    position: "absolute",
+                    top: "37%",
+                    right: 10,
+                    zIndex: 10,
+                    width: 56,
+                    height: 56,
+                    borderRadius: 50,
+                    shadowColor: "rgba(0,0,0,0.4)",
+                    shadowOffset: {
+                        width: 0,
+                        height: 2,
+                    },
+                    shadowOpacity: 0.25,
+                    shadowRadius: 3.84,
+                    elevation: 5
+                }}
+                onPress={() => handleLikeClick()}
+            >
                 <LottieView
                     ref={animation}
                     loop={false}
                     progress={isLiked ? 0.5 : 0}
-                    style={[
-                    {
-                        marginTop: 2,
-                        backgroundColor: "transparent",
-                    }
-                    ]}
+                    style={[{marginTop: 2, backgroundColor: "transparent"}]}
                     source={require("../assets/like.json")}
                     // OR find more Lottie files @ https://lottiefiles.com/featured
                     // Just click the one you like, place that file in the 'assets' folder to the left, and replace the above 'require' statement
                 />
                 </TouchableOpacity>
             { props.user.type === "partner" && (
-            <View style={{position:"absolute", bottom:"5%", right:"5%", marginRight:15}}>
-                <ButtonText
-                    color="light"
-                    title="Modifier"
-                    onPress={() => openImagePickerAsync()}
-                />
-            </View>
+                <View style={{position:"absolute", bottom:"5%", right:"5%", marginRight:15}}>
+                    <ButtonText
+                        color="light"
+                        title="Modifier"
+                        onPress={() => openImagePickerAsync()}
+                    />
+                </View>
             )}
         </ImageBackground>
     } else {
         displayCieImg = 
         <ImageBackground
             source={require('../assets/image_company_blank.png')}
-            style={{ height: 200 }} /* ATTENTION SIZING IMAGE A REVOIR */
+            style={{ height: 200 }}
         >
             { props.user.type === "partner" && (
-            <View style={{position:"absolute", bottom:"5%", right:"5%"}}>
-                <ButtonText
-                    color="light"
-                    title="Ajouter"
-                    onPress={() => openImagePickerAsync()}
-                />
-            </View>
+                <View style={{position:"absolute", bottom:"5%", right:"5%"}}>
+                    <ButtonText
+                        color="light"
+                        title="Ajouter"
+                        onPress={() => openImagePickerAsync()}
+                    />
+                </View>
             )}
         </ImageBackground>
     };
@@ -283,33 +279,37 @@ let openImagePickerAsync = async () => {
         displayDescCie = 
         <Card key={1} containerStyle={styles.container}>
             <View style={{display:"flex", flexDirection:"row", justifyContent:"space-between", left:5, marginRight:15}}>
-                <Card.Title style={{ marginHorizontal: 10 }}
-                ><Text style={{ fontWeight: "bold" }}>Qui sommes-nous ?</Text></Card.Title>
+                <Card.Title style={{ marginHorizontal: 10 }}>
+                    <Text style={{ fontWeight: "bold" }}>Qui sommes-nous ?</Text>
+                </Card.Title>
                 { props.user.type === "partner" && (
-                <ButtonText
-                    color="secondary"
-                    title="Modifier"
-                    onPress={(() => toggleOverlay("description"))}
-                />
+                    <ButtonText
+                        color="secondary"
+                        title="Modifier"
+                        onPress={(() => toggleOverlay("description"))}
+                    />
                 )}
             </View>
-            <Text
-            style={{marginHorizontal: 10, marginBottom: 10}}
-            >{company.description}</Text>
+            <Text style={{marginHorizontal: 10, marginBottom: 10}}
+                >{company.description}
+            </Text>
         </Card>
     } else {
         displayDescCie = 
         <Card key={1} containerStyle={styles.container}>
-            <Card.Title style={{ marginHorizontal: 10, textAlign:"left"}}
-            ><Text style={{ fontWeight: "bold" }}>Qui sommes-nous ?</Text></Card.Title>
+            <Card.Title style={{ marginHorizontal: 10, textAlign:"left"}}>
+                <Text style={{ fontWeight: "bold" }}
+                    >Qui sommes-nous ?
+                </Text>
+            </Card.Title>
                 { props.user.type === "partner" && (
-                <View style={{backgroundColor: "#FAF0E6", height: 160, justifyContent:"center", alignItems:"center"}}>
-                    <ButtonText
-                        color="secondary"
-                        title="Ajouter"
-                        onPress={(() => toggleOverlay("description"))}
-                    />
-                </View>
+                    <View style={{backgroundColor: "#FAF0E6", height: 160, justifyContent:"center", alignItems:"center"}}>
+                        <ButtonText
+                            color="secondary"
+                            title="Ajouter"
+                            onPress={(() => toggleOverlay("description"))}
+                        />
+                    </View>
                 )}
         </Card>
     };
@@ -317,89 +317,111 @@ let openImagePickerAsync = async () => {
     if (company && company.labels.length > 0 ) {
         displayLabels = 
         <Card key={1} containerStyle={styles.container} >
-            <View style={{display:"flex", flexDirection:"row", justifyContent:"space-between", left:5, marginRight:15}}>
-                <Card.Title style={{ marginHorizontal: 10 }}
-                ><Text style={{ fontWeight: "bold" }}>Nos labels</Text></Card.Title>
+            <View 
+                style={{
+                    display:"flex", 
+                    flexDirection:"row", 
+                    justifyContent:"space-between", 
+                    left:5, 
+                    marginRight:15}}
+            >
+                <Card.Title style={{ marginHorizontal: 10 }}>
+                    <Text style={{ fontWeight: "bold" }}
+                        >Nos labels
+                    </Text>
+                </Card.Title>
                 { props.user.type === "partner" && (
-                <ButtonText
-                    color="secondary"
-                    title="Ajouter"
-                    onPress={() => toggleOverlayLabel()}
-                />
+                    <ButtonText
+                        color="secondary"
+                        title="Ajouter"
+                        onPress={() => toggleOverlayLabel()}
+                    />
                 )}
             </View>
+
             <ScrollView horizontal showsHorizontalScrollIndicator={false}>
-            <View style={{display:"flex", flexDirection:"row"}}>
-            {
-                company.labels.map((label, i) => (
-                    
-                    <View style={{alignItems:"center"}} key={i}>
-                        <View style={{marginBottom:10, paddingHorizontal:10}}>
-                            <Image 
-                                source={{ uri: `http://${REACT_APP_IPSERVER}/images/assets/${label.logo}`}} /// RECUP PAS IMAGE !!!!
-                                style={{ width: 100, height: 100, resizeMode:"contain" }} /* PROBLEME AFFICHAGE TAILLE LOGO */
-                                
-                            >
-                            </Image>
+
+                <View style={{display:"flex", flexDirection:"row"}}>
+                {
+                    company.labels.map((label, i) => (
+                        
+                        <View style={{alignItems:"center"}} key={i}>
+                            <View style={{marginBottom:10, paddingHorizontal:10}}>
+                                <Image 
+                                    source={{ uri: `http://${REACT_APP_IPSERVER}/images/assets/${label.logo}`}}
+                                    style={{ width: 100, height: 100, resizeMode:"contain" }}
+                                >
+                                </Image>
+                            </View>
+                            { props.user.type === "partner" && (
+                                <ButtonText
+                                    color="secondary"
+                                    title="Supprimer"
+                                    onPress={() => handleDeleteLabels(label._id)}
+                                />
+                            )}
                         </View>
-                        { props.user.type === "partner" && (
-                        <ButtonText
-                            color="secondary"
-                            title="Supprimer"
-                            onPress={() => handleDeleteLabels(label._id)}
-                        />
-                        )}
-                    </View>
-                ))
-            }
-            </View>
+                    ))
+                }
+                </View>
+
             </ScrollView>
         </Card>
     } else {
         displayLabels =
         <Card key={1} containerStyle={styles.container}>
-            <Card.Title style={{marginHorizontal: 10, textAlign:"left"}}
-            ><Text style={{ fontWeight: "bold" }}>Nos labels</Text></Card.Title>
-            { props.user.type === "partner" && (
-            <View style={{backgroundColor: "#FAF0E6", height: 260, justifyContent:"center", alignItems:"center"}}>
-                <Text style={{textAlign:"center", marginTop:10, marginBottom:10 }}>
-                Avez-vous des labels ?
+            <Card.Title style={{marginHorizontal: 10, textAlign:"left"}}>
+                <Text style={{ fontWeight: "bold" }}
+                    >Nos labels
                 </Text>
-                <ScrollView>
-                    <View style={{flex: 1, width:300, height:400}}>
-                        {
+            </Card.Title>
+            { props.user.type === "partner" && (
+                <View 
+                    style={{
+                        backgroundColor: "#FAF0E6", 
+                        height: 260, 
+                        justifyContent:"center", 
+                        alignItems:"center"}}
+                >
+                    <Text style={{textAlign:"center", marginTop:10, marginBottom:10 }}
+                        >Avez-vous des labels ?
+                    </Text>
+                    <ScrollView>
+                        <View style={{flex: 1, width:300, height:400}}>
+                            {
                             labels.map((label, i) => {
-// console.log("label.logo", label.logo);
+    // console.log("label.logo", label.logo);
                                 return ( 
-                            <ListItem 
-                                key={i} 
-                                bottomDivider
-                                >
-                                <Image 
-                                    source={{ uri: `http://${REACT_APP_IPSERVER}/images/assets/${label.logo}`}}
-                                    style={{ width: 50, height: 50, resizeMode:"contain" }} /> 
-                                    {/* PROBLEME AFFICHAGE TAILLE LOGO */}
-                                <ListItem.Content style={{flexDirection:"row"}}>
-                                    <View >
-                                        <ListItem.Title
-                                            style={{right:10, flexShrink: 1, left:10}}>{label.labelName}
-                                        </ListItem.Title>
-                                    </View>
-                                </ListItem.Content>
-                                <ButtonText
-                                    color="secondary"
-                                    title="Ajouter"
-                                    onPress={() => handleSubmitLabels(label._id)}
-                                />
-                            </ListItem>
+                                    <ListItem 
+                                        key={i} 
+                                        bottomDivider
+                                    >
+                                        <Image 
+                                            source={{ uri: `http://${REACT_APP_IPSERVER}/images/assets/${label.logo}`}}
+                                            style={{ width: 50, height: 50, resizeMode:"contain" }} /> 
+                                        <ListItem.Content style={{flexDirection:"row"}}>
+                                            <View>
+                                                <ListItem.Title
+                                                    style={{
+                                                        right:10, 
+                                                        flexShrink: 1, 
+                                                        left:10}}
+                                                    >{label.labelName}
+                                                </ListItem.Title>
+                                            </View>
+                                        </ListItem.Content>
+                                        <ButtonText
+                                            color="secondary"
+                                            title="Ajouter"
+                                            onPress={() => handleSubmitLabels(label._id)}
+                                        />
+                                    </ListItem>
                             )})
-                        }
-
-                    </View>
-                </ScrollView>
-                <Text></Text>
-                
-            </View>
+                            }
+                        </View>
+                    </ScrollView>
+                    <Text></Text>
+                </View>
             )}
         </Card>
     };
@@ -407,51 +429,64 @@ let openImagePickerAsync = async () => {
     if (ratings && ratings.length > 0 ) {
         displayRatings = 
         <Card key={1} containerStyle={styles.container} >
-            <View style={{display:"flex", flexDirection:"row", justifyContent:"space-between", left:5, marginRight:15}}>
-                <Card.Title style={{ marginHorizontal: 10 }}
-                ><Text style={{ fontWeight: "bold" }}>Ils nous font confiance</Text></Card.Title>
+            <View 
+                style={{
+                    display:"flex", 
+                    flexDirection:"row", 
+                    justifyContent:"space-between", 
+                    left:5, 
+                    marginRight:15}}
+                >
+                <Card.Title style={{ marginHorizontal: 10 }}>
+                    <Text style={{ fontWeight: "bold" }}
+                        >Ils nous font confiance
+                    </Text>
+                </Card.Title>
             </View>
             <ScrollView horizontal showsHorizontalScrollIndicator={false}>
-            <View style={{display:"flex", flexDirection:"row"}}>
-            {
-                ratings.map((rating, i) => (
-                    
-                    <View style={{alignItems:"center"}} key={i}>
-                        <View style={{margin:10, borderRadius:50, 
-                                width: 90, 
-                                height: 90, 
-                                backgroundColor: "#fff",
-                                shadowColor: "rgba(0,0,0,0.4)",
-                                shadowOffset: {
-                                  width: 0,
-                                  height: 2,
-                                },
-                                shadowOpacity: 0.25,
-                                shadowRadius: 3.84,
-                                elevation: 5,
-                                alignItems:"center",
-                                justifyContent: "center" }}>
-                            <Image 
-                                source={{ uri: rating.clientId.logo }}
-                                style={{ 
-                                    width: 70, 
-                                    height: 70, 
-                                    resizeMode:"contain", 
-                                borderRadius:50,
-                            }}   >
-                            </Image>
+                <View style={{display:"flex", flexDirection:"row"}}>
+                    {
+                    ratings.map((rating, i) => (
+                        <View style={{alignItems:"center"}} key={i}>
+                            <View 
+                                style={{
+                                    margin:10, 
+                                    borderRadius:50, 
+                                    width: 90, 
+                                    height: 90, 
+                                    backgroundColor: "#fff",
+                                    shadowColor: "rgba(0,0,0,0.4)",
+                                    shadowOffset: {
+                                    width: 0,
+                                    height: 2
+                                    },
+                                    shadowOpacity: 0.25,
+                                    shadowRadius: 3.84,
+                                    elevation: 5,
+                                    alignItems:"center",
+                                    justifyContent: "center" }}
+                            >
+                                <Image 
+                                    source={{ uri: rating.clientId.logo }}
+                                    style={{ 
+                                        width: 70, 
+                                        height: 70, 
+                                        resizeMode:"contain", 
+                                        borderRadius:50}}
+                                >
+                                </Image>
+                            </View>
                         </View>
-                    </View>
-                ))
-            }
-            </View>
+                    ))
+                    }
+                </View>
             </ScrollView>
             <View style={{ alignItems:"center"}}>
-            <ButtonText
-                color="secondary"
-                title="Voir tous les avis"
-                onPress={() => props.navigation.navigate('Rating', {companyId: companyId})}
-            />
+                <ButtonText
+                    color="secondary"
+                    title="Voir tous les avis"
+                    onPress={() => props.navigation.navigate('Rating', {companyId: companyId})}
+                />
             </View>
         </Card>
     }
@@ -459,25 +494,36 @@ let openImagePickerAsync = async () => {
     if (company && company.offers) {
         displayOffers =
         <Card key={1} containerStyle={styles.container} >
-            <View style={{display:"flex", flexDirection:"row", justifyContent:"space-between", left:5, marginRight:15}}>
-                <Card.Title style={{ marginHorizontal: 10 }}
-                ><Text style={{ fontWeight: "bold" }}>Nos offres</Text></Card.Title>
+            <View 
+                style={{
+                    display:"flex", 
+                    flexDirection:"row", 
+                    justifyContent:"space-between", 
+                    left:5, 
+                    marginRight:15}}
+            >
+                <Card.Title style={{ marginHorizontal: 10 }}>
+                    <Text style={{ fontWeight: "bold" }}
+                        >Nos offres
+                    </Text>
+                </Card.Title>
                 { props.user.type === "partner" && (
-                <ButtonText
-                    color="secondary"
-                    title="Ajouter"
-                    onPress={() => toggleOverlay("offre")}
-                />
+                    <ButtonText
+                        color="secondary"
+                        title="Ajouter"
+                        onPress={() => toggleOverlay("offre")}
+                    />
                 )}
             </View>
             <View>
                 {
                 company.offers.map((offer, i) => 
-                <OfferCardLight
-                    key={i}
-                    dataOffre={offer} navigation={props.navigation}/>
-                )
-                }
+                    <OfferCardLight
+                        key={i}
+                        dataOffre={offer}
+                        navigation={props.navigation}
+                    />
+                )}
             </View>
         </Card>
     } else {
@@ -486,17 +532,23 @@ let openImagePickerAsync = async () => {
             <Card.Title style={{marginHorizontal: 10, textAlign:"left"}}
             ><Text style={{ fontWeight: "bold" }}>Nos offres</Text></Card.Title>
             { props.user.type === "partner" && (
-            <View style={{backgroundColor: "#FAF0E6", height: 160, justifyContent:"center", alignItems:"center"}}>
-                <Text style={{textAlign:"center"}}>
-                    Veuillez ajouter une offre
-                </Text>
-                <Text>{"\n"}</Text>
-                <ButtonText
-                    color="secondary"
-                    title="Ajouter"
-                    onPress={() => toggleOverlay("offre")}
-                />
-            </View>
+                <View 
+                    style={{
+                        backgroundColor: "#FAF0E6", 
+                        height: 160, 
+                        justifyContent:"center", 
+                        alignItems:"center"}}
+                    >
+                    <Text style={{textAlign:"center"}}
+                        >Veuillez ajouter une offre
+                    </Text>
+                    <Text>{"\n"}</Text>
+                    <ButtonText
+                        color="secondary"
+                        title="Ajouter"
+                        onPress={() => toggleOverlay("offre")}
+                    />
+                </View>
             )}
         </Card>
     };
@@ -505,110 +557,108 @@ let openImagePickerAsync = async () => {
 
         <View style={{ flex: 1, justifyContent: 'center', backgroundColor: '#fff' }}>
 
-        {/* OVERLAY description : */}
-        <Overlay overlayStyle={{ width: "80%", padding: 30, borderRadius: 20 }} isVisible={visible} onBackdropPress={() => toggleOverlay()}>
-            <KeyboardAvoidingView
-                behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
-            >
-                <TextInput
-                    placeholder={'Entrez votre ' + valueToChange}
-                    value={inputOverlay}
-                    multiline={true}
-                    onChangeText={(value) => setInputOverlay(value)}
-                    style={{ marginVertical: 30 }}
-                />
-                <View
-                    style={{alignItems:"center"}}>
-                        <Button
-                            color="primary"
-                            size="md"
-                            title="Valider"
-                            onPress={() => handleOverlaySubmit()}
+            {/* OVERLAY description : */}
+            <Overlay 
+                overlayStyle={{ width: "80%", padding: 30, borderRadius: 20 }} 
+                isVisible={visible} 
+                onBackdropPress={() => toggleOverlay()}>
+                    <KeyboardAvoidingView behavior={Platform.OS === 'ios' ? 'padding' : 'height'}>
+                        <TextInput
+                            placeholder={'Entrez votre ' + valueToChange}
+                            value={inputOverlay}
+                            multiline={true}
+                            onChangeText={(value) => setInputOverlay(value)}
+                            style={{ marginVertical: 30 }}
                         />
+                        <View
+                            style={{alignItems:"center"}}>
+                                <Button
+                                    color="primary"
+                                    size="md"
+                                    title="Valider"
+                                    onPress={() => handleOverlaySubmit()}
+                                />
+                        </View>
+                    </KeyboardAvoidingView>
+            </Overlay>
+
+            {/* OVERLAY labels : */}  
+            <Overlay 
+                overlayStyle={{ width: "80%", paddingVertical:30, paddingHorizontal:10, borderRadius: 20 }} 
+                isVisible={visibleLabel} 
+                onBackdropPress={() => toggleOverlayLabel()}>
+                    <KeyboardAvoidingView behavior={Platform.OS === 'ios' ? 'padding' : 'height'}>
+                        <ScrollView style={{height:500}}>
+                            <View style={{flex: 1}}>
+                                {
+                                labels.map((label, i) => {
+    // console.log("label.logo", label.logo);
+                                    return ( 
+                                        
+                                    <ListItem key={i} bottomDivider>
+                                        <Image 
+                                            source={{ uri: `http://${REACT_APP_IPSERVER}/images/assets/${label.logo}`}}
+                                            style={{ width: 50, height: 50, resizeMode:"contain" }} 
+                                        />
+                                        <ListItem.Content style={{flexDirection:"row"}}>
+                                            <View >
+                                                <ListItem.Title
+                                                    style={{right:10, flexShrink: 1, left:10}}
+                                                    >{label.labelName}
+                                                </ListItem.Title>
+                                            </View>
+                                        </ListItem.Content>
+                                        <ButtonText
+                                            color="secondary"
+                                            title="Ajouter"
+                                            onPress={() => handleSubmitLabels(label._id)}                                    
+                                        />
+                                    </ListItem>
+                                )})
+                                }
+                            </View>
+                        </ScrollView>
+                    </KeyboardAvoidingView>
+            </Overlay>
+                
+                <HeaderBar
+                    title = {company ? company.companyName : "Entreprise"}
+                    onBackPress={() => props.navigation.goBack() }
+                    leftComponent
+                    locationIndication
+                    location={company && company.offices.length > 0 ? company.offices[0].postalCode+' '+company.offices[0].city+', '+company.offices[0].country : "Entreprise"}
+                    navigation={props.navigation}
+                    user={props.user}
+                    >
+                </HeaderBar>
+
+
+            <ScrollView>
+
+                {/* IMAGE ENTREPRISE */}
+                <View style={{paddingVertical:10}}>
+                    {displayCieImg}
                 </View>
-            </KeyboardAvoidingView>
-        </Overlay>
 
-        {/* OVERLAY labels : */}  
-        <Overlay overlayStyle={{ width: "80%", paddingVertical:30, paddingHorizontal:10, borderRadius: 20 }} isVisible={visibleLabel} onBackdropPress={() => toggleOverlayLabel()}>
-            <KeyboardAvoidingView
-                behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
-            >
-                <ScrollView style={{height:500}}>
-                    <View style={{flex: 1}}>
-                        {
-                            labels.map((label, i) => {
-// console.log("label.logo", label.logo);
-                                return ( 
-                                    
-                            <ListItem 
-                                key={i} 
-                                bottomDivider
-                            >
-                                <Image 
-                                    source={{ uri: `http://${REACT_APP_IPSERVER}/images/assets/${label.logo}`}}
-                                    style={{ width: 50, height: 50, resizeMode:"contain" }} 
-                                />
-                                <ListItem.Content style={{flexDirection:"row"}}>
-                                    <View >
-                                        <ListItem.Title
-                                            style={{right:10, flexShrink: 1, left:10}}>
-                                            {label.labelName}
-                                        </ListItem.Title>
-                                    </View>
-                                </ListItem.Content>
-                                <ButtonText
-                                    color="secondary"
-                                    title="Ajouter"
-                                    onPress={() => handleSubmitLabels(label._id)}                                    
-                                />
-                            </ListItem>
-                            )})
-                        }
-                    </View>
-                </ScrollView>
-            </KeyboardAvoidingView>
-        </Overlay>
-            
-            <HeaderBar
-                title = {company ? company.companyName : "Entreprise"}
-                onBackPress={() => props.navigation.goBack() }
-                leftComponent
-                locationIndication
-                location={company && company.offices.length > 0 ? company.offices[0].postalCode+' '+company.offices[0].city+', '+company.offices[0].country : "Entreprise"}
-                navigation={props.navigation}
-                // location={label.offices[i].zipCode}
-                user={props.user}
-                >
-            </HeaderBar>
+                {/* CARD INFOS COMPANY */}
+                <View style={{flex:1, paddingVertical:10}}>
+                    {displayDescCie}
+                </View>
 
+                {/* CARD LABELS COMPANY */}
+                <View style={{flex:1, paddingVertical:10}}>
+                    {displayLabels}
+                </View>
 
-        <ScrollView>
+                {/* CARD LABELS COMPANY */}
+                <View style={{flex:1, paddingVertical:10}}>
+                    {displayRatings}
+                </View>
 
-            {/* IMAGE ENTREPRISE */}
-            <View style={{paddingVertical:10}}>
-                {displayCieImg}
-            </View>
-
-            {/* CARD INFOS COMPANY */}
-            <View style={{flex:1, paddingVertical:10}}>
-                {displayDescCie}
-            </View>
-
-            {/* CARD LABELS COMPANY */}
-            <View style={{flex:1, paddingVertical:10}}>
-                {displayLabels}
-            </View>
-
-            {/* CARD LABELS COMPANY */}
-            <View style={{flex:1, paddingVertical:10}}>
-                {displayRatings}
-            </View>
-
-            {/* CARD OFFRES COMPANY */}
-            <View style={{flex:1, paddingVertical:10}}>
-                {displayOffers}
-            </View>
+                {/* CARD OFFRES COMPANY */}
+                <View style={{flex:1, paddingVertical:10}}>
+                    {displayOffers}
+                </View>
 
             </ScrollView>
 
@@ -629,8 +679,8 @@ const styles = StyleSheet.create({
         elevation: 0, // Remove Shadow for Android
         margin: 0,
         width: '100%'
-    },
-})
+    }
+});
 
 // on récupère le user stocké dans le store : 
 function mapStateToProps(state) {
@@ -641,8 +691,8 @@ function mapDispatchToProps(dispatch) {
     return {
         storeUser: function (user) {
         dispatch({ type: "storeUser", user });
-        },
+        }
     };
-}
+};
 
 export default connect(mapStateToProps, mapDispatchToProps)(CompanyScreen);
