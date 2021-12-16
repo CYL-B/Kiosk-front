@@ -47,15 +47,6 @@ const HomeScreen = (props) => {
     }
     loadDataCie();
 
-<<<<<<< HEAD
-  const isFocused = useIsFocused();
-  if (isFocused) {
-    //console.log("props.recherche", props.recherche);
-  }
-
-  useEffect(() => {
-=======
->>>>>>> e22983c3d1a9f9b6fdf0a6b87914288a03c53f13
     var setcategorieslist = async function () {
       const data = await fetch(
         `http://${REACT_APP_IPSERVER}/recherche/getcategories`
