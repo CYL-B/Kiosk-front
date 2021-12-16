@@ -43,7 +43,7 @@ const CompanyScreen = (props) => {
     const [inputOverlay, setInputOverlay] = useState('');
     const [valueToChange, setValueToChange] = useState(null);
 
-    console.log("ratings", ratings);
+    //console.log("ratings", ratings);
 // useEffect d'initialisation de la page Company :
     useEffect(() => {
 

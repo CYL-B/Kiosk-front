@@ -7,8 +7,7 @@ import { REACT_APP_IPSERVER } from '@env'
 //import de la librairie gifted chat avec ses éléments
 import { View, Text, StyleSheet, TextInput } from 'react-native';
 import { HeaderBar } from '../components/Header'
-import { Divider, Badge, AirbnbRating } from 'react-native-elements';
-import { AvatarRound } from '../components/avatar'
+import { Divider, Badge, AirbnbRating, Avatar } from 'react-native-elements';
 import { ScrollView } from 'react-native-gesture-handler';
 // import { use } from '../../kiosk-backend/routes';
 
@@ -29,12 +28,13 @@ const RatingScreen = (props) => {
             // appel route put pour modifier données company
             var rawRatings = await fetch(`http://${REACT_APP_IPSERVER}/ratings/${companyId}/${token}`); // (`adresseIPserveur/route appelée/req.params?req.query`)
             var dataRatings = await rawRatings.json(); 
-// console.log("dataRatings.ratings", dataRatings.ratings); // = ARRAY d'OBJETS
+ // console.log("dataRatings.ratings", dataRatings.ratings); // = ARRAY d'OBJETS
+            //console.log(dataRatings.ratings.length);
             if (dataRatings.result) {
                 setRatings(dataRatings.ratings);
-                setAvgRate(dataRatings.avg[0].averageNoteByCie.$numberDecimal);
-                console.log("avg", dataRatings.avg);
-                console.log("avg", dataRatings.avg[0].averageNoteByCie.$numberDecimal)
+                setAvgRate(dataRatings.avg[0].averageNoteByCie);
+                // console.log("avg", dataRatings.avg);
+                // console.log("avg", dataRatings.avg[0].averageNoteByCie)
             }
         }
         loadDataCie();
@@ -87,7 +87,7 @@ const RatingScreen = (props) => {
                         selectedColor="#F47805"
                         unSelectedColor="#F4780533"
                         reviewColor="#F47805"
-                        defaultRating={3} //changer avec rating
+                        defaultRating={avgRate} //changer avec rating
                         isDisabled
                         count={5}
                         size={20}
@@ -108,11 +108,11 @@ const RatingScreen = (props) => {
                 return (
             <View style={{paddingBottom:30}} key={i}>
                 <View style={{display:"flex", flexDirection:"row", left:15, marginTop:20, marginRight:30}}>
-                    <AvatarRound 
-                        navigation={props.navigation} size="md"
+                    <Avatar 
+                        rounded
                         source={{ uri: e.userId.avatar }}
                     >
-                    </AvatarRound>
+                    </Avatar>
                     <View style={{left:10}}>
                         <Text
                             >{e.userId.firstName} {e.userId.lastName}
