@@ -85,8 +85,8 @@ const CompanyProfileScreen = (props) => {
       flex: 1,
     },
     image: {
-      //flex: 1,
-      justifyContent: "space-between",
+      flex: 1,
+      justifyContent: 'center'
     },
 
     buttonContainer: {
@@ -99,6 +99,8 @@ const CompanyProfileScreen = (props) => {
       marginTop: 114,
     },
     form: {
+      flex: 1,
+      justifyContent: "center",
       alignItems: "center",
       marginHorizontal: 45,
       //borderWidth: 1,
@@ -136,16 +138,16 @@ const CompanyProfileScreen = (props) => {
       style={{
         ...styles.container,
         flexDirection: "column",
-        justifyContent: "center",
+        justifyContent: "center"
       }}
     >
-      <View style={{ ...styles.container, justifyContent: "flex-end" }}>
+      <View style={{ ...styles.container}}>
         <ImageBackground
           source={require("../../assets/background-login.png")}
           resizeMode="cover"
           style={styles.image}
         >
-          <ScrollView>
+            <View style={{ flex: 1 }}>
             <View style={styles.form}>
               <Text style={styles.text}>Profil</Text>
               <TouchableOpacity
@@ -229,14 +231,14 @@ const CompanyProfileScreen = (props) => {
                 color="primary"
                 title="Enregistrer"
                 onPress={() => handleclickUpdtate()}
-              />
-              <Button
+              />{ props.user.type === "partner" && (<Button
                 size="md"
                 style={{marginRight: 10, marginLeft:10, marginBottom:10}}
                 color="secondary"
                 title="Page entreprise"
-                onPress={() => props.navigation.navigate("CompanyScreen", {companyId: props.user.companyId})}
-              /></View>
+                onPress={() => props.navigation.navigate("CompanyPage", {companyId: props.user.companyId})}
+              />)}
+              </View>
               <ButtonText
                 color="light"
                 title="Annuler"
@@ -244,7 +246,7 @@ const CompanyProfileScreen = (props) => {
               />
             </View>
             {/* <View style={{ flex: 1 }} /> */}
-          </ScrollView>
+            </View>
         </ImageBackground>
       </View>
     </KeyboardAvoidingView>
