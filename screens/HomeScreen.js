@@ -220,7 +220,7 @@ console.log("état packs", packs);
                   }}>
                   <Text
                     style={{color:"#FFFFFF", textAlign:"center", paddingHorizontal:10}}
-                    onPress={() => props.navigation.navigate('ResultsPacks', {packId: "61b9fa3103cd5ee16272db93", packName: "Je monte ma boite"})}
+                    onPress={() => props.navigation.navigate('ResultsPacks', {packId:e._id, packName: e.packName})}
                   >{e.packName}</Text>
                 </ImageBackground>
               </View>
