@@ -21,6 +21,7 @@ import LottieView from "lottie-react-native";
 import * as ImagePicker from "expo-image-picker";
 
 const CompanyScreen = (props) => {
+<<<<<<< HEAD
   // ?????
   const animation = useRef(null);
   // variables de display :
@@ -93,6 +94,76 @@ const CompanyScreen = (props) => {
   let openImagePickerAsync = async () => {
     let permissionResult =
       await ImagePicker.requestMediaLibraryPermissionsAsync();
+=======
+
+// ?????
+    const animation = useRef(null);
+// variables de display :
+    var displayCieImg;
+    var displayDescCie;
+    var displayLabels;
+    var displayRatings;
+    var displayOffers;
+// états infos Cie :
+    const [ company, setCompany ] = useState(null);
+    const [ ratings, setRatings ] = useState(null);
+    const [ companyId, setCompanyId ] = useState(props.route.params && props.route.params.companyId ? props.route.params.companyId : null);
+    const [ token, setToken ] = useState("");
+    const [ image, setImage ] = useState(null);
+    const [ isLiked, setIsLiked ] = useState(false);
+// état labels :
+    const [ labels, setLabels ] = useState([]);
+// états overlay :
+    const [visible, setVisible] = useState(false);
+    const [visibleLabel, setVisibleLabel] = useState(false);
+    const [inputOverlay, setInputOverlay] = useState('');
+    const [valueToChange, setValueToChange] = useState(null);
+
+// console.log("ratings", ratings);
+
+// useEffect d'initialisation de la page Company :
+    useEffect(() => {
+
+// DANS USE : fonction chargement des infos de la compagnie loggée :
+        async function loadDataCie() {
+            // appel route put pour modifier données company
+            var rawDataCie = await fetch(`http://${REACT_APP_IPSERVER}/companies/${companyId}/${props.user.token}`); // (`adresseIPserveur/route appelée/req.params?req.query`)
+            var dataCie = await rawDataCie.json();
+// console.log("dataCie", dataCie);
+            if (dataCie.result) {
+                setCompany(dataCie.company); // set état company avec toutes data
+                setRatings(dataCie.ratings); // set état ratings avec toutes data
+                setImage(dataCie.company.companyImage);
+                setToken(dataCie.company.token);
+            }
+        }
+        loadDataCie();
+
+// DANS USE : fonction chargement des labels à choisir :
+        async function loadDataLabels() {
+            // appel route get pour récupérer données labels DB
+            var rawDataLabels = await fetch(`http://${REACT_APP_IPSERVER}/companies/labels`);
+            var dataLabels = await rawDataLabels.json();
+// console.log("rawDataLabels", rawDataLabels);
+// console.log("dataLabels.labels", dataLabels);
+            setLabels(dataLabels.dataLabels);
+// console.log("dataLabels from Fetch", dataLabels.dataLabels);
+// console.log("état", labels);
+        }
+        loadDataLabels();
+
+        // get like status in store user
+        var user = props.user;
+        var userLikes = user.favorites;
+        setIsLiked(userLikes.some(e => e.companyId && e.companyId === companyId));
+
+    }, []);
+
+
+// Demande de l'autorisation d'accéder à la galerie d'image de l'utilisateur
+let openImagePickerAsync = async () => {
+    let permissionResult = await ImagePicker.requestMediaLibraryPermissionsAsync();
+>>>>>>> 9912299cb5934c5b9a5439098dc30bae51655558
     if (permissionResult.granted === false) {
       alert("Permission to access camera roll is required!");
       return; // arrête la fonction

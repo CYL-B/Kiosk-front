@@ -59,11 +59,8 @@ const RatingScreen = (props) => {
     <View style={{ flex: 1, backgroundColor: "white" }}>
 
         <HeaderBar
-            title = {ratings && ratings.length > 0 ? ratings[0].clientId.companyName : "Entreprise"}
-            onBackPress={() => props.navigation.goBack()}
+            title = "Avis"
             leftComponent
-            locationIndication
-            location="Paris"
             user={props.user}
             onBackPress={() => props.navigation.goBack()}
         >

@@ -84,6 +84,7 @@ const QuotationScreen = (props) => {
               style={{ margin: 10 }}
               size="md"
               color="secondary"
+              onPress={() => console.log('click')}
             ></Button>
           );
         } else if (request.status == "accepted") {
@@ -97,6 +98,7 @@ const QuotationScreen = (props) => {
               style={{ margin: 10 }}
               size="md"
               color="secondary"
+              onPress={() => console.log('click')}
             ></Button>
           );
         } else if (request.status == "paid") {
@@ -110,12 +112,14 @@ const QuotationScreen = (props) => {
               style={{ margin: 10 }}
               size="md"
               color="secondary"
+              onPress={() => console.log('click')}
             ></Button>
           );
         }
 
         return (
           <Card
+            key={i}
             containerStyle={{
               padding: 0,
               borderRadius: 20,
@@ -211,6 +215,7 @@ const QuotationScreen = (props) => {
               }}
               size="md"
               color="primary"
+              onPress={() => console.log('click')}
             ></Button>
           );
         } else if (quotation.status == "accepted") {
@@ -228,6 +233,7 @@ const QuotationScreen = (props) => {
               }}
               size="md"
               color="primary"
+              onPress={() => console.log('click')}
             ></Button>
           );
         } else if (quotation.status == "paid") {
@@ -245,12 +251,14 @@ const QuotationScreen = (props) => {
               }}
               size="md"
               color="primary"
+              onPress={() => console.log('click')}
             ></Button>
           );
         }
 
         return (
           <Card
+            key={i}
             containerStyle={{
               padding: 0,
               borderRadius: 20,
@@ -319,6 +327,7 @@ const QuotationScreen = (props) => {
                 }}
                 size="md"
                 color="secondary"
+                onPress={() => console.log('click')}
               />
               {button}
             </Card.Divider>
@@ -374,6 +383,7 @@ const QuotationScreen = (props) => {
         if (request.status == "done") {
           return (
             <Card
+              key={i}
               containerStyle={{
                 padding: 0,
                 borderRadius: 20,
@@ -440,6 +450,7 @@ const QuotationScreen = (props) => {
                   }}
                   size="md"
                   color="secondary"
+                  onPress={() => console.log('click')}
                 />
               </Card.Divider>
             </Card>
@@ -452,6 +463,7 @@ const QuotationScreen = (props) => {
       if (quotation.status == "done") {
         return (
           <Card
+            key={i}
             containerStyle={{
               padding: 0,
               borderRadius: 20,
@@ -530,6 +542,7 @@ const QuotationScreen = (props) => {
                 }}
                 size="md"
                 color="secondary"
+                onPress={() => console.log('click')}
               />
             </Card.Divider>
           </Card>
