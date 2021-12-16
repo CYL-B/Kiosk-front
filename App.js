@@ -100,10 +100,21 @@ const StackNavigation = () => {
     >
       <Stack.Screen name="Home" component={HomeScreen} />
       <Stack.Screen name="CompanyPage" component={CompanyScreen} />
-      <Stack.Screen name="OfferPage" component={OfferScreen} />
       <Stack.Screen name="CompanyProfile" component={CompanyProfileScreen} />
       <Stack.Screen name="Favorites" component={FavoritesScreen} />
       <Stack.Screen name="UserProfile" component={UserProfileScreen} />
+    </Stack.Navigator>
+  );
+};
+
+const StackNavigationSearch = () => {
+  return (
+    <Stack.Navigator
+      screenOptions={{ headerShown: false, cardStyleInterpolator: forSlide }}
+    >
+      <Stack.Screen name="Search" component={SearchScreen}/>
+      <Stack.Screen name="CompanyPage" component={CompanyScreen} />
+      <Stack.Screen name="OfferPage" component={OfferScreen} />
       <Stack.Screen name="Quotation" component={QuotationScreen} />
       <Stack.Screen name="Rating" component={RatingScreen} />
       <Stack.Screen name="LeaveFeedback" component={LeaveRatingsScreen} />
@@ -146,12 +157,10 @@ const TabNavigation = () => {
       <Tab.Screen
         name="Accueil"
         component={StackNavigation}
-        options={{ unmountOnBlur: true }}
       />
       <Tab.Screen
         name="Rechercher"
-        component={SearchScreen}
-        options={{ unmountOnBlur: true }}
+        component={StackNavigationSearch}
       />
       <Tab.Screen
         name="Messages"
@@ -176,10 +185,8 @@ export default function App() {
           <Stack.Screen name="Bienvenue" component={WelcomeScreen} />
           <Stack.Screen name="Connexion" component={LoginScreen} />
           <Stack.Screen name="Inscription" component={RegisterScreen} />
-          <Stack.Screen name="CompanyPage" component={CompanyScreen} />
           <Stack.Screen name="TabNavigation" component={TabNavigation} />
           <Stack.Screen name="Chat" component={ChatScreen} />
-          <Stack.Screen name="MessagesScreen" component={MessagesScreen} />
         </Stack.Navigator>
       </NavigationContainer>
     </Provider>
