@@ -24,6 +24,7 @@ const WelcomeScreen = (props) => {
     AsyncStorage.getItem("user", function (error, data) {
       var userData = JSON.parse(data);
       if (userData) {
+        console.log("userData", userData);
         props.storeUser(userData);
         props.navigation.navigate("TabNavigation");
       }

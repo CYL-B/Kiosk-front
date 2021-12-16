@@ -77,7 +77,7 @@ const UserProfileScreen = (props) => {
       flex: 1,
     },
     image: {
-      //flex: 1,
+      flex: 1,
       justifyContent: "space-between",
     },
 
@@ -131,7 +131,7 @@ const UserProfileScreen = (props) => {
         justifyContent: "center",
       }}
     >
-      <View style={{ ...styles.container, justifyContent: "flex-end" }}>
+      <View style={{ ...styles.container, justifyContent: "flex-end", marginVertical: 20 }}>
         <ImageBackground
           source={require("../../assets/background-login.png")}
           resizeMode="cover"
