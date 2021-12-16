@@ -77,7 +77,7 @@ const HomeScreen = (props) => {
     loadDataPacks();
   }, []);
 
-  console.log("état packs", packs);
+// console.log("état packs", packs);
 
   return (
     <View
