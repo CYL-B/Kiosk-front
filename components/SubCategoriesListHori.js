@@ -118,7 +118,7 @@ const CateGoriesList = (props) => {
     props.CategoryChoiceReset();
     props.subCategoryChoiceReset();
     props.subCategoryChoice(subCategoryChoice);
-    props.navigation.navigate("Rechercher");
+    props.navigation.navigate("Rechercher", { screen: "Search" });
   }
 
   var categories = subcategorieList.map((e, i) => {
