@@ -55,7 +55,6 @@ const OfferList = (props) => {
       );
       var data = await dataListOfferraw.json();
       listOffer = data.offerList;
-      console.log("listOffer", listOffer);
 
       setOfferList(listOffer);
     } else {
