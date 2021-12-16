@@ -17,22 +17,28 @@ const OfferList = (props) => {
   const [offerList, setOfferList] = useState();
 
   useEffect(async () => {
-    console.log("props.categoryChosenData", props.categoryChosenData);
-    console.log("props.subCategoryChosenData", props.subCategoryChosenData);
+    console.log(
+      "props.categoryChosenData",
+      props.categoryChosenData.categoryName
+    );
+    console.log(
+      "props.subCategoryChosenData",
+      props.subCategoryChosenData.subCategoryName
+    );
     console.log("props.recherche", props.recherche);
 
     var recherche;
     if (props.recherche) {
-      //console.log("recherchebar");
+      console.log("recherchebar");
       recherche = props.recherche;
     } else if (
-      (props.categoryChosenData.categoryName =
-        props.subCategoryChosenData.subCategoryName)
+      props.categoryChosenData.categoryName ==
+      props.subCategoryChosenData.subCategoryName
     ) {
-      //console.log("recherche categorie");
+      console.log("recherche categorie");
       recherche = props.categoryChosenData.categoryName;
     } else {
-      // console.log("recherche souscategorie");
+      console.log("recherche souscategorie");
       recherche = props.subCategoryChosenData.subCategoryName;
     }
 
