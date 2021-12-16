@@ -1,21 +1,18 @@
 import React, { useEffect, useState } from "react";
-import { View, ImageBackground, Dimensions, Button } from "react-native";
+import { View, ImageBackground, Dimensions } from "react-native";
+import { connect } from "react-redux";
+import { REACT_APP_IPSERVER } from "@env";
+import { ScrollView } from "react-native-gesture-handler";
 // Import des composants Button customisés
 import Text from "../components/Text";
 import { ButtonText } from "../components/Buttons";
-
 import SubCategoriesListHori from "../components/SubCategoriesListHori";
 import { HeaderBar } from "../components/Header";
 import CompanyCard from "../components/CompanyCard";
-// import PackCard from "../components/PackCard";
-
-import { connect } from "react-redux";
-
-import { REACT_APP_IPSERVER } from "@env";
-import { ScrollView } from "react-native-gesture-handler";
 import Searchbar from "../components/SearchBar";
 
 import { useIsFocused } from "@react-navigation/native";
+
 
 const HomeScreen = (props) => {
 
@@ -24,6 +21,11 @@ const HomeScreen = (props) => {
 
   const windowWidth = Dimensions.get("window").width;
   const windowHeight = Dimensions.get("window").height;
+
+  const isFocused = useIsFocused();
+  if (isFocused) {
+// console.log("props.recherche", props.recherche);
+  };
 
   // useEffect d'initialisation de la page Company :
   useEffect(() => {
@@ -44,17 +46,9 @@ const HomeScreen = (props) => {
           setDataCompany(dataCie.company); // set état company avec toutes data
         }
       }
-      // appel route put pour modifier données company
     }
     loadDataCie();
-  }, []);
 
-  const isFocused = useIsFocused();
-  if (isFocused) {
-// console.log("props.recherche", props.recherche);
-  }
-
-  useEffect(() => {
     var setcategorieslist = async function () {
       const data = await fetch(
         `http://${REACT_APP_IPSERVER}/recherche/getcategories`
@@ -82,14 +76,11 @@ const HomeScreen = (props) => {
 // console.log("état packs", packs);
 
   return (
-    <View
-      style={{
-        flex: 1,
-        backgroundColor: "white",
-      }}
-    >
+
+    <View style={{flex: 1, backgroundColor: "white"}}>
+
       {/* View pour NAVBAR */}
-      <View style={{}}>
+      <View>
         <HeaderBar
           title="Kiosk"
           navigation={props.navigation}
@@ -99,23 +90,17 @@ const HomeScreen = (props) => {
 
       {/* View pour la bar de recherche */}
       <ScrollView>
-        <View
-          style={{
-            alignItems: "center",
-            justifyContent: "center",
-          }}
-        >
+
+        <View style={{alignItems: "center", justifyContent: "center"}}>
           <Searchbar navigation={props.navigation}></Searchbar>
         </View>
 
         {/* View pour List categorie horizontale */}
-
-        <View style={{}}>
+        <View>
           <View
             style={{
               display: "flex",
               flexDirection: "row",
-              //borderWidth: 1,
               justifyContent: "space-between",
               alignItems: "center",
               marginBottom: 15,
@@ -135,9 +120,8 @@ const HomeScreen = (props) => {
             </View>
           </View>
 
-          <SubCategoriesListHori
-            navigation={props.navigation}
-          ></SubCategoriesListHori>
+          <SubCategoriesListHori navigation={props.navigation}></SubCategoriesListHori>
+
         </View>
 
         {/* View pour l'entrperise de la semaine */}
@@ -146,7 +130,6 @@ const HomeScreen = (props) => {
             style={{
               display: "flex",
               flexDirection: "row",
-              //borderWidth: 1,
               justifyContent: "space-between",
               alignItems: "center",
               marginBottom: 15,
@@ -158,6 +141,7 @@ const HomeScreen = (props) => {
               </Text>
             </View>
           </View>
+
           <View>
             {dataCompany && (
               <CompanyCard
@@ -170,10 +154,9 @@ const HomeScreen = (props) => {
 
         {/* NOS PACKS */}
         <View style={{ marginTop: 20, marginBottom: 30 }}>
+
           <View>
-            <Text
-              style={{ fontWeight: "bold", fontSize: 18, marginHorizontal: 15 }}
-            >
+            <Text style={{ fontWeight: "bold", fontSize: 18, marginHorizontal: 15 }}>
               Nos packs
             </Text>
 
@@ -193,9 +176,7 @@ const HomeScreen = (props) => {
                 ? packs.map((e, i) => (
                     <View key={i} style={{ marginBottom: "3%" }}>
                       <ImageBackground
-                        source={{
-                          uri: `http://${REACT_APP_IPSERVER}/images/assets/${e.packImage}`,
-                        }}
+                        source={{uri: `http://${REACT_APP_IPSERVER}/images/assets/${e.packImage}`}}
                         imageStyle={{ borderRadius: 20 }}
                         style={{
                           margin: 3,
@@ -210,25 +191,23 @@ const HomeScreen = (props) => {
                             textAlign: "center",
                             paddingHorizontal: 10,
                           }}
-                          onPress={() =>
-                            props.navigation.navigate("ResultsPacks", {
-                              packId: e._id,
-                              packName: e.packName,
-                            })
-                          }
-                        >
-                          {e.packName}
+                          onPress={() => props.navigation.navigate("ResultsPacks", {packId: e._id, packName: e.packName})}
+                        >{e.packName}
                         </Text>
                       </ImageBackground>
-                      {/* </View> */}
                     </View>
-                  ))
+                ))
                 : null}
             </View>
+
           </View>
+
         </View>
+
       </ScrollView>
+
     </View>
+
   );
 };
 

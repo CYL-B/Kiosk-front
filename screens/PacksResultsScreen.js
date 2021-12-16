@@ -1,27 +1,24 @@
-import React, { useState, useEffect } from 'react'
-//Store
-import { connect } from 'react-redux';
 //Var de connexion
 import { REACT_APP_IPSERVER } from '@env'
-
-//import de la librairie gifted chat avec ses éléments
-import { View, Text, StyleSheet, TextInput } from 'react-native';
-import { HeaderBar } from '../components/Header'
-import { Divider, Badge, AirbnbRating, Card } from 'react-native-elements';
-import { AvatarRound } from '../components/avatar'
-import OfferCardLight from '../components/OfferCardLight';
-import CompanyCard from '../components/CompanyCard';
+import React, { useState, useEffect } from 'react'
+import { Card } from 'react-native-elements';
 import { ScrollView } from 'react-native-gesture-handler';
+//Store
+import { connect } from 'react-redux';
+//import de la librairie gifted chat avec ses éléments
+import { View, StyleSheet } from 'react-native';
+
+import { HeaderBar } from '../components/Header'
+import OfferCardLight from '../components/OfferCardLight';
 
 
 const PacksResultsScreen = (props) => {
 
     const [ packOffers, setPackOffers ] = useState([]);
-    const [ packId, setPackId ] = useState(props?.route.params?.packId ? props.route.params.packId : "61b9fa3103cd5ee16272db93")
+    const [ packId, setPackId ] = useState(props?.route.params?.packId ? props.route.params.packId : null)
 
     // useEffect d'initialisation de la page Company :
     useEffect(() => {
-
         async function loadDataPacksOffers() {
             // appel route get pour récupérer les catégories :
             var rawDataPackOffer = await fetch(`http://${REACT_APP_IPSERVER}/recherche/getPacks/${packId}`); // (`adresseIPserveur/route appelée/req.params?req.query`)
@@ -33,7 +30,6 @@ const PacksResultsScreen = (props) => {
 // console.log("dataCategory.categoriePack._id", dataCategory.categoriePack._id);
         }
         loadDataPacksOffers();
-
     }, []);
 
     return (
@@ -55,10 +51,11 @@ const PacksResultsScreen = (props) => {
                 <Card key={1} containerStyle={styles.container} >
 
                     {
-                    packOffers && packOffers.offers ? packOffers.offers.map((e, i) => (
-                    <View>
-                        <OfferCardLight key={i} dataOffre={e} navigation={props.navigation} />
-                    </View>
+                    packOffers && packOffers.offers ? 
+                    packOffers.offers.map((e, i) => (
+                        <View>
+                            <OfferCardLight key={i} dataOffre={e} navigation={props.navigation} />
+                        </View>
                     ))
                     : null 
                     }
@@ -92,6 +89,6 @@ const styles = StyleSheet.create({
 // on récupère le user stocké dans le store : 
 function mapStateToProps(state) {
       return { user: state.user }
-    };
+};
 
 export default connect(mapStateToProps, null)(PacksResultsScreen);

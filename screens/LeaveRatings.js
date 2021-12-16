@@ -13,22 +13,18 @@ const LeaveRatingsScreen = (props) => {
 
     const [ rate, setRate ] = useState(0);
     const [ feedback, setFeedback ] = useState("");
-
     const [ company, setCompany ] = useState(null);
 
-// useEffect d'initialisation de la page Company :
+    // useEffect d'initialisation de la page Company :
     useEffect(() => {
-        // DANS USE : fonction chargement des infos de la compagnie loggée :
+        // fonction chargement des infos de la compagnie loggée :
         async function loadDataCie() {
-            // appel route put pour modifier données company
+            // appel route put pour modifier données company :
             var rawDataCie = await fetch(`http://${REACT_APP_IPSERVER}/companies/61b72b8f3ef976a3b8be1b09/token1`); // (`adresseIPserveur/route appelée/req.params?req.query`)
             var dataCie = await rawDataCie.json();
 // console.log("dataCie", dataCie.company);
             if (dataCie.result) {
                 setCompany(dataCie.company); // set état company avec toutes data
-                // setImage(dataCie.company.companyImage);
-                // setToken(dataCie.company.token);
-                // setClientId()
             }
         }
         loadDataCie();
@@ -39,7 +35,13 @@ const LeaveRatingsScreen = (props) => {
         const saveRate = await fetch(`http://${REACT_APP_IPSERVER}/ratings/eY9zt44G4iHEQ2s8YKqJuDUJv0`, { 
             method: 'POST',
             headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
-            body: `feedback=${feedback}&rating=${rate}&dateRating=${new Date()}&clientId=${props.user.companyId}&providerId=${company._id}&userId=${props.user._id}`
+            body: 
+                `feedback=${feedback}&
+                rating=${rate}&
+                dateRating=${new Date()}&
+                clientId=${props.user.companyId}&
+                providerId=${company._id}&
+                userId=${props.user._id}`
         })
         var dataRate = await saveRate.json()
 // console.log("dataRate", dataRate);
@@ -73,62 +75,64 @@ const LeaveRatingsScreen = (props) => {
 
                     <View style={{flex:1, paddingBottom:80, backgroundColor:"white"}}>
                         <View style={{ top:10, paddingLeft:15, paddingRight: 15}}>
-                        <CompanyCard
-                            navigation={props.navigation}
-                            dataCompany={company}
-                        />
+                            <CompanyCard
+                                navigation={props.navigation}
+                                dataCompany={company}
+                            />
                         </View>
 
                         <View style={{top:40, paddingLeft:15, paddingRight: 15}}>
-                        <Input
-                            value={feedback}
-                            label={`Décrivez votre expérience avec ${company.companyName}`}
-                            // keyboardType="numeric"
-                            placeholder='En quelques mots'
-                            onChangeText={(value) => setFeedback(value)}
-                        />
+                            <Input
+                                value={feedback}
+                                label={`Décrivez votre expérience avec ${company.companyName}`}
+                                placeholder='En quelques mots'
+                                onChangeText={(value) => setFeedback(value)}
+                            />
                         </View>
 
                         <View style={{height:50, justifyContent:"center", top:50, paddingLeft:15, paddingRight: 15}}>
-                        <AirbnbRating
-                            type="custom"
-                            selectedColor="#F47805"
-                            unSelectedColor="#F4780533"
-                            reviewColor="#F47805"
-                            defaultRating={0}
-                            count={5}
-                            size={30}
-                            showRating={false}
-                            onFinishRating={(rating) => setRate(rating)}
-                        />
+                            <AirbnbRating
+                                type="custom"
+                                selectedColor="#F47805"
+                                unSelectedColor="#F4780533"
+                                reviewColor="#F47805"
+                                defaultRating={0}
+                                count={5}
+                                size={30}
+                                showRating={false}
+                                onFinishRating={(rating) => setRate(rating)}
+                            />
                         </View>
 
                         <View style={{top:50, paddingHorizontal:15, paddingVertical:20, alignItems:"center"}}>
                             <View style={{paddingBottom:10}}>
-                            <Button 
-                                title="Poster l'avis"
-                                size="md"
-                                color="primary"
-                                onPress={() => sendRating()}
-                            >
-                            </Button>
+                                <Button 
+                                    title="Poster l'avis"
+                                    size="md"
+                                    color="primary"
+                                    onPress={() => sendRating()}
+                                >
+                                </Button>
                             </View>
                             <ButtonText 
-                            title="Annuler" 
-                            onPress={() => props.navigation.goBack()}
+                                title="Annuler" 
+                                onPress={() => props.navigation.goBack()}
                             >
                             </ButtonText>
                         </View>
 
                     </View>
+
                 </KeyboardAvoidingView>
+
             </ScrollView>
 
     </View>
+
     )
 
     } else {
-    return null
+        return null
     }
 
 };
