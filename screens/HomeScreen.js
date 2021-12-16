@@ -50,7 +50,7 @@ const HomeScreen = (props) => {
 
   const isFocused = useIsFocused();
   if (isFocused) {
-    console.log("props.recherche", props.recherche);
+    //console.log("props.recherche", props.recherche);
   }
 
   useEffect(() => {
@@ -59,6 +59,7 @@ const HomeScreen = (props) => {
         `http://${REACT_APP_IPSERVER}/recherche/getcategories`
       );
       const body = await data.json();
+
       var categorieslist = body.categorieList;
       props.setcategoriesList(categorieslist);
     };
@@ -73,12 +74,12 @@ const HomeScreen = (props) => {
       if (dataPacks.result) {
         setPacks([...dataPacks.dataPack]);
       }
-      console.log("dataPacks", dataPacks);
+      //console.log("dataPacks", dataPacks);
     }
     loadDataPacks();
   }, []);
 
-  console.log("état packs", packs);
+  //console.log("état packs", packs);
 
   return (
     <View

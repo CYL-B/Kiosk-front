@@ -10,11 +10,6 @@ const SubCateGoriesList = (props) => {
   const isFocused = useIsFocused();
 
   if (isFocused) {
-    console.log("props.categoryChosenData isfocus", props.categoryChosenData);
-    console.log(
-      "props.subCategoryChosenData isfocus",
-      props.subCategoryChosenData
-    );
   }
 
   var categoriesData = props.categorieslist;
