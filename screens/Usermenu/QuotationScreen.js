@@ -35,7 +35,7 @@ const QuotationScreen = (props) => {
     }
   }, [isFocused]);
 
-  console.log(quotations);
+  
 
   if (toggleValue == false) {
     leftComponentDisplay = (

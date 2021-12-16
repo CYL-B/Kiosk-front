@@ -5,7 +5,7 @@ import { HeaderBar } from '../components/Header';
 import Text from "../components/Text";
 import { ListItem, Avatar } from 'react-native-elements';
 import { REACT_APP_IPSERVER } from '@env'
-import { State } from 'react-native-gesture-handler';
+// import { State } from 'react-native-gesture-handler';
 
 const MessagesScreen = (props) => {
 
@@ -15,10 +15,10 @@ const MessagesScreen = (props) => {
     // if (conversation.message.message.length > 35) {
     //     conversation.message.message = conversation.message.message.slice(0, 35) + "..."
     // }
-    //ne pas oublier de renvoyer le user dans le fetch
+    
     useEffect(() => {
         const findConversations = async () => {
-            const data = await fetch(`http://${REACT_APP_IPSERVER}/conversations/${props.user.companyId}/${props.user.type}`)
+            const data = await fetch(`http://${REACT_APP_IPSERVER}/conversations/${props.user.companyId}/${props.user.type}/${props.user.token}`)
             const body = await data.json();
             setConversations(body.conversationsToDisplay)
         }; findConversations()
