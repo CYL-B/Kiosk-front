@@ -21,31 +21,33 @@ const HomeScreen = (props) => {
   const windowHeight = Dimensions.get("window").height;
 
   const isFocused = useIsFocused();
-  if (isFocused) {
-    // console.log("props.recherche", props.recherche);
-  }
 
   // useEffect d'initialisation de la page Company :
   useEffect(() => {
     // DANS USE : fonction chargement des infos de la compagnie loggée :
-    async function loadDataCie() {
-      var rawDataCieList = await fetch(
-        `http://${REACT_APP_IPSERVER}/companies/all/${props.user.token}`
-      ); // (`adresseIPserveur/route appelée/req.params?req.query`)
-      var dataCieList = await rawDataCieList.json();
-      if (dataCieList.result) {
-        const random = Math.floor(Math.random() * dataCieList.companies.length);
-        var rawDataCie = await fetch(
-          `http://${REACT_APP_IPSERVER}/companies/${dataCieList.companies[random]}/${props.user.token}`
+    if (isFocused) {
+      console.log("props.user", props.user);
+      async function loadDataCie() {
+        var rawDataCieList = await fetch(
+          `http://${REACT_APP_IPSERVER}/companies/all/${props.user.token}`
         ); // (`adresseIPserveur/route appelée/req.params?req.query`)
-        var dataCie = await rawDataCie.json();
-        // console.log("dataCie", dataCie);
-        if (dataCie.result) {
-          setDataCompany(dataCie.company); // set état company avec toutes data
+        var dataCieList = await rawDataCieList.json();
+        if (dataCieList.result) {
+          const random = Math.floor(
+            Math.random() * dataCieList.companies.length
+          );
+          var rawDataCie = await fetch(
+            `http://${REACT_APP_IPSERVER}/companies/${dataCieList.companies[random]}/${props.user.token}`
+          ); // (`adresseIPserveur/route appelée/req.params?req.query`)
+          var dataCie = await rawDataCie.json();
+          // console.log("dataCie", dataCie);
+          if (dataCie.result) {
+            setDataCompany(dataCie.company); // set état company avec toutes data
+          }
         }
       }
+      loadDataCie();
     }
-    loadDataCie();
 
     var setcategorieslist = async function () {
       const data = await fetch(
