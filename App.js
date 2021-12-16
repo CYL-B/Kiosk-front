@@ -1,5 +1,5 @@
 import React from "react";
-import { Animated } from "react-native";
+import { Animated, Text } from "react-native";
 
 // import du pack d'icônes pour la navigation Tab
 import { AntDesign } from "@expo/vector-icons";
@@ -102,10 +102,20 @@ const StackNavigation = () => {
       screenOptions={{ headerShown: false, cardStyleInterpolator: forSlide }}
     >
       <Stack.Screen name="Home" component={HomeScreen} />
+      <Stack.Screen name="ResultsPacks" component={PacksResultsScreen} />
+
+      {/* Common pages */}
       <Stack.Screen name="CompanyPage" component={CompanyScreen} />
+      <Stack.Screen name="OfferPage" component={OfferScreen} />
+      <Stack.Screen name="Quotation" component={QuotationScreen} />
+      <Stack.Screen name="Rating" component={RatingScreen} />
+      <Stack.Screen name="LeaveFeedback" component={LeaveRatingsScreen} />
+      <Stack.Screen name="QuoteRequest" component={QuoteRequestScreen} />
+      <Stack.Screen name="SendQuote" component={SendQuoteScreen} />
       <Stack.Screen name="CompanyProfile" component={CompanyProfileScreen} />
       <Stack.Screen name="Favorites" component={FavoritesScreen} />
       <Stack.Screen name="UserProfile" component={UserProfileScreen} />
+      {/* End of common pages */}
     </Stack.Navigator>
   );
 };
@@ -116,6 +126,8 @@ const StackNavigationSearch = () => {
       screenOptions={{ headerShown: false, cardStyleInterpolator: forSlide }}
     >
       <Stack.Screen name="Search" component={SearchScreen} />
+      
+      {/* Common pages */}
       <Stack.Screen name="CompanyPage" component={CompanyScreen} />
       <Stack.Screen name="OfferPage" component={OfferScreen} />
       <Stack.Screen name="Quotation" component={QuotationScreen} />
@@ -123,7 +135,10 @@ const StackNavigationSearch = () => {
       <Stack.Screen name="LeaveFeedback" component={LeaveRatingsScreen} />
       <Stack.Screen name="QuoteRequest" component={QuoteRequestScreen} />
       <Stack.Screen name="SendQuote" component={SendQuoteScreen} />
-      <Stack.Screen name="ResultsPacks" component={PacksResultsScreen} />
+      <Stack.Screen name="CompanyProfile" component={CompanyProfileScreen} />
+      <Stack.Screen name="Favorites" component={FavoritesScreen} />
+      <Stack.Screen name="UserProfile" component={UserProfileScreen} />
+      {/* End of common pages */}
     </Stack.Navigator>
   );
 };

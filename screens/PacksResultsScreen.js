@@ -57,8 +57,8 @@ const PacksResultsScreen = (props) => {
 
                     {
                     packOffers && packOffers.offers ? packOffers.offers.map((e, i) => (
-                    <View>
-                        <OfferCardLight key={i} dataOffre={e} navigation={props.navigation} />
+                    <View key={i}>
+                        <OfferCardLight dataOffre={e} navigation={props.navigation} />
                     </View>
                     ))
                     : null 
