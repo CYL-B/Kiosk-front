@@ -21,25 +21,25 @@ const FavoriteScreen = (props) => {
         setFavoriteOffers([]);
         setFavoriteCompanies([]);
         for(let i = 0; i < offersId.length; i++) {
-            console.log('offerId', offersId[i]);
+// console.log('offerId', offersId[i]);
             var rawDataOffer = await fetch(`http://${REACT_APP_IPSERVER}/offers/${offersId[i].offerId}/${props.user.token}`); // (`adresseIPserveur/route appelée/req.params?req.query`)
             var res = await rawDataOffer.json();
             let offer;
             if (res.result) {
                 offer = res.offer;
-                console.log('offer', offer);
+// console.log('offer', offer);
             }
             setFavoriteOffers([...favoriteOffers, <OfferCard dataOffre={offer} navigation={props.navigation} key={i} />]);
         };
         let companiesId = props.user.favorites.filter(e => e.companyId);
         for(let i = 0; i < companiesId.length; i++) {
-            console.log('companiesId', companiesId[i]);
+// console.log('companiesId', companiesId[i]);
             var rawDataOffer = await fetch(`http://${REACT_APP_IPSERVER}/companies/${companiesId[i].companyId}/${props.user.token}`); // (`adresseIPserveur/route appelée/req.params?req.query`)
             var res = await rawDataOffer.json();
             let company;
             if (res.result) {
                 company = res.company;
-                console.log('company', company);
+// console.log('company', company);
             }
             setFavoriteCompanies([...favoriteCompanies, <CompanyCard dataCompany={company} navigation={props.navigation} key={i} />]);
         };
@@ -47,11 +47,11 @@ const FavoriteScreen = (props) => {
     loadData();
   }, []);
 
-  console.log("favoriteOffers", favoriteOffers);
-  console.log("favoriteCompanies", favoriteCompanies);
+// console.log("favoriteOffers", favoriteOffers);
+// console.log("favoriteCompanies", favoriteCompanies);
 
   if (!toggleValue && favoriteOffers) {
-    console.log('offer side');
+// console.log('offer side');
     let leftComponentDisplay = (
       <Text style={{ color: "white", fontWeight: "bold" }}>Offre</Text>
     );

@@ -64,7 +64,7 @@ const CompanyProfileScreen = (props) => {
 
       setLogo(resUpload.url);
     } else {
-      // console.log("annulé");
+// console.log("annulé");
     }
   };
 

@@ -51,7 +51,7 @@ const UserProfileScreen = (props) => {
 
       setImgProfil(resUpload.url);
     } else {
-      console.log("annulé");
+// console.log("annulé");
     }
   };
 
