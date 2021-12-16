@@ -16,7 +16,6 @@ import { FontAwesome } from '@expo/vector-icons';
 
 const ChatScreen = (props) => {
   const [messages, setMessages] = useState([]);
-  const [currentMessage, setCurrentMessage] = useState();
   const [convId, setConvId] = useState(props.route.params && props.route.params.convId ? props.route.params.convId : "61b0e6837ee15e4f2a1a936f");
   
 
@@ -25,7 +24,7 @@ const ChatScreen = (props) => {
 
   useEffect(() => {
     const findMessages = async()=>{
-      const data = await fetch(`http://${REACT_APP_IPSERVER}/conversations/messages/${convId}/${props.user._id}`)
+      const data = await fetch(`http://${REACT_APP_IPSERVER}/conversations/messages/${convId}/${props.user._id}/${props.user.token}`)
       const body = await data.json();
       setMessages(body.sortedMessages)
     }
@@ -43,7 +42,7 @@ const ChatScreen = (props) => {
       const saveReq = await fetch(`http://${REACT_APP_IPSERVER}/conversations/messages`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
-        body: `convId=${convId}&userId=${props.user._id}&message=${message[0].text}&date=${message[0].createdAt}`
+        body: `convId=${convId}&userId=${props.user._id}&message=${message[0].text}&date=${message[0].createdAt}&token=${props.user.token}`
         
       }) 
       const fromBack = await saveReq.json()

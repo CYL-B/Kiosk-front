@@ -12,7 +12,7 @@ const SendQuoteScreen = (props) => {
   const[reqQuoteId, setReqQuoteId] = useState(props.route.params.quoteId)
   const[answers, setAnswers]= useState([]);
   const[quotation, setQuotation] = useState(null);
-  const[offer, setOffer] = useState(null)
+  const[offer, setOffer] = useState({})
   const [quoteStatus, setQuoteStatus] = useState("");
 
 
@@ -49,7 +49,7 @@ const SendQuoteScreen = (props) => {
     props.navigation.goBack();
     
   }
-console.log("answers", answers)
+// console.log("answers", answers)
 
 var answersToDisplay = answers.map((answer, i)=>{
   return(
@@ -70,22 +70,25 @@ var answersToDisplay = answers.map((answer, i)=>{
 
     </HeaderBar>
 
-    <ScrollView contentContainerStyle={{ alignItems: "flex-start", paddingLeft: 20, paddingRight: 20 }}>
+    <ScrollView contentContainerStyle={{ alignItems: "flex-start", margin:10}}>
+      <View style={{alignSelf:"center"}}><OfferCardLight
+      dataOffre={offer} navigation={props.navigation}></OfferCardLight></View>
+
     <Text h3 style={{color: "#1A0842", fontWeight:"bold"}}>Récapitulatif de la demande : </Text>
     {answersToDisplay}
     
 
 
-        <View><Button
+        <View style={{marginBottom:10}}><Button
           title="Envoyer le devis"
 
           size="md"
           color="primary"
           onPress={() => sendQuote()}
-        ></Button></View>
+        ></Button>
         <ButtonText title="Annuler"
           onPress={() => props.navigation.goBack()}
-        ></ButtonText>
+        ></ButtonText></View>
 
       
     </ScrollView>

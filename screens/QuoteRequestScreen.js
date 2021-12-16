@@ -6,7 +6,7 @@ import { Button, ButtonText } from "../components/Buttons";
 import { REACT_APP_IPSERVER } from '@env';
 import { Input } from 'react-native-elements';
 import { connect } from 'react-redux';
-import { set } from 'react-native-reanimated';
+// import { set } from 'react-native-reanimated';
 
 const QuoteRequestScreen = (props) => {
   //affichage de l'offre cliquée
@@ -19,8 +19,6 @@ const QuoteRequestScreen = (props) => {
   const [details, setDetails] = useState("");
 
   //récupère les infos de offerpage au clic sur "demander un devis"
-
-
   const [reqOfferId, setReqOfferId] = useState(props.route.params.offerId)
   const [reqProviderId, setReqProviderId] = useState(props.route.params.providerId)
 
@@ -38,15 +36,15 @@ const QuoteRequestScreen = (props) => {
       setOffer(body.offer);
       setError(body.erreur);
 
-      console.log("erreur",error)
+      
 
     }; findOfferInfo();
 
   }, []);
 
 
-console.log("erreur", error)
-//message d'alerte lorsque le client a déjà demandé un devis pour cette offre
+
+//message d'alerte qui s'affiche si le client a déjà demandé un devis pour cette offre
   if (error == "Vous avez déjà demandé un devis pour cette offre. Voulez-vous redemander un devis ?") {
 
     const createTwoButtonAlert = () =>
@@ -77,7 +75,7 @@ console.log("erreur", error)
     setQuoteStatus(fromBack.quotationSaved.status)
 
   }
-
+//fonction déclenchée au press sur le bouton
   const quoteRequest = () => {
     props.navigation.navigate("Quotation", { offerId: reqProviderId, quoteStatus: quoteStatus });
     addQuotation();

@@ -1,4 +1,4 @@
-import React, { useState, useCallback, useEffect } from "react";
+import React, { useState, useEffect } from "react";
 import { connect } from "react-redux";
 import {
   View,
@@ -9,7 +9,7 @@ import {
   KeyboardAvoidingView,
 } from "react-native";
 import { Button, ButtonText } from "../../components/Buttons";
-import { useForm } from "react-hook-form";
+// import { useForm } from "react-hook-form";
 import { Input, Image } from "react-native-elements";
 import * as ImagePicker from "expo-image-picker";
 
@@ -17,7 +17,7 @@ import { REACT_APP_IPSERVER } from "@env";
 import { ScrollView } from "react-native-gesture-handler";
 
 const CompanyProfileScreen = (props) => {
-  const [logo, setLogo] = useState();
+  const [logo, setLogo] = useState("");
   const[companyName, setCompanyName]= useState("");
   const[siret, setSiret] = useState("");
   
@@ -31,7 +31,7 @@ const CompanyProfileScreen = (props) => {
       setSiret(body.siret);
       
       setLogo(body.logo)
-console.log("logo", companyName)
+
     }; findCompanyInfo();
 
   }, []);
@@ -64,7 +64,7 @@ console.log("logo", companyName)
 
       setLogo(resUpload.url);
     } else {
-      console.log("annulé");
+      // console.log("annulé");
     }
   };
 
@@ -210,8 +210,7 @@ console.log("logo", companyName)
                 value={address}
               /> */}
               <Input
-                // autoCompleteType="off"
-                // textContentType="jobTitle"
+                
                 placeholder="Le numéro SIRET"
                 onChangeText={(value) => setSiret(value)}
                 inputStyle={styles.inputText}

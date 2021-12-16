@@ -68,17 +68,6 @@ const WelcomeScreen = (props) => {
           }
         />
 
-        {/* <ButtonText
-          color="default"
-          title="Vers l'app"
-          onPress={() => props.navigation.navigate("TabNavigation")}
-        />
-
-        <ButtonText
-          color="default"
-          title="Vers Demande de devis"
-          onPress={() => props.navigation.navigate("QuoteRequest")}
-        /> */}
       </View>
     </ImageBackground>
   );
@@ -97,8 +86,6 @@ const styles = StyleSheet.create({
     alignSelf: "center",
   },
 });
-
-//export default WelcomeScreen;
 
 function mapStateToProps(state) {
   return {
