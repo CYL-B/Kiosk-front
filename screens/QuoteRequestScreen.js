@@ -33,17 +33,19 @@ const QuoteRequestScreen = (props) => {
   //route qui permet d'afficher l'offre qui a été cliquée et de vérifier si le client a déjà fait une demande de devis pour cette offre
   useEffect(() => {
     const findOfferInfo = async () => {
-      const data = await fetch(`http://${REACT_APP_IPSERVER}/quotations/quote-request/${props.user.token}/${reqOfferId}`)
+      const data = await fetch(`http://${REACT_APP_IPSERVER}/quotations/quote-request/${props.user.token}/${reqOfferId}/${props.user.companyId}`)
       const body = await data.json();
       setOffer(body.offer);
       setError(body.erreur);
+
+      console.log("erreur",error)
 
     }; findOfferInfo();
 
   }, []);
 
 
-
+console.log("erreur", error)
 //message d'alerte lorsque le client a déjà demandé un devis pour cette offre
   if (error == "Vous avez déjà demandé un devis pour cette offre. Voulez-vous redemander un devis ?") {
 
@@ -68,7 +70,7 @@ const QuoteRequestScreen = (props) => {
     const saveReq = await fetch(`http://${REACT_APP_IPSERVER}/quotations/add-quotation`, {
       method: 'POST',
       headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
-      body: `date=${new Date()}&sunshine=${sunshine}&area=${area}&forfait=${forfait}&details=${details}&clientId=${props.user.companyId}&offerId=${reqOfferId}&providerId=${reqProviderId}&token=${props.user.token}`
+      body: `date=${new Date()}&sunshine=${sunshine}&area=${area}&forfait=${forfait}&details=${details}&clientId=${props.user.companyId}&offerId=${reqOfferId}&providerId=${reqProviderId}&token=${props.user.token}}`
 
     })
     const fromBack = await saveReq.json()
@@ -85,6 +87,7 @@ const QuoteRequestScreen = (props) => {
 
   return (<View style={{ flex: 1, backgroundColor: "white" }}>
     <HeaderBar
+      onBackPress={() => props.navigation.goBack()}
       leftComponent
       title="Demande de devis"
       navigation={props.navigation}

@@ -12,7 +12,11 @@ import { Card, Badge } from "react-native-elements";
 import { Button } from '../../components/Buttons'
 import { HeaderBar } from '../../components/Header';
 
+<<<<<<< HEAD
 >>>>>>> a66179c08cbe1c8b1a67758fc5547f43eb22338c
+=======
+import { useIsFocused } from '@react-navigation/native';
+>>>>>>> 51fcf24a6564f9e6e7b4a661a38f95e047e3bf7e
 
 //import du switch
 import Toggle from "react-native-toggle-element";
@@ -25,10 +29,14 @@ const QuotationScreen = (props) => {
     const [quotations, setQuotations] = useState([])
     const [requests, setRequests] = useState([])
 
+    const isFocused = useIsFocused();
+
     var leftComponentDisplay
     var rightComponentDisplay
 
-    useEffect(() => {
+   
+      useEffect(()=>{
+    
         const findQuotations = async () => {
             const data = await fetch(`http://${REACT_APP_IPSERVER}/quotations/find-quotation/${props.user.token}/${props.user.companyId}`)
             const body = await data.json();
@@ -36,8 +44,13 @@ const QuotationScreen = (props) => {
             setRequests(body.requestsToDisplay)
             
 
-        }; findQuotations()
-    }, []);
+        };
+        if(isFocused == true){
+        findQuotations()
+        }
+    }, [isFocused])
+
+        console.log(quotations)
     
     if (toggleValue == false) {
         leftComponentDisplay = <Text style={{ color: "white", fontWeight: "bold" }}>En cours</Text>;
@@ -49,7 +62,7 @@ const QuotationScreen = (props) => {
             var badgeColor
             var title
             var button
-            
+            if(request.status =="requested" || request.status =="sent" || request.status =="accepted" || request.status =="paid"){
 
             if (request.status == "requested") {
                 backgroundRequest = "#619B8A"
@@ -70,16 +83,34 @@ const QuotationScreen = (props) => {
                 statut = "Devis envoyé"
                 badgeColor = "#FFA500"
                 title = "Voir le devis"
+                button = <Button
+                    title={title}
+                    style={{ margin: 10 }}
+
+                    size="md"
+                    color="secondary"></Button>
             } else if (request.status == "accepted") {
                 backgroundRequest = "#619B8A"
                 statut = "Devis accepté"
                 badgeColor = "#FFFF00"
                 title = "Voir le devis"
+                button = <Button
+                    title={title}
+                    style={{ margin: 10 }}
+
+                    size="md"
+                    color="secondary"></Button>
             } else if (request.status == "paid") {
                 backgroundRequest = '#619B8A'
                 statut = "Devis payé"
                 badgeColor = "#00FF00"
                 title = "Voir le paiement"
+                button = <Button
+                    title={title}
+                    style={{ margin: 10 }}
+
+                    size="md"
+                    color="secondary"></Button>
             }
 
             return (
@@ -118,21 +149,24 @@ const QuotationScreen = (props) => {
                     </Card.Divider>
 
                 </Card>)
-        })
+        }})
 
 
         var devis = quotations.map((quotation, i) => {
 
-            if (quotation.status == "requested") {
+            
                 var statut
                 var badgeColor
                 var title
+                var button
+
+                if(quotation.status == "requested" || quotation.status == "sent" || quotation.status == "accepted"||quotation.status == "paid"){
 
                 if (quotation.status == "requested") {
 
                     statut = "Devis en attente"
                     badgeColor = "#808080"
-                    title = "Contacter"
+                    
 
                 }
                 else if (quotation.status == "sent") {
@@ -140,16 +174,34 @@ const QuotationScreen = (props) => {
                     statut = "Devis envoyé"
                     badgeColor = "#FFA500"
                     title = "Voir le devis"
+                    button = <Button
+                    title={title}
+                    style={{ marginTop: 10, marginBottom:10, marginLeft:5, marginRight:5 }}
+
+                    size="md"
+                    color="primary"></Button>
                 } else if (quotation.status == "accepted") {
 
                     statut = "Devis accepté"
                     badgeColor = "#FFFF00"
                     title = "Voir le devis"
+                    button = <Button
+                    title={title}
+                    style={{ marginTop: 10, marginBottom:10, marginLeft:5, marginRight:5 }}
+
+                    size="md"
+                    color="primary"></Button>
                 } else if (quotation.status == "paid") {
 
                     statut = "Devis payé"
                     badgeColor = "#00FF00"
                     title = "Voir le paiement"
+                    button = <Button
+                    title={title}
+                    style={{ marginTop: 10, marginBottom:10, marginLeft:5, marginRight:5 }}
+
+                    size="md"
+                    color="primary"></Button>
                 }
 
                 return (
@@ -182,20 +234,21 @@ const QuotationScreen = (props) => {
 
 
 
-                        <Card.Divider style={{ backgroundColor: "#FAF0E6", alignItems: "flex-end", padding: 0, marginBottom: 0, borderBottomEndRadius: 20, borderBottomStartRadius: 20 }}>
+                        <Card.Divider style={{ backgroundColor: "#FAF0E6", flexDirection : "row", justifyContent: "flex-end", padding: 0, marginBottom: 0, borderBottomEndRadius: 20, borderBottomStartRadius: 20 }}>
                             <Button
-                                title={title}
-                                style={{ margin: 10 }}
+                                title="Contacter"
+                                style={{ marginTop: 10, marginBottom:10, marginLeft:5, marginRight:5 }}
 
                                 size="md"
                                 color="secondary"
 
                             />
+                            {button}
                         </Card.Divider>
 
                     </Card>)
-            }
-        })
+            }}
+        )
 
         return (
             <View style={{ flex: 1, backgroundColor: "white" }}>
@@ -269,7 +322,7 @@ const QuotationScreen = (props) => {
                             }} source={{ uri: request.logo }}></Card.Image></View>
                             <View style={{ margin: 10, flexShrink: 1 }}><Text style={{ fontWeight: "bold", fontSize: 20, }}>{request.offer}</Text>
                                 <Text style={{ margin: 2 }}>{request.name}</Text>
-                                <Text><Badge badgeStyle={{ backgroundColor: "#808080", margin: 2 }} />Devis Passé</Text>
+                                <Text><Badge badgeStyle={{ backgroundColor: "red", margin: 2 }} />Devis Passé</Text>
                             </View>
                         </View>
 
@@ -278,7 +331,7 @@ const QuotationScreen = (props) => {
                         <Card.Divider style={{ backgroundColor: "#FAF0E6", alignItems: "flex-end", padding: 0, marginBottom: 0, borderBottomEndRadius: 20, borderBottomStartRadius: 20 }}>
                             <Button
                                 title="Voir la facture"
-                                style={{ margin: 10 }}
+                                style={{ marginTop: 10, marginBottom:10, marginLeft:5, marginRight:5 }}
 
                                 size="md"
                                 color="secondary"
@@ -317,16 +370,26 @@ const QuotationScreen = (props) => {
                             }} source={{ uri: quotation.logo }}></Card.Image></View>
                             <View style={{ margin: 10, flexShrink: 1 }}><Text style={{ fontWeight: "bold", fontSize: 20, }}>{quotation.offer}</Text>
                                 <Text style={{ margin: 2 }}>{quotation.name}</Text>
-                                <Text><Badge badgeStyle={{ backgroundColor: "#808080", margin: 2 }} />Devis passé</Text>
+                                <Text><Badge badgeStyle={{ backgroundColor: "red", margin: 2 }} />Devis passé</Text>
                             </View>
                         </View>
 
 
 
-                        <Card.Divider style={{ backgroundColor: "#FAF0E6", alignItems: "flex-end", padding: 0, marginBottom: 0, borderBottomEndRadius: 20, borderBottomStartRadius: 20 }}>
+                        <Card.Divider style={{ backgroundColor: "#FAF0E6", flexDirection : "row", justifyContent: "flex-end", padding: 0, marginBottom: 0, borderBottomEndRadius: 20, borderBottomStartRadius: 20 }}>
+                          
+                             <Button
+                                title="Laisser un avis"
+                                onPress={() => props.navigation.navigate("LeaveFeedback")}
+                                style={{ marginTop: 10, marginBottom:10, marginLeft:5, marginRight:5 }}
+
+                                size="md"
+                                color="primary"
+
+                            />
                             <Button
-                                title="Contacter"
-                                style={{ margin: 10 }}
+                                title="Voir la facture"
+                                style={{ marginTop: 10, marginBottom:10, marginLeft:5, marginRight:5 }}
 
                                 size="md"
                                 color="secondary"

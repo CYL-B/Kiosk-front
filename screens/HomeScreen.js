@@ -1,5 +1,5 @@
-import React, { useEffect } from "react";
-import { View, ImageBackground, Dimensions } from 'react-native';
+import React, { useEffect, useState } from "react";
+import { View, ImageBackground, Dimensions, Button } from 'react-native';
 // Import des composants Button customisés
 import Text from "../components/Text";
 import { ButtonText } from "../components/Buttons";
@@ -16,62 +16,32 @@ import { ScrollView } from "react-native-gesture-handler";
 import Searchbar from "../components/SearchBar";
 
 const HomeScreen = (props) => {
+  const [dataCompany, setDataCompany] = useState(null);
 
   const windowWidth = Dimensions.get('window').width;
   const windowHeight = Dimensions.get('window').height;
-  
-  var dataCompany = {
-    siret: "9999999999",
-    companyName: "CompanyTest1",
-    logo: "https://images.unsplash.com/photo-1521791136064-7986c2920216?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1769&q=80",
-    type: "Prestataire",
-    description:
-      "Mpjgfddddffxxxxcfdssxccccgffxcccc he vvcffdfdssxxxxdhgfrgcchvvccfffffbvvggg vccfffcc",
-    shortDescription:
-      "ShortDescription company 1, ShortDescription company 1,ShortDescription company 1",
-    website: "https://www.google.fr/",
-    companyImage:
-      "http://res.cloudinary.com/djlnzwuj2/image/upload/v1639069695/iu0v8tbi5kipbakhlult.jpg",
-    labels: [
-      {
-        _id: "61b2386ff31b3b87e3859a58",
-      },
-      {
-        _id: "61b23994f31b3b87e3859a5a",
-      },
-      {
-        _id: "61b23994f31b3b87e3859a5a",
-      },
-    ],
-    offers: [
-      {
-        _id: "61af78bc4292b4fe7bf8a1d9",
-      },
-      {
-        _id: "61af79470346488ca041da0c",
-      },
-      {
-        _id: "61af796c6f3e101baa8b7cd1",
-      },
-      {
-        _id: "61af79a9c3c2ce891515a112",
-      },
-    ],
-    offices: [
-      {
-        address: "56 Bv Pereire",
-        city: "Paris",
-        postalCode: "70017",
-        country: "France",
-        officeName: "Main Office",
-        phone: "0000000009",
-        _id: {
-          _id: "61b097c526db20ecf9e66954",
-        },
-      },
-    ],
-    __v: 24,
-  };
+
+  // useEffect d'initialisation de la page Company :
+  useEffect(() => {
+
+    // DANS USE : fonction chargement des infos de la compagnie loggée :
+    async function loadDataCie() {
+        var rawDataCieList = await fetch(`http://${REACT_APP_IPSERVER}/companies/all/${props.user.token}`); // (`adresseIPserveur/route appelée/req.params?req.query`)
+        var dataCieList = await rawDataCieList.json();
+        if (dataCieList.result) {
+          const random = Math.floor(Math.random() * dataCieList.companies.length);
+          var rawDataCie = await fetch(`http://${REACT_APP_IPSERVER}/companies/${dataCieList.companies[random]}/${props.user.token}`); // (`adresseIPserveur/route appelée/req.params?req.query`)
+          var dataCie = await rawDataCie.json();
+      // console.log("dataCie", dataCie);
+          if (dataCie.result) {
+              setDataCompany(dataCie.company); // set état company avec toutes data
+          }
+        }
+        // appel route put pour modifier données company
+        
+    }
+    loadDataCie();
+  }, []);
 
   useEffect(() => {
     var setcategorieslist = async function () {
@@ -83,7 +53,21 @@ const HomeScreen = (props) => {
       props.setcategoriesList(categorieslist);
     };
     setcategorieslist();
+
+    async function loadDataPacks() {
+      // appel route get pour récupérer données de tous les packs :
+      var rawDataPacks = await fetch(`http://${REACT_APP_IPSERVER}/recherche/getPacks`); // (`adresseIPserveur/route appelée/req.params?req.query`)
+      var dataPacks = await rawDataPacks.json();
+      if (dataPacks.result) {
+          setPacks([...dataPacks.dataPack]);
+      }
+console.log("dataPacks", dataPacks);
+    }
+      loadDataPacks()
+
   }, []);
+
+console.log("état packs", packs);
 
   return (
     <View
@@ -125,12 +109,12 @@ const HomeScreen = (props) => {
               marginBottom: 15,
             }}
           >
-            <View style={{ marginLeft: 20 }}>
+            <View style={{ marginHorizontal: 15 }}>
               <Text style={{ fontWeight: "bold", fontSize: 18 }}>
                 Nos catégories
               </Text>
             </View>
-            <View style={{ marginRight: 20 }}>
+            <View style={{ marginHorizontal: 15 }}>
               <ButtonText
                 color="primary"
                 title="Voir plus"
@@ -156,131 +140,67 @@ const HomeScreen = (props) => {
               marginBottom: 15,
             }}
           >
-            <View style={{ marginLeft: 20 }}>
+            <View style={{ marginHorizontal: 15 }}>
               <Text style={{ fontWeight: "bold", fontSize: 18 }}>
-                L'entreprise de la semaine
+                L'entreprise à découvrir
               </Text>
             </View>
           </View>
-          <View style={{ padding: 20 }}>
-            <CompanyCard
+          <View>
+            {dataCompany && (<CompanyCard
               navigation={props.navigation}
               dataCompany={dataCompany}
-            ></CompanyCard>
+            ></CompanyCard>)}
           </View>
         </View>
 
 {/* NOS PACKS */}
         <View style={{ marginTop: 20, marginBottom:30 }}>
-          
+
           <View>
 
-            <Text style={{ fontWeight: "bold", fontSize: 18, marginLeft: 20 }}>Nos packs</Text>
+            <Text style={{ fontWeight: "bold", fontSize: 18, marginHorizontal: 15 }}>Nos packs</Text>
 
-            <View
+            <View 
               style={{
-                display: "flex",
-                flexDirection: "row",
-                flexWrap: "wrap",
+                width:"100%", 
+                paddingBottom:10, 
+                flexDirection:"row", 
+                flexWrap: "wrap", 
                 justifyContent:"space-evenly",
-                alignContent:"space-around",
+                alignContent:"space-around", 
                 top:20,
                 paddingVertical:10
-              }}
-            >
+              }}>
 
-            <View style={{display:"flex", flexDirection:"row", paddingBottom:10}}>
-              <View style={{paddingRight:10}}>
+              {
+              packs ? packs.map((e, i) => (
+              
+              <View key={i} style={{ marginBottom:"3%"}}>
                 <ImageBackground
-                  source={require('../assets/nouveaubureau.png')}
+                  source={{ uri: `http://${REACT_APP_IPSERVER}/images/assets/${e.packImage}`}}
                   imageStyle={{borderRadius:20}}
                   style={{ 
                     margin: 3,
                     height: 200,
                     width: windowWidth/2.4,
                     justifyContent: "center",
-                    // alignItems: "center",
                   }}>
                   <Text
                     style={{color:"#FFFFFF", textAlign:"center", paddingHorizontal:10}}
-                  >Je change de bureau</Text>
+                    onPress={() => props.navigation.navigate('ResultsPacks', {packId:e._id, packName: e.packName})}
+                  >{e.packName}</Text>
                 </ImageBackground>
               </View>
 
-              {/* <View> */}
-                <ImageBackground
-                  source={require('../assets/maboite.png')}
-                  imageStyle={{borderRadius:20}}
-                  style={{ 
-                    margin: 3,
-                    height: 200,
-                    width: windowWidth/2.4,
-                    justifyContent: "center",
-                    // alignItems: "center",
-                  }}>
-                  <Text
-                    style={{color:"#FFFFFF", textAlign:"center", paddingHorizontal:10}}
-                  >Je monte ma boîte</Text>
-                </ImageBackground>
-              {/* </View> */}
-            </View>
-
-            <View style={{display:"flex", flexDirection:"row", paddingBottom:10}}>
-              <View style={{paddingRight:10}}>
-                <ImageBackground
-                  source={require('../assets/équipement.png')}
-                  imageStyle={{borderRadius:20}}
-                  style={{ 
-                    margin: 3,
-                    height: 200,
-                    width: windowWidth/2.4,
-                    justifyContent: "center",
-                    alignItems: "center",
-                  }}>
-                  <Text
-                    style={{color:"#FFFFFF", textAlign:"center", paddingHorizontal:10}}
-                  >J'équipe mes employés</Text>
-                </ImageBackground>
-              </View>
-
-              {/* <View> */}
-                <ImageBackground
-                  source={require('../assets/employés.png')}
-                  imageStyle={{borderRadius:20}}
-                  style={{ 
-                    margin: 3,
-                    height: 200,
-                    width: windowWidth/2.4,
-                    justifyContent: "center",
-                    alignItems: "center",
-                    
-                  }}>
-                  <Text
-                    style={{color:"#FFFFFF", textAlign:"center", paddingHorizontal:10}}
-                  >Je chouchoute mes employés</Text>
-                </ImageBackground>
-              {/* </View> */}
-            </View>
+              ))
+              : null 
+              }
 
             </View>
           </View>
         </View>
 
-        {/* <View
-        style={{
-          flex: 1,
-          backgroundColor: "yellow",
-          alignItems: "center",
-          justifyContent: "center",
-        }}
-      >
-        <Button
-          size="md"
-          color="primary"
-          title="Company Page"
-          onPress={() => props.navigation.navigate("CompanyPage")}
-        />
-      </View> */}
       </ScrollView>
     </View>
   );

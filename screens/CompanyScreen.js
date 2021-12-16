@@ -22,14 +22,17 @@ const CompanyScreen = (props) => {
     var displayCieImg; // aller chercher une image dans le téléhone du presta
     var displayDescCie; // input
     var displayLabels; // affichage en list des labels à ajouter
+    var displayRatings; // affichage en list des ratings à ajouter
     var displayOffers; // aller cherche une offre en DB ?
 
 
 // états infos Cie :
     const [ company, setCompany ] = useState(null);
+    const [ ratings, setRatings ] = useState(null);
     const [ companyId, setCompanyId ] = useState(props.route.params && props.route.params.companyId ? props.route.params.companyId : "61b097c526db20ecf9e66953");
     const [ token, setToken ] = useState("");
     const [ image, setImage ] = useState(null);
+    const [ isLiked, setIsLiked ] = useState(false);
 
 // état labels :
     const [ labels, setLabels ] = useState([]);
@@ -40,12 +43,7 @@ const CompanyScreen = (props) => {
     const [inputOverlay, setInputOverlay] = useState('');
     const [valueToChange, setValueToChange] = useState(null);
 
-// // useEffect de suivi d'états :
-//     useEffect(() => {
-// // console.log("suivi état company", company);
-// // console.log("zipcode", company.offices[0].zipCode);
-//     }, [company])
-
+    console.log("ratings", ratings);
 // useEffect d'initialisation de la page Company :
     useEffect(() => {
 
@@ -57,6 +55,7 @@ const CompanyScreen = (props) => {
 // console.log("dataCie", dataCie);
             if (dataCie.result) {
                 setCompany(dataCie.company); // set état company avec toutes data
+                setRatings(dataCie.ratings); // set état ratings avec toutes data
                 setImage(dataCie.company.companyImage);
                 setToken(dataCie.company.token);
             }
@@ -204,7 +203,6 @@ let openImagePickerAsync = async () => {
         })
         var res = await dataRaw.json(); // true ou false
         if (res.result) {
-            setIsLiked(!isLiked);
             props.storeUser(res.user);
         }
     }
@@ -285,7 +283,7 @@ let openImagePickerAsync = async () => {
         displayDescCie = 
         <Card key={1} containerStyle={styles.container}>
             <View style={{display:"flex", flexDirection:"row", justifyContent:"space-between", left:5, marginRight:15}}>
-                <Card.Title
+                <Card.Title style={{ marginHorizontal: 10 }}
                 ><Text style={{ fontWeight: "bold" }}>Qui sommes-nous ?</Text></Card.Title>
                 { props.user.type === "partner" && (
                 <ButtonText
@@ -296,13 +294,13 @@ let openImagePickerAsync = async () => {
                 )}
             </View>
             <Text
-            style={{left:5}}
+            style={{marginHorizontal: 10, marginBottom: 10}}
             >{company.description}</Text>
         </Card>
     } else {
         displayDescCie = 
         <Card key={1} containerStyle={styles.container}>
-            <Card.Title style={{textAlign:"left"}}
+            <Card.Title style={{ marginHorizontal: 10, textAlign:"left"}}
             ><Text style={{ fontWeight: "bold" }}>Qui sommes-nous ?</Text></Card.Title>
                 { props.user.type === "partner" && (
                 <View style={{backgroundColor: "#FAF0E6", height: 160, justifyContent:"center", alignItems:"center"}}>
@@ -320,7 +318,7 @@ let openImagePickerAsync = async () => {
         displayLabels = 
         <Card key={1} containerStyle={styles.container} >
             <View style={{display:"flex", flexDirection:"row", justifyContent:"space-between", left:5, marginRight:15}}>
-                <Card.Title
+                <Card.Title style={{ marginHorizontal: 10 }}
                 ><Text style={{ fontWeight: "bold" }}>Nos labels</Text></Card.Title>
                 { props.user.type === "partner" && (
                 <ButtonText
@@ -330,16 +328,16 @@ let openImagePickerAsync = async () => {
                 />
                 )}
             </View>
-            <ScrollView horizontal >
+            <ScrollView horizontal showsHorizontalScrollIndicator={false}>
             <View style={{display:"flex", flexDirection:"row"}}>
             {
                 company.labels.map((label, i) => (
                     
                     <View style={{alignItems:"center"}} key={i}>
-                        <View style={{marginBottom:10, paddingHorizontal:30}}>
+                        <View style={{marginBottom:10, paddingHorizontal:10}}>
                             <Image 
                                 source={{ uri: `http://${REACT_APP_IPSERVER}/images/assets/${label.logo}`}} /// RECUP PAS IMAGE !!!!
-                                style={{ width: 50, height: 50, resizeMode:"contain" }} /* PROBLEME AFFICHAGE TAILLE LOGO */
+                                style={{ width: 100, height: 100, resizeMode:"contain" }} /* PROBLEME AFFICHAGE TAILLE LOGO */
                                 
                             >
                             </Image>
@@ -360,7 +358,7 @@ let openImagePickerAsync = async () => {
     } else {
         displayLabels =
         <Card key={1} containerStyle={styles.container}>
-            <Card.Title style={{textAlign:"left"}}
+            <Card.Title style={{marginHorizontal: 10, textAlign:"left"}}
             ><Text style={{ fontWeight: "bold" }}>Nos labels</Text></Card.Title>
             { props.user.type === "partner" && (
             <View style={{backgroundColor: "#FAF0E6", height: 260, justifyContent:"center", alignItems:"center"}}>
@@ -406,11 +404,63 @@ let openImagePickerAsync = async () => {
         </Card>
     };
 
+    if (ratings && ratings.length > 0 ) {
+        displayRatings = 
+        <Card key={1} containerStyle={styles.container} >
+            <View style={{display:"flex", flexDirection:"row", justifyContent:"space-between", left:5, marginRight:15}}>
+                <Card.Title style={{ marginHorizontal: 10 }}
+                ><Text style={{ fontWeight: "bold" }}>Ils nous font confiance</Text></Card.Title>
+            </View>
+            <ScrollView horizontal showsHorizontalScrollIndicator={false}>
+            <View style={{display:"flex", flexDirection:"row"}}>
+            {
+                ratings.map((rating, i) => (
+                    
+                    <View style={{alignItems:"center"}} key={i}>
+                        <View style={{margin:10, borderRadius:50, 
+                                width: 90, 
+                                height: 90, 
+                                backgroundColor: "#fff",
+                                shadowColor: "rgba(0,0,0,0.4)",
+                                shadowOffset: {
+                                  width: 0,
+                                  height: 2,
+                                },
+                                shadowOpacity: 0.25,
+                                shadowRadius: 3.84,
+                                elevation: 5,
+                                alignItems:"center",
+                                justifyContent: "center" }}>
+                            <Image 
+                                source={{ uri: rating.clientId.logo }}
+                                style={{ 
+                                    width: 70, 
+                                    height: 70, 
+                                    resizeMode:"contain", 
+                                borderRadius:50,
+                            }}   >
+                            </Image>
+                        </View>
+                    </View>
+                ))
+            }
+            </View>
+            </ScrollView>
+            <View style={{ alignItems:"center"}}>
+            <ButtonText
+                color="secondary"
+                title="Voir tous les avis"
+                onPress={() => props.navigation.navigate('Rating', {companyId: companyId})}
+            />
+            </View>
+        </Card>
+    }
+
     if (company && company.offers) {
         displayOffers =
         <Card key={1} containerStyle={styles.container} >
             <View style={{display:"flex", flexDirection:"row", justifyContent:"space-between", left:5, marginRight:15}}>
-                <Card.Title
+                <Card.Title style={{ marginHorizontal: 10 }}
                 ><Text style={{ fontWeight: "bold" }}>Nos offres</Text></Card.Title>
                 { props.user.type === "partner" && (
                 <ButtonText
@@ -433,7 +483,7 @@ let openImagePickerAsync = async () => {
     } else {
         displayOffers =
         <Card key={1} containerStyle={styles.container} >
-            <Card.Title style={{textAlign:"left"}}
+            <Card.Title style={{marginHorizontal: 10, textAlign:"left"}}
             ><Text style={{ fontWeight: "bold" }}>Nos offres</Text></Card.Title>
             { props.user.type === "partner" && (
             <View style={{backgroundColor: "#FAF0E6", height: 160, justifyContent:"center", alignItems:"center"}}>
@@ -522,10 +572,10 @@ let openImagePickerAsync = async () => {
             
             <HeaderBar
                 title = {company ? company.companyName : "Entreprise"}
-                onBackPress={() => props.navigation.navigate('Home')}
+                onBackPress={() => props.navigation.goBack() }
                 leftComponent
                 locationIndication
-                location={company && company.offices.length > 0 ? company.offices[0].city+', '+company.offices[0].country : "Entreprise"}
+                location={company && company.offices.length > 0 ? company.offices[0].postalCode+' '+company.offices[0].city+', '+company.offices[0].country : "Entreprise"}
                 navigation={props.navigation}
                 // location={label.offices[i].zipCode}
                 user={props.user}
@@ -536,25 +586,27 @@ let openImagePickerAsync = async () => {
         <ScrollView>
 
             {/* IMAGE ENTREPRISE */}
-            <View style={{paddingBottom:10}}>
+            <View style={{paddingVertical:10}}>
                 {displayCieImg}
             </View>
 
             {/* CARD INFOS COMPANY */}
-            <View style={{flex:1, paddingBottom:30}}>
+            <View style={{flex:1, paddingVertical:10}}>
                 {displayDescCie}
             </View>
 
             {/* CARD LABELS COMPANY */}
-            <View style={{flex:1, paddingBottom:30}}>
+            <View style={{flex:1, paddingVertical:10}}>
                 {displayLabels}
             </View>
 
-            <Button style={{ margin: 10 }} size="md" color="primary" title="AVIS" onPress={() => props.navigation.navigate('Rating', {companyId: "61b72b8f3ef976a3b8be1b09"})} />
-            <Button style={{ margin: 10 }} size="md" color="primary" title="FEEDBACK" onPress={() => props.navigation.navigate('LeaveFeedback', {companyId: "61b72b8f3ef976a3b8be1b09"})} />
+            {/* CARD LABELS COMPANY */}
+            <View style={{flex:1, paddingVertical:10}}>
+                {displayRatings}
+            </View>
 
             {/* CARD OFFRES COMPANY */}
-            <View style={{flex:1, paddingBottom:5}}>
+            <View style={{flex:1, paddingVertical:10}}>
                 {displayOffers}
             </View>
 
@@ -575,7 +627,8 @@ const styles = StyleSheet.create({
         shadowOpacity: 0,
         shadowRadius: 0,
         elevation: 0, // Remove Shadow for Android
-        marginBottom: 0
+        margin: 0,
+        width: '100%'
     },
 })
 

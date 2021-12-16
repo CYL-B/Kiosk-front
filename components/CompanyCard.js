@@ -5,14 +5,14 @@ import { Button } from "../components/Buttons";
 import Text from "./Text";
 
 export default function CompanyCard(props) {
+if (props.dataCompany) {
   return (
     <Card
       containerStyle={{
-        margin: 0,
+        marginBottom: 10,
         padding: 0,
         borderWidth: 0,
         borderRadius: 20,
-        zIndex: 2,
         shadowColor: "rgba(0,0,0,0.4)",
         shadowOffset: {
           width: 0,
@@ -79,7 +79,7 @@ export default function CompanyCard(props) {
         }}
       >
         <Image
-          style={{ width: 70, height: 70, borderRadius: 50 }}
+          style={{ width: 70, height: 70, borderRadius: 50, resizeMode: 'contain' }}
           source={{ uri: props.dataCompany.logo ? props.dataCompany.logo : 'https://www.laguilde.quebec/wp-content/uploads/2020/05/logo-placeholder.jpg' }}
           // source={require("../assets/logo.png")} // a changer avec la recherche BDD
         />
@@ -140,4 +140,4 @@ export default function CompanyCard(props) {
       </View>
     </Card>
   );
-}
+}}
