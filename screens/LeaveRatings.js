@@ -16,28 +16,23 @@ const LeaveRatingsScreen = (props) => {
 
     const [ company, setCompany ] = useState(null);
 
-
-
 // useEffect d'initialisation de la page Company :
     useEffect(() => {
-
-          // DANS USE : fonction chargement des infos de la compagnie loggée :
-          async function loadDataCie() {
-              // appel route put pour modifier données company
-              var rawDataCie = await fetch(`http://${REACT_APP_IPSERVER}/companies/61b72b8f3ef976a3b8be1b09/token1`); // (`adresseIPserveur/route appelée/req.params?req.query`)
-              var dataCie = await rawDataCie.json();
+        // DANS USE : fonction chargement des infos de la compagnie loggée :
+        async function loadDataCie() {
+            // appel route put pour modifier données company
+            var rawDataCie = await fetch(`http://${REACT_APP_IPSERVER}/companies/61b72b8f3ef976a3b8be1b09/token1`); // (`adresseIPserveur/route appelée/req.params?req.query`)
+            var dataCie = await rawDataCie.json();
 // console.log("dataCie", dataCie.company);
-              if (dataCie.result) {
-                  setCompany(dataCie.company); // set état company avec toutes data
-                  // setImage(dataCie.company.companyImage);
-                  // setToken(dataCie.company.token);
-                  // setClientId()
-              }
-          }
-          loadDataCie();
-
+            if (dataCie.result) {
+                setCompany(dataCie.company); // set état company avec toutes data
+                // setImage(dataCie.company.companyImage);
+                // setToken(dataCie.company.token);
+                // setClientId()
+            }
+        }
+        loadDataCie();
         }, []);
-
 
     const sendRating = async () => {
 // console.log("dans fonction sendRating");
@@ -61,11 +56,11 @@ const LeaveRatingsScreen = (props) => {
     <View style={{flex:1}}>
 
         <HeaderBar
-          onBackPress={() => props.navigation.goBack()}
-          leftComponent
-          title="Votre avis"
-          navigation={props.navigation}
-          user={props.user}
+            onBackPress={() => props.navigation.goBack()}
+            leftComponent
+            title="Votre avis"
+            navigation={props.navigation}
+            user={props.user}
         >
         </HeaderBar>
 
@@ -75,7 +70,6 @@ const LeaveRatingsScreen = (props) => {
                     behavior="position" 
                     // contentContainerStyle={{alignItems: "center", paddingLeft:20, paddingRight: 20}}
                 >
-                
 
                     <View style={{flex:1, paddingBottom:80, backgroundColor:"white"}}>
                         <View style={{ top:10, paddingLeft:15, paddingRight: 15}}>
@@ -87,11 +81,11 @@ const LeaveRatingsScreen = (props) => {
 
                         <View style={{top:40, paddingLeft:15, paddingRight: 15}}>
                         <Input
-                          value={feedback}
-                          label={`Décrivez votre expérience avec ${company.companyName}`}
-                          // keyboardType="numeric"
-                          placeholder='En quelques mots'
-                          onChangeText={(value) => setFeedback(value)}
+                            value={feedback}
+                            label={`Décrivez votre expérience avec ${company.companyName}`}
+                            // keyboardType="numeric"
+                            placeholder='En quelques mots'
+                            onChangeText={(value) => setFeedback(value)}
                         />
                         </View>
 
@@ -110,20 +104,20 @@ const LeaveRatingsScreen = (props) => {
                         </View>
 
                         <View style={{top:50, paddingHorizontal:15, paddingVertical:20, alignItems:"center"}}>
-                          <View style={{paddingBottom:10}}>
-                          <Button 
-                              title="Poster l'avis"
-                              size="md"
-                              color="primary"
-                              onPress={() => sendRating()}
-                          >
-                          </Button>
-                          </View>
-                          <ButtonText 
+                            <View style={{paddingBottom:10}}>
+                            <Button 
+                                title="Poster l'avis"
+                                size="md"
+                                color="primary"
+                                onPress={() => sendRating()}
+                            >
+                            </Button>
+                            </View>
+                            <ButtonText 
                             title="Annuler" 
                             onPress={() => props.navigation.goBack()}
-                          >
-                          </ButtonText>
+                            >
+                            </ButtonText>
                         </View>
 
                     </View>
@@ -132,15 +126,17 @@ const LeaveRatingsScreen = (props) => {
 
     </View>
     )
-              } else {
-                return null
-              }
+
+    } else {
+    return null
+    }
+
 };
 
 // on récupère le user stocké dans le store : 
 function mapStateToProps(state) {
-    return { user: state.user }
-  };
+  return { user: state.user }
+};
 
 export default connect(mapStateToProps, null)(LeaveRatingsScreen);
 

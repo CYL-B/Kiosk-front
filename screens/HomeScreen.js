@@ -18,8 +18,9 @@ import Searchbar from "../components/SearchBar";
 import { useIsFocused } from "@react-navigation/native";
 
 const HomeScreen = (props) => {
+
   const [dataCompany, setDataCompany] = useState(null);
-  const [packs, setPacks] = useState(null);
+  const [packs, setPacks] = useState([]);
 
   const windowWidth = Dimensions.get("window").width;
   const windowHeight = Dimensions.get("window").height;
@@ -38,7 +39,7 @@ const HomeScreen = (props) => {
           `http://${REACT_APP_IPSERVER}/companies/${dataCieList.companies[random]}/${props.user.token}`
         ); // (`adresseIPserveur/route appelée/req.params?req.query`)
         var dataCie = await rawDataCie.json();
-        // console.log("dataCie", dataCie);
+// console.log("dataCie", dataCie);
         if (dataCie.result) {
           setDataCompany(dataCie.company); // set état company avec toutes data
         }
@@ -50,7 +51,7 @@ const HomeScreen = (props) => {
 
   const isFocused = useIsFocused();
   if (isFocused) {
-    console.log("props.recherche", props.recherche);
+// console.log("props.recherche", props.recherche);
   }
 
   useEffect(() => {
@@ -73,7 +74,7 @@ const HomeScreen = (props) => {
       if (dataPacks.result) {
         setPacks([...dataPacks.dataPack]);
       }
-      console.log("dataPacks", dataPacks);
+// console.log("dataPacks", dataPacks);
     }
     loadDataPacks();
   }, []);

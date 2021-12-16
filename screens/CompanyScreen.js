@@ -25,7 +25,6 @@ const CompanyScreen = (props) => {
     var displayRatings; // affichage en list des ratings à ajouter
     var displayOffers; // aller cherche une offre en DB ?
 
-
 // états infos Cie :
     const [ company, setCompany ] = useState(null);
     const [ ratings, setRatings ] = useState(null);
@@ -43,7 +42,7 @@ const CompanyScreen = (props) => {
     const [inputOverlay, setInputOverlay] = useState('');
     const [valueToChange, setValueToChange] = useState(null);
 
-    console.log("ratings", ratings);
+// console.log("ratings", ratings);
 // useEffect d'initialisation de la page Company :
     useEffect(() => {
 
@@ -423,8 +422,8 @@ let openImagePickerAsync = async () => {
                                 backgroundColor: "#fff",
                                 shadowColor: "rgba(0,0,0,0.4)",
                                 shadowOffset: {
-                                  width: 0,
-                                  height: 2,
+                                width: 0,
+                                height: 2,
                                 },
                                 shadowOpacity: 0.25,
                                 shadowRadius: 3.84,

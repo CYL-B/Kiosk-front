@@ -14,7 +14,6 @@ import CompanyCard from '../components/CompanyCard';
 import { ScrollView } from 'react-native-gesture-handler';
 
 
-
 const PacksResultsScreen = (props) => {
 
     const [ packOffers, setPackOffers ] = useState([]);
