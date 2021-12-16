@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 
 import { Image, StyleSheet, View, ImageBackground } from "react-native";
 
@@ -8,7 +8,28 @@ import { Button, ButtonText } from "../components/Buttons";
 // Import du Carousel
 import CarouselCards from "../components/carousel/CarouselCards";
 
+import { connect } from "react-redux";
+
+import { useIsFocused } from "@react-navigation/native";
+
+import AsyncStorage from "@react-native-async-storage/async-storage";
+
 const WelcomeScreen = (props) => {
+  useEffect(() => {
+    AsyncStorage.getItem("user", function (error, data) {
+      var userData = JSON.parse(data);
+      if (userData) {
+        props.storeUser(userData);
+        props.navigation.navigate("TabNavigation");
+      }
+    });
+  }, []);
+
+  const isFocused = useIsFocused();
+  if (isFocused) {
+    //console.log("props.user", props.user);
+  }
+
   return (
     <ImageBackground
       source={require("../assets/welcomebackground2.png")}
@@ -23,7 +44,7 @@ const WelcomeScreen = (props) => {
 
       <View style={{ alignItems: "center" }}>
         <Button
-          style={{marginBottom: 10}}
+          style={{ marginBottom: 10 }}
           size="md"
           color="primary"
           title="S'inscrire"
@@ -37,7 +58,7 @@ const WelcomeScreen = (props) => {
           onPress={() => props.navigation.navigate("Connexion")}
         />
         <Button
-          style={{marginTop: 30, marginBottom: 20}}
+          style={{ marginTop: 30, marginBottom: 20 }}
           buttonStyle={styles.button}
           size="md"
           color="secondary"
@@ -77,4 +98,20 @@ const styles = StyleSheet.create({
   },
 });
 
-export default WelcomeScreen;
+//export default WelcomeScreen;
+
+function mapStateToProps(state) {
+  return {
+    user: state.user,
+  };
+}
+
+function mapDispatchToProps(dispatch) {
+  return {
+    storeUser: function (user) {
+      dispatch({ type: "storeUser", user });
+    },
+  };
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(WelcomeScreen);

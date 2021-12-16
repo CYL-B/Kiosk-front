@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { View, ImageBackground, Dimensions, Button } from 'react-native';
+import { View, ImageBackground, Dimensions, Button } from "react-native";
 // Import des composants Button customisés
 import Text from "../components/Text";
 import { ButtonText } from "../components/Buttons";
@@ -15,33 +15,42 @@ import { REACT_APP_IPSERVER } from "@env";
 import { ScrollView } from "react-native-gesture-handler";
 import Searchbar from "../components/SearchBar";
 
+import { useIsFocused } from "@react-navigation/native";
+
 const HomeScreen = (props) => {
   const [dataCompany, setDataCompany] = useState(null);
 
-  const windowWidth = Dimensions.get('window').width;
-  const windowHeight = Dimensions.get('window').height;
+  const windowWidth = Dimensions.get("window").width;
+  const windowHeight = Dimensions.get("window").height;
 
   // useEffect d'initialisation de la page Company :
   useEffect(() => {
-
     // DANS USE : fonction chargement des infos de la compagnie loggée :
     async function loadDataCie() {
-        var rawDataCieList = await fetch(`http://${REACT_APP_IPSERVER}/companies/all/${props.user.token}`); // (`adresseIPserveur/route appelée/req.params?req.query`)
-        var dataCieList = await rawDataCieList.json();
-        if (dataCieList.result) {
-          const random = Math.floor(Math.random() * dataCieList.companies.length);
-          var rawDataCie = await fetch(`http://${REACT_APP_IPSERVER}/companies/${dataCieList.companies[random]}/${props.user.token}`); // (`adresseIPserveur/route appelée/req.params?req.query`)
-          var dataCie = await rawDataCie.json();
-      // console.log("dataCie", dataCie);
-          if (dataCie.result) {
-              setDataCompany(dataCie.company); // set état company avec toutes data
-          }
+      var rawDataCieList = await fetch(
+        `http://${REACT_APP_IPSERVER}/companies/all/${props.user.token}`
+      ); // (`adresseIPserveur/route appelée/req.params?req.query`)
+      var dataCieList = await rawDataCieList.json();
+      if (dataCieList.result) {
+        const random = Math.floor(Math.random() * dataCieList.companies.length);
+        var rawDataCie = await fetch(
+          `http://${REACT_APP_IPSERVER}/companies/${dataCieList.companies[random]}/${props.user.token}`
+        ); // (`adresseIPserveur/route appelée/req.params?req.query`)
+        var dataCie = await rawDataCie.json();
+        // console.log("dataCie", dataCie);
+        if (dataCie.result) {
+          setDataCompany(dataCie.company); // set état company avec toutes data
         }
-        // appel route put pour modifier données company
-        
+      }
+      // appel route put pour modifier données company
     }
     loadDataCie();
   }, []);
+
+  const isFocused = useIsFocused();
+  if (isFocused) {
+    console.log("props.recherche", props.recherche);
+  }
 
   useEffect(() => {
     var setcategorieslist = async function () {
@@ -56,18 +65,19 @@ const HomeScreen = (props) => {
 
     async function loadDataPacks() {
       // appel route get pour récupérer données de tous les packs :
-      var rawDataPacks = await fetch(`http://${REACT_APP_IPSERVER}/recherche/getPacks`); // (`adresseIPserveur/route appelée/req.params?req.query`)
+      var rawDataPacks = await fetch(
+        `http://${REACT_APP_IPSERVER}/recherche/getPacks`
+      ); // (`adresseIPserveur/route appelée/req.params?req.query`)
       var dataPacks = await rawDataPacks.json();
       if (dataPacks.result) {
-          setPacks([...dataPacks.dataPack]);
+        setPacks([...dataPacks.dataPack]);
       }
-console.log("dataPacks", dataPacks);
+      console.log("dataPacks", dataPacks);
     }
-      loadDataPacks()
-
+    loadDataPacks();
   }, []);
 
-console.log("état packs", packs);
+  console.log("état packs", packs);
 
   return (
     <View
@@ -147,60 +157,74 @@ console.log("état packs", packs);
             </View>
           </View>
           <View>
-            {dataCompany && (<CompanyCard
-              navigation={props.navigation}
-              dataCompany={dataCompany}
-            ></CompanyCard>)}
+            {dataCompany && (
+              <CompanyCard
+                navigation={props.navigation}
+                dataCompany={dataCompany}
+              ></CompanyCard>
+            )}
           </View>
         </View>
 
-{/* NOS PACKS */}
-        <View style={{ marginTop: 20, marginBottom:30 }}>
-
+        {/* NOS PACKS */}
+        <View style={{ marginTop: 20, marginBottom: 30 }}>
           <View>
+            <Text
+              style={{ fontWeight: "bold", fontSize: 18, marginHorizontal: 15 }}
+            >
+              Nos packs
+            </Text>
 
-            <Text style={{ fontWeight: "bold", fontSize: 18, marginHorizontal: 15 }}>Nos packs</Text>
-
-            <View 
+            <View
               style={{
-                width:"100%", 
-                paddingBottom:10, 
-                flexDirection:"row", 
-                flexWrap: "wrap", 
-                justifyContent:"space-evenly",
-                alignContent:"space-around", 
-                top:20,
-                paddingVertical:10
-              }}>
-
-              {
-              packs ? packs.map((e, i) => (
-              
-              <View key={i} style={{ marginBottom:"3%"}}>
-                <ImageBackground
-                  source={{ uri: `http://${REACT_APP_IPSERVER}/images/assets/${e.packImage}`}}
-                  imageStyle={{borderRadius:20}}
-                  style={{ 
-                    margin: 3,
-                    height: 200,
-                    width: windowWidth/2.4,
-                    justifyContent: "center",
-                  }}>
-                  <Text
-                    style={{color:"#FFFFFF", textAlign:"center", paddingHorizontal:10}}
-                    onPress={() => props.navigation.navigate('ResultsPacks', {packId:e._id, packName: e.packName})}
-                  >{e.packName}</Text>
-                </ImageBackground>
-              </View>
-
-              ))
-              : null 
-              }
-
+                width: "100%",
+                paddingBottom: 10,
+                flexDirection: "row",
+                flexWrap: "wrap",
+                justifyContent: "space-evenly",
+                alignContent: "space-around",
+                top: 20,
+                paddingVertical: 10,
+              }}
+            >
+              {packs
+                ? packs.map((e, i) => (
+                    <View key={i} style={{ marginBottom: "3%" }}>
+                      <ImageBackground
+                        source={{
+                          uri: `http://${REACT_APP_IPSERVER}/images/assets/${e.packImage}`,
+                        }}
+                        imageStyle={{ borderRadius: 20 }}
+                        style={{
+                          margin: 3,
+                          height: 200,
+                          width: windowWidth / 2.4,
+                          justifyContent: "center",
+                        }}
+                      >
+                        <Text
+                          style={{
+                            color: "#FFFFFF",
+                            textAlign: "center",
+                            paddingHorizontal: 10,
+                          }}
+                          onPress={() =>
+                            props.navigation.navigate("ResultsPacks", {
+                              packId: e._id,
+                              packName: e.packName,
+                            })
+                          }
+                        >
+                          {e.packName}
+                        </Text>
+                      </ImageBackground>
+                      {/* </View> */}
+                    </View>
+                  ))
+                : null}
             </View>
           </View>
         </View>
-
       </ScrollView>
     </View>
   );
@@ -209,6 +233,7 @@ console.log("état packs", packs);
 function mapStateToProps(state) {
   return {
     user: state.user,
+    recherche: state.recherche,
   };
 }
 

@@ -9,30 +9,11 @@ function Searchbar(props) {
   const [search, setSearch] = useState("");
 
   var handlesearch = async function (val) {
-    console.log("envoyer resultat", val);
-    const data = await fetch(
-      `http://${REACT_APP_IPSERVER}/recherche/rechercheparlabar`,
-      {
-        method: "POST",
-        headers: { "Content-Type": "application/x-www-form-urlencoded" },
-        body: `recherche=${val}`,
-      }
-    );
-    var sousCategorieData = await data.json();
-
-    console.log("sousCategorie", sousCategorieData);
-
-    if (sousCategorieData.result === true) {
-      console.log("sousCategorie", sousCategorieData);
-      props.subCategoryChoice({
-        subCategoryName: sousCategorieData.sousCategorie.subCategoryName,
-        subCategoryId: sousCategorieData.sousCategorie._id,
-      });
-      props.navigation.navigate("Rechercher");
-    } else {
-      console.log("pas de sous categories");
-      props.navigation.navigate("Rechercher");
-    }
+    props.CategoryChoiceReset();
+    props.subCategoryChoiceReset();
+    props.setRecherche(val);
+    setSearch("");
+    props.navigation.navigate("Rechercher");
   };
 
   return (
@@ -73,11 +54,14 @@ function Searchbar(props) {
 
 function mapDispatchToProps(dispatch) {
   return {
-    subCategoryChoice: function (subCategoryChosenData) {
-      dispatch({ type: "setSubCategoryChosen", subCategoryChosenData });
+    setRecherche: function (valeur) {
+      dispatch({ type: "setRecherche", valeur });
     },
-    categoryAll: function (categoryChosenData) {
-      dispatch({ type: "setcategoryall", categoryChosenData });
+    CategoryChoiceReset: function () {
+      dispatch({ type: "Reset" });
+    },
+    subCategoryChoiceReset: function () {
+      dispatch({ type: "ResteSubCategorie" });
     },
   };
 }

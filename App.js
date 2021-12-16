@@ -9,6 +9,7 @@ import user from "./reducers/user.reducer";
 import categoryChosenData from "./reducers/CategoryChoice";
 import subCategoryChosenData from "./reducers/subCategoryChoice";
 import categorieslist from "./reducers/categorieslist";
+import recherche from "./reducers/Recherche";
 import { Provider } from "react-redux";
 import { createStore, combineReducers } from "redux";
 const store = createStore(
@@ -17,6 +18,7 @@ const store = createStore(
     categoryChosenData,
     subCategoryChosenData,
     categorieslist,
+    recherche,
   })
 );
 
@@ -113,14 +115,14 @@ const StackNavigationSearch = () => {
     <Stack.Navigator
       screenOptions={{ headerShown: false, cardStyleInterpolator: forSlide }}
     >
-      <Stack.Screen name="Search" component={SearchScreen}/>
+      <Stack.Screen name="Search" component={SearchScreen} />
       <Stack.Screen name="CompanyPage" component={CompanyScreen} />
       <Stack.Screen name="OfferPage" component={OfferScreen} />
       <Stack.Screen name="Quotation" component={QuotationScreen} />
       <Stack.Screen name="Rating" component={RatingScreen} />
       <Stack.Screen name="LeaveFeedback" component={LeaveRatingsScreen} />
       <Stack.Screen name="QuoteRequest" component={QuoteRequestScreen} />
-      <Stack.Screen name="SendQuote" component={SendQuoteScreen}/>
+      <Stack.Screen name="SendQuote" component={SendQuoteScreen} />
       <Stack.Screen name="ResultsPacks" component={PacksResultsScreen} />
     </Stack.Navigator>
   );
@@ -152,18 +154,12 @@ const TabNavigation = () => {
         tabBarInactiveTintColor: "#1A0842",
         tabBarStyle: {
           backgroundColor: "#FFFBF7",
-          color: "#1A0842"
-        }
+          color: "#1A0842",
+        },
       })}
     >
-      <Tab.Screen
-        name="Accueil"
-        component={StackNavigation}
-      />
-      <Tab.Screen
-        name="Rechercher"
-        component={StackNavigationSearch}
-      />
+      <Tab.Screen name="Accueil" component={StackNavigation} />
+      <Tab.Screen name="Rechercher" component={StackNavigationSearch} />
       <Tab.Screen
         name="Messages"
         component={MessagesScreen}

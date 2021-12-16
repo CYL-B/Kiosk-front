@@ -156,7 +156,11 @@ const CateGoriesList = (props) => {
     );
   });
 
-  return <ScrollView horizontal showsHorizontalScrollIndicator={false}>{categories}</ScrollView>; //{categories}
+  return (
+    <ScrollView horizontal showsHorizontalScrollIndicator={false}>
+      {categories}
+    </ScrollView>
+  ); //{categories}
 };
 
 function mapStateToProps(state) {

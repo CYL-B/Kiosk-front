@@ -10,7 +10,7 @@ import { AntDesign } from "@expo/vector-icons";
 import { Ionicons } from "@expo/vector-icons";
 
 //import du composant "avatarRound" créé dans le répertoire "components" pour l'utiliser en tant que right component du header
-import { AvatarRound } from "./avatar";
+import AvatarRound from "./avatar";
 import Text from "./Text";
 
 const HeaderBar = (props) => {
@@ -72,7 +72,7 @@ const HeaderBar = (props) => {
           <AvatarRound
             navigation={props.navigation}
             size="md"
-            source={{ uri: props.user.avatar }}
+            source={{ uri: props.user?.avatar ? props.user.avatar : "" }}
           ></AvatarRound>
         }
       />
