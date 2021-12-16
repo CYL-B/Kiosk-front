@@ -16,8 +16,8 @@ import { ScrollView } from 'react-native-gesture-handler';
 const RatingScreen = (props) => {
 
     // états infos pour récupérer ratings :
-    const [ companyId, setCompanyId ] = useState(props.route.params && props.route.params.companyId ? props.route.params.companyId : "61b70f79caba4a7eea2a8206"); // pramaètre envoyé depuis la page précéndete via props.navigattion.navigate
-    const [ token, setToken ] = useState(props.user && props.user.token ? props.user.token : "eY9zt44G4iHEQ2s8YKqJuDUJv0-8HXKa"); // si user exist + token exist > j'envoie le token du MAPSTATE ou celui en dur
+    const [ companyId, setCompanyId ] = useState(props.route.params && props.route.params.companyId ? props.route.params.companyId : null); // pramaètre envoyé depuis la page précéndete via props.navigattion.navigate
+    const [ token, setToken ] = useState(props.user && props.user.token ? props.user.token : null); // si user exist + token exist > j'envoie le token du MAPSTATE ou celui en dur
     const [ ratings, setRatings ] = useState([]);
     const [ avgRate, setAvgRate ] = useState(0);
 
