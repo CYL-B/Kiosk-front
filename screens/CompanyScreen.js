@@ -39,8 +39,12 @@ const CompanyScreen = (props) => {
     const [inputOverlay, setInputOverlay] = useState('');
     const [valueToChange, setValueToChange] = useState(null);
 
+<<<<<<< HEAD
+    //console.log("ratings", ratings);
+=======
 // console.log("ratings", ratings);
 
+>>>>>>> e22983c3d1a9f9b6fdf0a6b87914288a03c53f13
 // useEffect d'initialisation de la page Company :
     useEffect(() => {
 
