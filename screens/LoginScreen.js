@@ -14,7 +14,7 @@ const LoginScreen = (props) => {
     [signInErrorMessage, setSignInErrorMessage] = useState(false);
   const { handleSubmit, setValue } = useForm();
   const onSubmit = useCallback(async (formData) => {
-    console.log(formData);
+// console.log(formData);
     if (formData.email.length > 0 && formData.password.length > 0) {
       let user = await fetch(`http://${REACT_APP_IPSERVER}/users/connect`, {
         method: "POST",
@@ -23,13 +23,13 @@ const LoginScreen = (props) => {
       });
       let res = await user.json();
       if (res.result) {
-        console.log("found");
+// console.log("found");
         setIsLogin(true);
         props.storeUser(res.user);
         AsyncStorage.setItem("user", JSON.stringify(res.user));
         props.navigation.navigate("TabNavigation");
       } else {
-        console.log("not found");
+// console.log("not found");
         setSignInErrorMessage(res.message);
       }
     } else {

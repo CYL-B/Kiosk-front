@@ -3,13 +3,10 @@ import React, { useState, useEffect } from 'react'
 import { connect } from 'react-redux';
 //Var de connexion
 import { REACT_APP_IPSERVER } from '@env'
-
 //import de la librairie gifted chat avec ses éléments
-import { View, Text, StyleSheet, TextInput } from 'react-native';
+import { View, Text } from 'react-native';
 import { HeaderBar } from '../components/Header'
-import { Divider, Badge, AirbnbRating, Avatar } from 'react-native-elements';
-import { ScrollView } from 'react-native-gesture-handler';
-// import { use } from '../../kiosk-backend/routes';
+import { Divider, AirbnbRating, Avatar } from 'react-native-elements';
 
 
 const RatingScreen = (props) => {
@@ -28,13 +25,13 @@ const RatingScreen = (props) => {
             // appel route put pour modifier données company
             var rawRatings = await fetch(`http://${REACT_APP_IPSERVER}/ratings/${companyId}/${token}`); // (`adresseIPserveur/route appelée/req.params?req.query`)
             var dataRatings = await rawRatings.json(); 
- // console.log("dataRatings.ratings", dataRatings.ratings); // = ARRAY d'OBJETS
-            //console.log(dataRatings.ratings.length);
+//console.log("dataRatings.ratings", dataRatings.ratings); // = ARRAY d'OBJETS
+//console.log(dataRatings.ratings.length);
             if (dataRatings.result) {
                 setRatings(dataRatings.ratings);
                 setAvgRate(dataRatings.avg[0].averageNoteByCie);
-                // console.log("avg", dataRatings.avg);
-                // console.log("avg", dataRatings.avg[0].averageNoteByCie)
+// console.log("avg", dataRatings.avg);
+// console.log("avg", dataRatings.avg[0].averageNoteByCie)
             }
         }
         loadDataCie();
@@ -71,8 +68,7 @@ const RatingScreen = (props) => {
                 backgroundColor: '#FAF0E6', 
                 height: 80, 
                 justifyContent: "center", 
-                alignItems: "flex-start",
-                
+                alignItems: "flex-start"
             }}>
             <View
                 style={{left:10}}>
@@ -84,7 +80,7 @@ const RatingScreen = (props) => {
                         selectedColor="#F47805"
                         unSelectedColor="#F4780533"
                         reviewColor="#F47805"
-                        defaultRating={avgRate} //changer avec rating
+                        defaultRating={avgRate}
                         isDisabled
                         count={5}
                         size={20}
@@ -154,6 +150,6 @@ const RatingScreen = (props) => {
 // on récupère le user stocké dans le store : 
 function mapStateToProps(state) {
       return { user: state.user }
-    };
+};
 
-    export default connect(mapStateToProps, null)(RatingScreen);
+export default connect(mapStateToProps, null)(RatingScreen);
