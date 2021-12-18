@@ -89,7 +89,7 @@ const ChatScreen = (props) => {
 
   return (<View style={{ flex: 1, backgroundColor: "white" }}><HeaderBar
     title="Chat"
-
+    navigation={props.navigation}
     leftComponent
     locationIndication
     location="Paris"

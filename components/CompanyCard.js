@@ -47,7 +47,7 @@ if (props.dataCompany) {
             selectedColor="#F47805"
             unSelectedColor="#F4780533"
             reviewColor="#F47805"
-            defaultRating={3} //changer avec rating
+            defaultRating={Math.floor(Math.random() * (6 - 3) + 3)} //changer avec rating
             isDisabled
             count={5}
             size={20}

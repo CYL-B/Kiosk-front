@@ -426,7 +426,7 @@ const CompanyScreen = (props) => {
             >
               Avez-vous des labels ?
             </Text>
-            <ScrollView>
+            <ScrollView showsVerticalScrollIndicator={false}>
               <View style={{ flex: 1, width: 300, height: 400 }}>
                 {labels.map((label, i) => {
                   // console.log("label.logo", label.logo);
@@ -643,7 +643,7 @@ const CompanyScreen = (props) => {
         <KeyboardAvoidingView
           behavior={Platform.OS === "ios" ? "padding" : "height"}
         >
-          <ScrollView style={{ height: 500 }}>
+          <ScrollView showsVerticalScrollIndicator={false} style={{ height: 500 }}>
             <View style={{ flex: 1 }}>
               {labels.map((label, i) => {
                 // console.log("label.logo", label.logo);
@@ -695,7 +695,7 @@ const CompanyScreen = (props) => {
         user={props.user}
       ></HeaderBar>
 
-      <ScrollView>
+      <ScrollView showsVerticalScrollIndicator={false}>
         {/* IMAGE ENTREPRISE */}
         <View style={{ paddingVertical: 10 }}>{displayCieImg}</View>
 

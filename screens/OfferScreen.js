@@ -383,7 +383,7 @@ const OfferScreen = (props) => {
                 location={company && company.offices && company.offices.length > 0 && company.offices[0].postalCode+' '+company.offices[0].city+', '+company.offices[0].country}>
             </HeaderBar>
 
-            <ScrollView>
+            <ScrollView showsVerticalScrollIndicator={false}>
 
                 {/* IMAGE ENTREPRISE */}
                 <View>

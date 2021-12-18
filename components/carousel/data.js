@@ -2,8 +2,8 @@ export default data =
 
 [
   {
-    title: "Nous aidons les entreprises",
-    body: "Trouver des produits et services respectueux de l’environnement et de la société pour vous aider à réduire votre impact environnemental et augmenter votre impact social",
+    title: "La marketplace durable",
+    body: "Trouver des produits et services respectueux de l’environnement et de la société pour vous aider à mieux gérer votre entreprise.",
     categories: []
   },
   {

@@ -97,7 +97,7 @@ const RatingScreen = (props) => {
             </View>
         </Divider>
 
-        <ScrollView >
+        <ScrollView showsVerticalScrollIndicator={false}>
 
             { 
             ratings.map(function(e, i) {
@@ -105,25 +105,25 @@ const RatingScreen = (props) => {
                 return (
             <View style={{paddingBottom:30}} key={i}>
                 <View style={{display:"flex", flexDirection:"row", left:15, marginTop:20, marginRight:30}}>
-                    <Avatar 
+                    {e.userId && e.userId.avatar && <Avatar 
                         rounded
                         source={{ uri: e.userId.avatar }}
                     >
-                    </Avatar>
+                    </Avatar>}
                     <View style={{left:10}}>
                         <Text
-                            >{e.userId.firstName} {e.userId.lastName}
+                            >{e.userId && e.userId.firstName && e.userId.firstName} {e.userId && e.userId.lastName && e.userId.lastName}
                         </Text>
                         <Text
                             >
-                                {e.clientId.companyName} - {dateFormat(e.dateRating)}
+                                {e.userId && e.userId.companyName && e.clientId.companyName} - {e.dateRating && dateFormat(e.dateRating)}
                         </Text>
                     </View>
                 </View>
                 <View style={{display:"flex", flexDirection:"column",left:15}}>
                     {/* <View style={{marginRight:30, backgroundColor:"blue"}}> */}
                         <Text style={{flexShrink: 1, top:10, marginRight:30}}
-                            >{e.feedback}
+                            >{e.feedback && e.feedback}
                         </Text>
                     {/* </View> */}
                         <View style={{ alignItems:"flex-start", top:15, marginRight:30}}>
@@ -132,7 +132,7 @@ const RatingScreen = (props) => {
                             selectedColor="#F47805"
                             unSelectedColor="#F4780533"
                             reviewColor="#F47805"
-                            defaultRating={e.rating} //changer avec rating
+                            defaultRating={e.rating ? e.rating : 3} //changer avec rating
                             isDisabled
                             count={5}
                             size={20}

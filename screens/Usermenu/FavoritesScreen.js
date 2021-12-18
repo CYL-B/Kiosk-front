@@ -75,7 +75,7 @@ const FavoriteScreen = (props) => {
           user={props.user}
         ></HeaderBar>
 
-        <View style={{ alignItems: "center", marginTop: 10 }}>
+        <View style={{ alignItems: "center", marginHorizontal: 10 }}>
           <Toggle
             value={toggleValue}
             onPress={(newState) => setToggleValue(newState)}
@@ -95,7 +95,7 @@ const FavoriteScreen = (props) => {
             }}
           />
         </View>
-        <ScrollView style={{ flex: 1 }}>{
+        <ScrollView showsVerticalScrollIndicator={false} style={{ flex: 1 }}>{
         favoriteOffers.map((e, i) => (
           <View key={i}><OfferCard dataOffre={e} navigation={props.navigation} /></View>
         ))
@@ -138,7 +138,7 @@ const FavoriteScreen = (props) => {
             }}
           />
         </View>
-        <ScrollView>{favoriteCompanies.map((e, i) => (
+        <ScrollView showsVerticalScrollIndicator={false}>{favoriteCompanies.map((e, i) => (
           <View key={i}><CompanyCard dataCompany={e} navigation={props.navigation} /></View>
         ))}</ScrollView>
       </View>

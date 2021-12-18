@@ -364,7 +364,7 @@ const QuotationScreen = (props) => {
             }}
           />
         </View>
-        <ScrollView>
+        <ScrollView showsVerticalScrollIndicator={false}>
           {devis}
           {demandes}
         </ScrollView>
@@ -522,7 +522,7 @@ const QuotationScreen = (props) => {
             >
               <Button
                 title="Laisser un avis"
-                onPress={() => props.navigation.navigate("LeaveFeedback")}
+                onPress={() => props.navigation.navigate("LeaveFeedback", { companyId: quotation.providerId })}
                 style={{
                   marginTop: 10,
                   marginBottom: 10,
@@ -578,7 +578,7 @@ const QuotationScreen = (props) => {
             }}
           />
         </View>
-        <ScrollView>
+        <ScrollView showsVerticalScrollIndicator={false}>
           {requestsDone}
           {done}
         </ScrollView>

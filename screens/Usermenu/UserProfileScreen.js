@@ -137,7 +137,7 @@ const UserProfileScreen = (props) => {
           resizeMode="cover"
           style={styles.image}
         >
-          <ScrollView>
+          <ScrollView showsVerticalScrollIndicator={false}>
             <View style={styles.form}>
               <Text style={styles.text}>Profil</Text>
               <TouchableOpacity

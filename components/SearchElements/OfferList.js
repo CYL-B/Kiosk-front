@@ -78,7 +78,7 @@ const OfferList = (props) => {
     });
   }
 
-  return <ScrollView>{listOfferCard}</ScrollView>;
+  return <ScrollView showsVerticalScrollIndicator={false}>{listOfferCard}</ScrollView>;
 };
 
 function mapStateToProps(state) {
