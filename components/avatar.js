@@ -36,9 +36,9 @@ const AvatarRound = (props) => {
   }
 
   function handlePressDeconnexion() {
-    props.navigation.navigate("Bienvenue");
     AsyncStorage.removeItem("user");
     props.storeUserReset();
+    props.navigation.navigate("Bienvenue");
   }
 
   return (

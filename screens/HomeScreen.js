@@ -26,7 +26,7 @@ const HomeScreen = (props) => {
   useEffect(() => {
     // DANS USE : fonction chargement des infos de la compagnie loggée :
     if (isFocused) {
-      console.log("props.user", props.user);
+      //console.log("props.user", props.user);
       async function loadDataCie() {
         var rawDataCieList = await fetch(
           `http://${REACT_APP_IPSERVER}/companies/all/${props.user.token}`

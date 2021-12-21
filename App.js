@@ -1,3 +1,6 @@
+import { LogBox } from "react-native";
+LogBox.ignoreLogs(["Warning: ..."]);
+LogBox.ignoreAllLogs();
 import React from "react";
 import { Animated, Text } from "react-native";
 
@@ -126,7 +129,7 @@ const StackNavigationSearch = () => {
       screenOptions={{ headerShown: false, cardStyleInterpolator: forSlide }}
     >
       <Stack.Screen name="Search" component={SearchScreen} />
-      
+
       {/* Common pages */}
       <Stack.Screen name="CompanyPage" component={CompanyScreen} />
       <Stack.Screen name="OfferPage" component={OfferScreen} />
@@ -175,10 +178,7 @@ const TabNavigation = () => {
     >
       <Tab.Screen name="Accueil" component={StackNavigation} />
       <Tab.Screen name="Rechercher" component={StackNavigationSearch} />
-      <Tab.Screen
-        name="Messages"
-        component={MessagesScreen}
-      />
+      <Tab.Screen name="Messages" component={MessagesScreen} />
     </Tab.Navigator>
   );
 };

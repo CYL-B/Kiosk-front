@@ -34,23 +34,15 @@ const WelcomeScreen = (props) => {
         body: `token=${userData.token}`,
       });
       let res = await data.json();
-      console.log("user", res.user);
+      // console.log("user", res.user);
       props.storeUser(res.user);
       props.navigation.navigate("TabNavigation");
     }
 
     AsyncStorage.getItem("user", function (error, data) {
-<<<<<<< HEAD
-      var userData = JSON.parse(data);
-      if (userData) {
-        console.log("userData", userData);
-        props.storeUser(userData);
-        props.navigation.navigate("TabNavigation");
-=======
       if (data) {
         var userData = JSON.parse(data);
         getUSerdata(userData);
->>>>>>> 009b4f41d64c5a94013d4bf07aa7881e7a97481c
       }
     });
   }, []);
