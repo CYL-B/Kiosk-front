@@ -34,7 +34,7 @@ const WelcomeScreen = (props) => {
         body: `token=${userData.token}`,
       });
       let res = await data.json();
-      console.log("user", res.user);
+      // console.log("user", res.user);
       props.storeUser(res.user);
       props.navigation.navigate("TabNavigation");
     }

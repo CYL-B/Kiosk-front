@@ -1,8 +1,8 @@
-import React, { useState, useCallback, useEffect } from 'react'
+import React, { useState, useCallback, useEffect } from "react";
 //Store
-import { connect } from 'react-redux';
+import { connect } from "react-redux";
 //Var de connexion
-import { REACT_APP_IPSERVER } from '@env'
+import { REACT_APP_IPSERVER } from "@env";
 
 //import de la librairie gifted chat avec ses éléments
 import { GiftedChat, InputToolbar, Send, Bubble, MessageText } from 'react-native-gifted-chat'
@@ -25,14 +25,15 @@ const ChatScreen = (props) => {
   
 
   useEffect(() => {
-    const findMessages = async()=>{
-      const data = await fetch(`http://${REACT_APP_IPSERVER}/conversations/messages/${convId}/${props.user._id}/${props.user.token}`)
+    const findMessages = async () => {
+      const data = await fetch(
+        `http://${REACT_APP_IPSERVER}/conversations/messages/${convId}/${props.user._id}/${props.user.token}`
+      );
       const body = await data.json();
-      setMessages(body.sortedMessages)
-    }
+      setMessages(body.sortedMessages);
+    };
     findMessages();
-  }, [])
-
+  }, []);
 
   const onSend = useCallback((messages = []) => {
     var newMessage
@@ -57,34 +58,41 @@ const ChatScreen = (props) => {
 
 //permet de modifier la zone de text
   function renderInputToolbar(props) {
-    return (
-      <InputToolbar {...props} containerStyle={styles.toolbar} />
-    )
+    return <InputToolbar {...props} containerStyle={styles.toolbar} />;
   }
 
   //permet de modifier le bouton send
   function renderSend(props) {
     return (
-      <Send {...props} containerStyle={styles.send}><FontAwesome name="send" size={22} color="#F4592B" /></Send>
-    )
+      <Send {...props} containerStyle={styles.send}>
+        <FontAwesome name="send" size={22} color="#F4592B" />
+      </Send>
+    );
   }
 
 
   //permet de modifier les bulles de conversation qui s'affichent à droite et à gauche de l'écran
   function renderBubble(props) {
-    return (<Bubble {...props} containerStyle={styles.bubble} textStyle={{
-      left: {
-        color: "#1A0842"
-      },
-      right: {
-        color: "white"
-      }
-    }} wrapperStyle={{
-      left: {
-        backgroundColor: "#FAF0E6"
-      },
-      right: { backgroundColor: "#F4592B" }
-    }}></Bubble>)
+    return (
+      <Bubble
+        {...props}
+        containerStyle={styles.bubble}
+        textStyle={{
+          left: {
+            color: "#1A0842",
+          },
+          right: {
+            color: "white",
+          },
+        }}
+        wrapperStyle={{
+          left: {
+            backgroundColor: "#FAF0E6",
+          },
+          right: { backgroundColor: "#F4592B" },
+        }}
+      ></Bubble>
+    );
   }
 
 
@@ -124,22 +132,17 @@ const styles = StyleSheet.create({
     marginLeft: 15,
     marginRight: 15,
     marginTop: 10,
-    marginBottom: 10
+    marginBottom: 10,
   },
   send: {
     flexDirection: "row",
     paddingTop: 10,
-    paddingRight: 15
+    paddingRight: 15,
   },
-  bubble: {
-
-  }
-})
+  bubble: {},
+});
 function mapStateToProps(state) {
-  return { user: state.user }
+  return { user: state.user };
 }
 
-export default connect(
-  mapStateToProps,
-  null
-)(ChatScreen)
+export default connect(mapStateToProps, null)(ChatScreen);
