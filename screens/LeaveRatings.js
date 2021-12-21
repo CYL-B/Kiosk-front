@@ -17,10 +17,12 @@ const LeaveRatingsScreen = (props) => {
 
     // useEffect d'initialisation de la page Company :
     useEffect(() => {
+        console.log(props.route && props.route.params && props.route.params.companyId);
+        let companyId = props.route && props.route.params && props.route.params.companyId;
         // fonction chargement des infos de la compagnie loggée :
         async function loadDataCie() {
             // appel route put pour modifier données company :
-            var rawDataCie = await fetch(`http://${REACT_APP_IPSERVER}/companies/61b72b8f3ef976a3b8be1b09/token1`); // (`adresseIPserveur/route appelée/req.params?req.query`)
+            var rawDataCie = await fetch(`http://${REACT_APP_IPSERVER}/companies/${companyId}/${props.user.token}`); // (`adresseIPserveur/route appelée/req.params?req.query`)
             var dataCie = await rawDataCie.json();
 // console.log("dataCie", dataCie.company);
             if (dataCie.result) {
@@ -32,7 +34,7 @@ const LeaveRatingsScreen = (props) => {
 
     const sendRating = async () => {
 // console.log("dans fonction sendRating");
-        const saveRate = await fetch(`http://${REACT_APP_IPSERVER}/ratings/eY9zt44G4iHEQ2s8YKqJuDUJv0`, { 
+        const saveRate = await fetch(`http://${REACT_APP_IPSERVER}/ratings/${props.user.token}`, { 
             method: 'POST',
             headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
             body: 
@@ -66,7 +68,7 @@ const LeaveRatingsScreen = (props) => {
         >
         </HeaderBar>
 
-            <ScrollView style={{backgroundColor:"white"}}>
+            <ScrollView showsVerticalScrollIndicator={false} style={{backgroundColor:"white"}}>
 
                 <KeyboardAvoidingView 
                     behavior="position" 

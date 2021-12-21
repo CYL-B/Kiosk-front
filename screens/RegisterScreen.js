@@ -213,7 +213,7 @@ const RegisterScreen = (props) => {
 
   const Step1 = () => {
     return (
-      <ScrollView>
+      <ScrollView showsVerticalScrollIndicator={false}>
         <View style={styles.form}>
           <Text style={styles.text}>
             Veuillez renseigner vos informations personnelles
@@ -415,7 +415,7 @@ const RegisterScreen = (props) => {
         resizeMode="cover"
         style={styles.image}
       >
-        <ScrollView contentContainerStyle={styles.image}>
+        <ScrollView showsVerticalScrollIndicator={false} contentContainerStyle={styles.image}>
           <View style={styles.logoContainer}>
             <Image
               source={require("../assets/logo-light-2.png")}

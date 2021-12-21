@@ -7,6 +7,11 @@ import { Animated, Text } from "react-native";
 // import du pack d'icônes pour la navigation Tab
 import { AntDesign } from "@expo/vector-icons";
 
+import { LogBox } from 'react-native';
+
+console.disableYellowBox = true;
+LogBox.ignoreAllLogs();
+
 // initialisation du store redux
 import user from "./reducers/user.reducer";
 import categoryChosenData from "./reducers/CategoryChoice";

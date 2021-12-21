@@ -70,7 +70,7 @@ var answersToDisplay = answers.map((answer, i)=>{
 
     </HeaderBar>
 
-    <ScrollView contentContainerStyle={{ alignItems: "flex-start", margin:10}}>
+    <ScrollView showsVerticalScrollIndicator={false} contentContainerStyle={{ alignItems: "flex-start", margin:10}}>
       <View style={{alignSelf:"center"}}><OfferCardLight
       dataOffre={offer} navigation={props.navigation}></OfferCardLight></View>
 

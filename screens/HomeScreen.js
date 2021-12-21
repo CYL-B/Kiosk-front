@@ -36,9 +36,8 @@ const HomeScreen = (props) => {
           const random = Math.floor(
             Math.random() * dataCieList.companies.length
           );
-          var rawDataCie = await fetch(
-            `http://${REACT_APP_IPSERVER}/companies/${dataCieList.companies[random]}/${props.user.token}`
-          ); // (`adresseIPserveur/route appelée/req.params?req.query`)
+          //var rawDataCie = await fetch(`http://${REACT_APP_IPSERVER}/companies/${dataCieList.companies[random]}/${props.user.token}`); // (`adresseIPserveur/route appelée/req.params?req.query`)
+          var rawDataCie = await fetch(`http://${REACT_APP_IPSERVER}/companies/61b72b8f3ef976a3b8be1b12/${props.user.token}`); // (`adresseIPserveur/route appelée/req.params?req.query`)
           var dataCie = await rawDataCie.json();
           // console.log("dataCie", dataCie);
           if (dataCie.result) {
@@ -88,7 +87,7 @@ const HomeScreen = (props) => {
       </View>
 
       {/* View pour la bar de recherche */}
-      <ScrollView>
+      <ScrollView showsVerticalScrollIndicator={false}>
         <View style={{ alignItems: "center", justifyContent: "center" }}>
           <Searchbar navigation={props.navigation}></Searchbar>
         </View>

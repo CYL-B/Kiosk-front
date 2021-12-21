@@ -127,6 +127,7 @@ const CompanyProfileScreen = (props) => {
     profil: {
       width: 179,
       height: 179,
+      resizeMode: "contain",
       marginBottom: 11,
       borderRadius: 100
     },

@@ -94,7 +94,7 @@ const QuoteRequestScreen = (props) => {
 
     </HeaderBar>
 
-    <ScrollView>
+    <ScrollView showsVerticalScrollIndicator={false}>
       <KeyboardAvoidingView behavior="position" contentContainerStyle={{ alignItems: "center", paddingLeft: 20, paddingRight: 20 }}>
         <OfferCardLight
 
@@ -104,8 +104,8 @@ const QuoteRequestScreen = (props) => {
 
         <Input
           keyboardType="numeric"
-          labelStyle={{ marginTop: 40, color: "#1A0842" }} label="Ensoleillement"
-          placeholder='Notez de 1 à 10'
+          labelStyle={{ marginTop: 40, color: "#1A0842" }} label="Nombre d'employés"
+          placeholder="Le nombre d'employés"
           onChangeText={(value) => setSunshine(value)}
           value={sunshine}
         />
@@ -119,9 +119,9 @@ const QuoteRequestScreen = (props) => {
           value={area}
         />
         <Input
-          label="Forfait entretien"
+          label="Type de bureau"
           labelStyle={{ color: "#1A0842" }}
-          placeholder='Êtes-vous intéressé par un forfait ?'
+          placeholder='Bureau individuel ou partagé ?'
           onChangeText={(value) => setForfait(value)}
           value={forfait}
         />

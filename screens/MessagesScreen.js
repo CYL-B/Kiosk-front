@@ -55,7 +55,7 @@ const MessagesScreen = (props) => {
         >
 
         </HeaderBar>
-            <ScrollView>
+            <ScrollView showsVerticalScrollIndicator={false}>
                 {conversationsList}
             </ScrollView></View>
 

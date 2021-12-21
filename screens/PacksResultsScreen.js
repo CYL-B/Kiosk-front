@@ -44,7 +44,7 @@ const PacksResultsScreen = (props) => {
             user={props.user}
         ></HeaderBar>
 
-        <ScrollView >
+        <ScrollView showsVerticalScrollIndicator={false}>
 
             <View>
             
