@@ -7,20 +7,22 @@ import { REACT_APP_IPSERVER } from '@env'
 //import de la librairie gifted chat avec ses éléments
 import { GiftedChat, InputToolbar, Send, Bubble, MessageText } from 'react-native-gifted-chat'
 import { View, StyleSheet } from 'react-native';
+
+//import de composants personnalisés
 import { HeaderBar } from '../components/Header'
-import { Divider, Badge } from 'react-native-elements';
 import { AvatarRound } from '../components/avatar'
 import Text from "../components/Text";
+
+import { Divider, Badge } from 'react-native-elements';
 import { FontAwesome } from '@expo/vector-icons';
 
 
 const ChatScreen = (props) => {
   const [messages, setMessages] = useState([]);
+
+  //on récupère le convID depuis "messages screen" au press sur la conversation correspondante. La ternaire signifie que si l'id n'est pas définie, il faudra lui assigner la valeur ci-dessous.
   const [convId, setConvId] = useState(props.route.params && props.route.params.convId ? props.route.params.convId : "61b0e6837ee15e4f2a1a936f");
   
-
-  //on récupère le convID depuis "messages screen" au press sur la conversation correspondante
-
 
   useEffect(() => {
     const findMessages = async()=>{
@@ -32,12 +34,9 @@ const ChatScreen = (props) => {
   }, [])
 
 
-  //fonction qui prévoit d'ajouter (append) les nouveaux messages aux anciens au click sur le "send"
-  //var addMessage s'exécute pour enregistrer le dernier message en base de données
-  //message est un tableau
-
   const onSend = useCallback((messages = []) => {
     var newMessage
+    //var addMessage s'exécute pour enregistrer le dernier message envoyé en base de données.
     var addMessage = async (message) => {
       const saveReq = await fetch(`http://${REACT_APP_IPSERVER}/conversations/messages`, {
         method: 'POST',
@@ -45,29 +44,33 @@ const ChatScreen = (props) => {
         body: `convId=${convId}&userId=${props.user._id}&message=${message[0].text}&date=${message[0].createdAt}&token=${props.user.token}`
         
       }) 
+      //on récupère le message reconstitué du back
       const fromBack = await saveReq.json()
       newMessage = fromBack.messageToSendToFront
+
+      //fonction qui prévoit d'ajouter (append) les nouveaux messages aux anciens (previousmessages) au click sur le "send"
       setMessages(previousMessages => GiftedChat.append(previousMessages, newMessage))
     }
     addMessage(messages)
   },
     [])
 
-
+//permet de modifier la zone de text
   function renderInputToolbar(props) {
     return (
       <InputToolbar {...props} containerStyle={styles.toolbar} />
     )
   }
-  //permet de modifier l'input
 
+  //permet de modifier le bouton send
   function renderSend(props) {
     return (
       <Send {...props} containerStyle={styles.send}><FontAwesome name="send" size={22} color="#F4592B" /></Send>
     )
   }
-  //permet de modifier le bouton send
 
+
+  //permet de modifier les bulles de conversation qui s'affichent à droite et à gauche de l'écran
   function renderBubble(props) {
     return (<Bubble {...props} containerStyle={styles.bubble} textStyle={{
       left: {
@@ -83,8 +86,6 @@ const ChatScreen = (props) => {
       right: { backgroundColor: "#F4592B" }
     }}></Bubble>)
   }
-  //permet de modifier les bulles de conversation qui s'affichent à droite et à gauche de l'écran
-
 
 
   return (<View style={{ flex: 1, backgroundColor: "white" }}><HeaderBar
@@ -103,9 +104,12 @@ const ChatScreen = (props) => {
       renderSend={renderSend}
       renderBubble={renderBubble}
       textInputStyle={{ color: "#1A0842" }}
+      //affichage de l'ensemble des messages de la conversation
       messages={messages}
+      //envoi des messages
       onSend={messages => onSend(messages)}
       alwaysShowSend={true}
+      //les id permettent de déterminer qui envoie et recoie les messages
       user={{
         _id: 1,
       }}
