@@ -6,3 +6,5 @@ export default function (categorieslist = [], action) {
     return categorieslist;
   }
 }
+
+//reducer utilisé pour la liste des catégories

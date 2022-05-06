@@ -7,7 +7,7 @@ import { Ionicons } from "@expo/vector-icons";
 import Text from "./Text";
 
 export default function OfferCardMain(props) {
-  // boucle pour renplir la list des commitments
+  // boucle pour remplir la list des commitments
   var listCommitments = props.dataOffre.commitments.map((e, i) => {
     return (
       <Text numberOfLines={1} key={i} style={{ marginBottom: 0 }}>

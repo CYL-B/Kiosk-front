@@ -12,7 +12,7 @@ import { AntDesign } from '@expo/vector-icons';
 import { Button, ButtonText } from '../components/Buttons';
 import { HeaderBar } from '../components/Header';
 
-import { REACT_APP_IPSERVER } from '@env'; // mettre à la place de notre url d'ip avec http:// devant = varibale d'environnement
+import { REACT_APP_IPSERVER } from '@env'; 
 
 import { connect } from 'react-redux';
 
@@ -24,10 +24,10 @@ import LottieView from "lottie-react-native";
 const OfferScreen = (props) => {
     const animation = useRef(null);
     var data = "";
-    var displayOfferImg; // aller chercher une image dans le téléhone du presta
-    var displayDescOffer; // input
+    var displayOfferImg; // aller chercher une image dans le téléphone du presta
+    var displayDescOffer;
     var displayLabels; // affichage en list des labels à ajouter
-    var displayOffers; // aller cherche une offre en DB ?
+    var displayOffers; 
 
     const [offer, setOffer] = useState(null),
         [company, setCompany] = useState(null),
@@ -58,11 +58,10 @@ const OfferScreen = (props) => {
 
 
     useEffect(() => {
-        // setToken(props.user.token);
-        //setOfferId(props.route.params.offerId);
+        
         async function loadDataOffer() {
             // appel route put pour modifier données offer
-            var rawDataOffer = await fetch(`http://${REACT_APP_IPSERVER}/offers/${offerId}/${token}`); // (`adresseIPserveur/route appelée/req.params?req.query`)
+            var rawDataOffer = await fetch(`http://${REACT_APP_IPSERVER}/offers/${offerId}/${token}`); 
             var res = await rawDataOffer.json();
             if (res.result) {
                 setOffer(res.offer);
@@ -229,8 +228,7 @@ const OfferScreen = (props) => {
                     }
                     ]}
                     source={require("../assets/like.json")}
-                    // OR find more Lottie files @ https://lottiefiles.com/featured
-                    // Just click the one you like, place that file in the 'assets' folder to the left, and replace the above 'require' statement
+                    
                 />
                 </TouchableOpacity>
                 { props.user && props.user.type === "partner" && (

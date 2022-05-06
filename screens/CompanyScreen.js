@@ -1,4 +1,4 @@
-import { REACT_APP_IPSERVER } from "@env"; // mettre à la place de notre url d'ip avec http:// devant = varibale d'environnement
+import { REACT_APP_IPSERVER } from "@env"; 
 import React, { useState, useEffect, useRef } from "react";
 import {
   View,
@@ -21,7 +21,7 @@ import LottieView from "lottie-react-native";
 import * as ImagePicker from "expo-image-picker";
 
 const CompanyScreen = (props) => {
-  // ?????
+  
   const animation = useRef(null);
   // variables de display :
   var displayCieImg;
@@ -48,7 +48,7 @@ const CompanyScreen = (props) => {
   const [inputOverlay, setInputOverlay] = useState("");
   const [valueToChange, setValueToChange] = useState(null);
 
-  //console.log("ratings", ratings);
+  
   // useEffect d'initialisation de la page Company :
   useEffect(() => {
     // DANS USE : fonction chargement des infos de la compagnie loggée :
@@ -56,9 +56,9 @@ const CompanyScreen = (props) => {
       // appel route put pour modifier données company
       var rawDataCie = await fetch(
         `http://${REACT_APP_IPSERVER}/companies/${companyId}/${props.user.token}`
-      ); // (`adresseIPserveur/route appelée/req.params?req.query`)
+      ); 
       var dataCie = await rawDataCie.json();
-      // console.log("dataCie", dataCie);
+      
       if (dataCie.result) {
         setCompany(dataCie.company); // set état company avec toutes data
         setRatings(dataCie.ratings); // set état ratings avec toutes data
@@ -75,11 +75,9 @@ const CompanyScreen = (props) => {
         `http://${REACT_APP_IPSERVER}/companies/labels`
       );
       var dataLabels = await rawDataLabels.json();
-      // console.log("rawDataLabels", rawDataLabels);
-      // console.log("dataLabels.labels", dataLabels);
+      
       setLabels(dataLabels.dataLabels);
-      // console.log("dataLabels from Fetch", dataLabels.dataLabels);
-      // console.log("état", labels);
+      
     }
     loadDataLabels();
 
@@ -95,7 +93,7 @@ const CompanyScreen = (props) => {
       await ImagePicker.requestMediaLibraryPermissionsAsync();
     if (permissionResult.granted === false) {
       alert("Permission to access camera roll is required!");
-      return; // arrête la fonction
+      return; 
     }
 
     // on récupère l'uri de l'image et on la stocke dans un état
@@ -147,20 +145,19 @@ const CompanyScreen = (props) => {
       }
     );
     var resLab = await dataRawLab.json();
-    // console.log("resLab", resLab);
-    // console.log("resLab.dataCieFull.labels", resLab.dataCieFull.labels);
+    ;
     setCompany(resLab.dataCieFull); // les labels sont dans company
     setVisibleLabel(false);
   };
 
-  // fonction suprression labels :
+  // fonction suppression labels :
   var handleDeleteLabels = async (labelId) => {
     const newCieLabels = await fetch(
       `http://${REACT_APP_IPSERVER}/companies/labels/${companyId}/${labelId}`,
       {
         method: "PUT",
         headers: { "Content-Type": "application/x-www-form-urlencoded" },
-        // body: `labelId=${labelId}&token=YvbAvDg256hw2t5HfW_stG2yOt9BySaK`
+        
       }
     );
     var resLab = await newCieLabels.json();
@@ -197,7 +194,7 @@ const CompanyScreen = (props) => {
     const dataRaw = await fetch(
       `http://${REACT_APP_IPSERVER}/companies/${companyId}`,
       {
-        // renvoie jsute result, donc true ou flase
+        // renvoie juste result, donc true ou flase
         method: "PUT",
         headers: { "Content-Type": "application/x-www-form-urlencoded" },
         body: body,
@@ -205,7 +202,7 @@ const CompanyScreen = (props) => {
     );
     var res = await dataRaw.json(); // true ou false
     if (res.result) {
-      // console.log('offerSaved', res.offerSaved);
+      
       if (valueToChange == "offre" && res.offerSaved) {
         props.navigation.navigate("OfferPage", { offerId: res.offerSaved._id });
       }
@@ -218,7 +215,7 @@ const CompanyScreen = (props) => {
     !isLiked ? animation.current.play(0, 40) : animation.current.play(40, 75);
     let body = `token=${token}&companyId=${companyId}&userId=${props.user._id}`;
     const dataRaw = await fetch(`http://${REACT_APP_IPSERVER}/companies/like`, {
-      // renvoie jsute result, donc true ou flase
+      // renvoie juste result, donc true ou false
       method: "POST",
       headers: { "Content-Type": "application/x-www-form-urlencoded" },
       body: body,
@@ -229,7 +226,7 @@ const CompanyScreen = (props) => {
     }
   };
 
-  // console.log(props.user.type);
+  
 
   // gestion displays selon data / !data :
   if (company && company.companyImage) {
@@ -262,8 +259,7 @@ const CompanyScreen = (props) => {
             progress={isLiked ? 0.5 : 0}
             style={[{ marginTop: 2, backgroundColor: "transparent" }]}
             source={require("../assets/like.json")}
-            // OR find more Lottie files @ https://lottiefiles.com/featured
-            // Just click the one you like, place that file in the 'assets' folder to the left, and replace the above 'require' statement
+            
           />
         </TouchableOpacity>
         {props.user.type === "partner" && (
@@ -602,7 +598,7 @@ const CompanyScreen = (props) => {
     <View
       style={{ flex: 1, justifyContent: "center", backgroundColor: "#fff" }}
     >
-      {/* OVERLAY description : */}
+      
       <Overlay
         overlayStyle={{ width: "80%", padding: 30, borderRadius: 20 }}
         isVisible={visible}
@@ -646,7 +642,7 @@ const CompanyScreen = (props) => {
           <ScrollView showsVerticalScrollIndicator={false} style={{ height: 500 }}>
             <View style={{ flex: 1 }}>
               {labels.map((label, i) => {
-                // console.log("label.logo", label.logo);
+                
                 return (
                   <ListItem key={i} bottomDivider>
                     <Image

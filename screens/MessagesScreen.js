@@ -7,15 +7,12 @@ import Text from "../components/Text";
 import { ListItem, Avatar } from 'react-native-elements';
 import { REACT_APP_IPSERVER } from '@env'
 
+//page d'affichage des conversations
 
 const MessagesScreen = (props) => {
     const isFocused = useIsFocused();
     const [conversations, setConversations] = useState([])
 
-    //ce code permet de couper les messages trop longs
-    // if (conversation.message.message.length > 35) {
-    //     conversation.message.message = conversation.message.message.slice(0, 35) + "..."
-    // }
     
     useEffect(() => {
         const findConversations = async () => {

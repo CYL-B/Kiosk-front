@@ -26,20 +26,20 @@ const HomeScreen = (props) => {
   useEffect(() => {
     // DANS USE : fonction chargement des infos de la compagnie loggée :
     if (isFocused) {
-      //console.log("props.user", props.user);
+      
       async function loadDataCie() {
         var rawDataCieList = await fetch(
           `http://${REACT_APP_IPSERVER}/companies/all/${props.user.token}`
-        ); // (`adresseIPserveur/route appelée/req.params?req.query`)
+        ); 
         var dataCieList = await rawDataCieList.json();
         if (dataCieList.result) {
           const random = Math.floor(
             Math.random() * dataCieList.companies.length
           );
-          //var rawDataCie = await fetch(`http://${REACT_APP_IPSERVER}/companies/${dataCieList.companies[random]}/${props.user.token}`); // (`adresseIPserveur/route appelée/req.params?req.query`)
-          var rawDataCie = await fetch(`http://${REACT_APP_IPSERVER}/companies/61b72b8f3ef976a3b8be1b12/${props.user.token}`); // (`adresseIPserveur/route appelée/req.params?req.query`)
+          
+          var rawDataCie = await fetch(`http://${REACT_APP_IPSERVER}/companies/61b72b8f3ef976a3b8be1b12/${props.user.token}`); 
           var dataCie = await rawDataCie.json();
-          // console.log("dataCie", dataCie);
+         
           if (dataCie.result) {
             setDataCompany(dataCie.company); // set état company avec toutes data
           }
@@ -63,17 +63,17 @@ const HomeScreen = (props) => {
       // appel route get pour récupérer données de tous les packs :
       var rawDataPacks = await fetch(
         `http://${REACT_APP_IPSERVER}/recherche/getPacks`
-      ); // (`adresseIPserveur/route appelée/req.params?req.query`)
+      ); 
       var dataPacks = await rawDataPacks.json();
       if (dataPacks.result) {
         setPacks([...dataPacks.dataPack]);
       }
-      //console.log("dataPacks", dataPacks);
+      
     }
     loadDataPacks();
   }, []);
 
-  //console.log("état packs", packs);
+ 
 
   return (
     <View style={{ flex: 1, backgroundColor: "white" }}>

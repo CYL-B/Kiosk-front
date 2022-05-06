@@ -21,13 +21,12 @@ const PacksResultsScreen = (props) => {
     useEffect(() => {
         async function loadDataPacksOffers() {
             // appel route get pour récupérer les catégories :
-            var rawDataPackOffer = await fetch(`http://${REACT_APP_IPSERVER}/recherche/getPacks/${packId}`); // (`adresseIPserveur/route appelée/req.params?req.query`)
+            var rawDataPackOffer = await fetch(`http://${REACT_APP_IPSERVER}/recherche/getPacks/${packId}`); 
             var dataPackOffer = await rawDataPackOffer.json();
             if (dataPackOffer.result) {
                 setPackOffers(dataPackOffer.packOffers)
             }
-// console.log("dataPackOffer", dataPackOffer);
-// console.log("dataCategory.categoriePack._id", dataCategory.categoriePack._id);
+
         }
         loadDataPacksOffers();
     }, []);

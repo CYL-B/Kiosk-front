@@ -23,7 +23,7 @@ const WelcomeScreen = (props) => {
 
   const isFocused = useIsFocused();
   if (isFocused) {
-    //console.log("props.user", props.user);
+    
   }
 
   useEffect(() => {
@@ -34,7 +34,7 @@ const WelcomeScreen = (props) => {
         body: `token=${userData.token}`,
       });
       let res = await data.json();
-      // console.log("user", res.user);
+      
       props.storeUser(res.user);
       props.navigation.navigate("TabNavigation");
     }

@@ -16,7 +16,7 @@ import { Input, Image } from "react-native-elements";
 
 import LottieView from "lottie-react-native";
 
-import { REACT_APP_IPSERVER } from "@env"; // mettre à la place de notre url d'ip // varibale d'environnement
+import { REACT_APP_IPSERVER } from "@env";
 
 const RegisterScreen = (props) => {
   const animation = useRef(null);
@@ -125,7 +125,7 @@ const RegisterScreen = (props) => {
           props.storeUser(res.user);
           // on navigue vers la page company
           if (clientType === "partner") {
-            //props.navigation.navigate('CompanyPage', { companyId: res.user.companyId});
+            
             props.navigation.push("TabNavigation", {
               screen: "Accueil",
               params: {
@@ -407,8 +407,7 @@ const RegisterScreen = (props) => {
           !isLoading && { zIndex: -1, transform: [{ scale: 0 }] },
         ]}
         source={require("../assets/loading.json")}
-        // OR find more Lottie files @ https://lottiefiles.com/featured
-        // Just click the one you like, place that file in the 'assets' folder to the left, and replace the above 'require' statement
+        
       />
       <ImageBackground
         source={require("../assets/background-login.png")}

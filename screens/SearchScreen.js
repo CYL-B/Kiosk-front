@@ -25,12 +25,12 @@ const SearchScreen = (props) => {
 
   async function handlePressRetour() {
     props.subCategoryChoiceReset();
-    //props.CategoryChoiceReset();
+   
     props.ResetRecherche();
   }
 
   useEffect(() => {
-    //condition pour afficher soir la liste de categorie, soit la liste de sous categorie, sois la liste de résultat
+    //condition pour afficher soit la liste de categories, soit la liste de sous categories, soit la liste de résultats
     if (
       props.categoryChosenData == "" &&
       props.subCategoryChosenData == "" &&

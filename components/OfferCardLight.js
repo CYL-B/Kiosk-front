@@ -6,7 +6,7 @@ import { Button } from "../components/Buttons";
 import Text from "./Text";
 
 export default function OfferCardLight(props) {
-  // boucle pour renplir la list des commitments
+  // boucle pour remplir la list des commitments (engagements)
   return (
     <Card
       containerStyle={{

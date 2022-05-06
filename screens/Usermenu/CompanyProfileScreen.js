@@ -105,7 +105,7 @@ const CompanyProfileScreen = (props) => {
       justifyContent: "center",
       alignItems: "center",
       marginHorizontal: 45,
-      //borderWidth: 1,
+      
       marginTop: 40,
     },
     input: {
@@ -176,17 +176,7 @@ const CompanyProfileScreen = (props) => {
               </TouchableOpacity>
 
               
-              {/* <Input
-                secureTextEntry
-                autoCompleteType="password"
-                placeholder="Entrez votre mot de passe"
-                //onChangeText={onChangeField("password")}
-                label="Mot de passe"
-                inputStyle={styles.inputText}
-                inputContainerStyle={styles.input}
-                labelStyle={styles.label}
-                placeholderTextColor="#DCDCDC"
-              /> */}
+             
 
               <Input
                 autoCompleteType="name"
@@ -202,18 +192,7 @@ const CompanyProfileScreen = (props) => {
                 value={companyName}
               />
               
-              {/* <Input
-                // autoCompleteType="off"
-                // textContentType="jobTitle"
-                placeholder="L'adresse du siège social"
-                onChangeText={(value) => setAddress(value)}
-                inputStyle={styles.inputText}
-                label="Adresse"
-                inputContainerStyle={styles.input}
-                labelStyle={styles.label}
-                placeholderTextColor="#DCDCDC"
-                value={address}
-              /> */}
+              
               <Input
                 
                 placeholder="Le numéro SIRET"
@@ -248,7 +227,7 @@ const CompanyProfileScreen = (props) => {
                 onPress={() => props.navigation.navigate("Home")}
               />
             </View>
-            {/* <View style={{ flex: 1 }} /> */}
+            
             </View>
         </ImageBackground>
       </View>

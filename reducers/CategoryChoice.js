@@ -9,3 +9,4 @@ export default function (categoryChosenData = "", action) {
     return categoryChosenData;
   }
 }
+//reducer pour le choix de catégorie effectué

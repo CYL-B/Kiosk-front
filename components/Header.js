@@ -24,7 +24,7 @@ const HeaderBar = (props) => {
       </TouchableOpacity>
     );
   }
-  //condition pour afficher le composant de gauche (la flèche de retour) dans les composants qui recoivent le header, il est aussi possible d'ajuster le "onBackPress" dans ces mêmes composants
+  //condition pour afficher le composant de gauche (la flèche de retour) dans les composants qui recoivent le header
 
   var locationIndication;
   if (props.locationIndication) {
@@ -36,7 +36,7 @@ const HeaderBar = (props) => {
     );
   }
 
-  //comdition pour afficher le sous titre location "locationIndication" qui se situe en dessous du titre de la page dans les composants recevant le header. Il est aussi possible d'ajuster le lieu "location "
+  //comdition pour afficher le sous titre location "locationIndication" 
 
   return (
     <View>

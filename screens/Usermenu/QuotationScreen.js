@@ -8,7 +8,7 @@ import { HeaderBar } from "../../components/Header";
 
 import { useIsFocused } from "@react-navigation/native";
 
-//import d'un switch d'une librairie
+//import d'un switch
 import Toggle from "react-native-toggle-element";
 
 import { connect } from "react-redux";
@@ -25,7 +25,7 @@ const QuotationScreen = (props) => {
 
   const isFocused = useIsFocused();
 
-  //ces deux variables correspondent aux deux côtés du switch. Leurs propriétés changent lorsqu'on clique sur l'un ou l'autre (couleur du texte, couleur de fond...)
+  //ces deux variables correspondent aux deux côtés du switch.
   var leftComponentDisplay;
   var rightComponentDisplay;
 

@@ -55,7 +55,7 @@ if (props.dataCompany) {
           />
         </View>
       </Card.Image>
-      {/* Logo entreprise : la View est pardessus les autres éléments grace au zindex. Elle est positionner par rapport à la Card*/}
+      {/* Logo entreprise : la View est pardessus les autres éléments grace au zindex. Elle est positionnée par rapport à la Card*/}
       <View
         style={{
           width: 70,

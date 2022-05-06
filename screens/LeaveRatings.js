@@ -22,9 +22,9 @@ const LeaveRatingsScreen = (props) => {
         // fonction chargement des infos de la compagnie loggée :
         async function loadDataCie() {
             // appel route put pour modifier données company :
-            var rawDataCie = await fetch(`http://${REACT_APP_IPSERVER}/companies/${companyId}/${props.user.token}`); // (`adresseIPserveur/route appelée/req.params?req.query`)
+            var rawDataCie = await fetch(`http://${REACT_APP_IPSERVER}/companies/${companyId}/${props.user.token}`); // 
             var dataCie = await rawDataCie.json();
-// console.log("dataCie", dataCie.company);
+
             if (dataCie.result) {
                 setCompany(dataCie.company); // set état company avec toutes data
             }
@@ -33,7 +33,7 @@ const LeaveRatingsScreen = (props) => {
         }, []);
 
     const sendRating = async () => {
-// console.log("dans fonction sendRating");
+
         const saveRate = await fetch(`http://${REACT_APP_IPSERVER}/ratings/${props.user.token}`, { 
             method: 'POST',
             headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
@@ -46,11 +46,10 @@ const LeaveRatingsScreen = (props) => {
                 userId=${props.user._id}`
         })
         var dataRate = await saveRate.json()
-// console.log("dataRate", dataRate);
+
         props.navigation.navigate("Rating");
         setFeedback(dataRate.newRatingSaved.feedback)
-// console.log("dataRate.newRatingSaved.feedback", dataRate.newRatingSaved.feedback);
-// console.log("dans fonction sendRating BIS");
+
 };
 
     if (company) {
@@ -72,7 +71,7 @@ const LeaveRatingsScreen = (props) => {
 
                 <KeyboardAvoidingView 
                     behavior="position" 
-                    // contentContainerStyle={{alignItems: "center", paddingLeft:20, paddingRight: 20}}
+                    
                 >
 
                     <View style={{flex:1, paddingBottom:80, backgroundColor:"white"}}>

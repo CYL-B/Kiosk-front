@@ -7,7 +7,7 @@ import { connect } from "react-redux";
 import { REACT_APP_IPSERVER } from "@env";
 
 import OfferCardMain from "../OfferCardMain";
-//import OfferCardLight from "../OfferCardLight";
+
 import { ScrollView } from "react-native-gesture-handler";
 
 const OfferList = (props) => {
@@ -15,7 +15,7 @@ const OfferList = (props) => {
   var subCategoryId = props.subCategoryChosenData;
 
   const [offerList, setOfferList] = useState([]);
-  //var offerList;
+  
 
   useEffect(async () => {
     var recherche;

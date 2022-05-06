@@ -14,7 +14,7 @@ const RatingScreen = (props) => {
     props.route.params && props.route.params.companyId
       ? props.route.params.companyId
       : null
-  ); // pramaètre envoyé depuis la page précéndete via props.navigattion.navigate
+  ); // paramètre envoyé depuis la page précéndete via props.navigattion.navigate
   const [token, setToken] = useState(
     props.user && props.user.token ? props.user.token : null
   ); // si user exist + token exist > j'envoie le token du MAPSTATE ou celui en dur
@@ -28,15 +28,13 @@ const RatingScreen = (props) => {
       // appel route put pour modifier données company
       var rawRatings = await fetch(
         `http://${REACT_APP_IPSERVER}/ratings/${companyId}/${token}`
-      ); // (`adresseIPserveur/route appelée/req.params?req.query`)
+      ); 
       var dataRatings = await rawRatings.json();
-      //console.log("dataRatings.ratings", dataRatings.ratings); // = ARRAY d'OBJETS
-      //console.log(dataRatings.ratings.length);
+      
       if (dataRatings.result) {
         setRatings(dataRatings.ratings);
         setAvgRate(dataRatings.avg[0].averageNoteByCie);
-        // console.log("avg", dataRatings.avg);
-        // console.log("avg", dataRatings.avg[0].averageNoteByCie)
+    
       }
     }
     loadDataCie();
@@ -53,7 +51,7 @@ const RatingScreen = (props) => {
     return format;
   };
 
-  // console.log("état ratings", ratings);
+  
 
   return (
     <View style={{ flex: 1, backgroundColor: "white" }}>
@@ -128,11 +126,11 @@ const RatingScreen = (props) => {
               <View
                 style={{ display: "flex", flexDirection: "column", left: 15 }}
               >
-                {/* <View style={{marginRight:30, backgroundColor:"blue"}}> */}
+                
                 <Text style={{ flexShrink: 1, top: 10, marginRight: 30 }}>
                   {e.feedback && e.feedback}
                 </Text>
-                {/* </View> */}
+             
                 <View
                   style={{ alignItems: "flex-start", top: 15, marginRight: 30 }}
                 >
@@ -141,7 +139,7 @@ const RatingScreen = (props) => {
                     selectedColor="#F47805"
                     unSelectedColor="#F4780533"
                     reviewColor="#F47805"
-                    defaultRating={e.rating ? e.rating : 3} //changer avec rating
+                    defaultRating={e.rating ? e.rating : 3} //change avec rating
                     isDisabled
                     count={5}
                     size={20}

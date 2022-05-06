@@ -3,8 +3,7 @@ import { SearchBar } from "react-native-elements";
 
 import { connect } from "react-redux";
 
-import { REACT_APP_IPSERVER } from "@env";
-
+//barre de recherche de la page d'accueil
 function Searchbar(props) {
   const [search, setSearch] = useState("");
 
