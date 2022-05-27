@@ -26,4 +26,4 @@ To build the app, were used :
 * expo
 
 ## More
-You look up [the demo](https://www.youtube.com/watch?v=Fx4hOgKBU04&ab_channel=CamilleB.) on youtube.
+You can look up [the demo](https://www.youtube.com/watch?v=Fx4hOgKBU04&ab_channel=CamilleB.) on youtube.
